@@ -46,6 +46,7 @@ class ActivityController: UICollectionViewController {
         youButton.setTitleColor(.black, for: .normal)
         isFollowingPage = false
         handleRefresh()
+        fetchFollowingUserPosts()
     }
     
     private func setupNavigationAndRefreshControl() {
@@ -105,6 +106,7 @@ class ActivityController: UICollectionViewController {
     
     @objc private func handleRefresh() {
         if (isFollowingPage) {
+            posts.removeAll()
             fetchFollowingUserPosts()
         }else{
             userFeeds.removeAll()
