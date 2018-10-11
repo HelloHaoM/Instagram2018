@@ -121,7 +121,8 @@ class HomePostCell: UICollectionViewCell {
     }
     
     private func setupActionButtons() {
-        let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton, sendMessageButton, browserButton])
+//        let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton, sendMessageButton, browserButton])
+        let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton, sendMessageButton])
         stackView.distribution = .fillEqually
         stackView.alignment = .top
         stackView.spacing = 16
