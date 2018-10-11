@@ -28,7 +28,8 @@ class MainTabBarController: UITabBarController {
     func setupViewControllers() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let homeNavController = self.templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeController(collectionViewLayout: UICollectionViewFlowLayout()))
-        let searchNavController = self.templateNavController(unselectedImage: #imageLiteral(resourceName: "search_unselected"), selectedImage: #imageLiteral(resourceName: "search_selected"), rootViewController: UserSearchController(collectionViewLayout: UICollectionViewFlowLayout()))
+        let userSerachController = UserSearchController(collectionViewLayout: UICollectionViewFlowLayout())
+        let searchNavController = self.templateNavController(unselectedImage: #imageLiteral(resourceName: "search_unselected"), selectedImage: #imageLiteral(resourceName: "search_selected"), rootViewController: userSerachController)
         let plusNavController = self.templateNavController(unselectedImage: #imageLiteral(resourceName: "plus_unselected"), selectedImage: #imageLiteral(resourceName: "plus_unselected"))
         let likeNavController = self.templateNavController(unselectedImage: #imageLiteral(resourceName: "like_unselected"), selectedImage: #imageLiteral(resourceName: "like_selected").withRenderingMode(.alwaysTemplate),
                                                            rootViewController: ActivityController(collectionViewLayout: UICollectionViewFlowLayout()))
@@ -37,6 +38,7 @@ class MainTabBarController: UITabBarController {
         
         Database.database().fetchUser(withUID: uid) { (user) in
             userProfileController.user = user
+            userSerachController.user = user
         }
         
         viewControllers = [homeNavController, searchNavController, plusNavController, likeNavController, userProfileNavController]

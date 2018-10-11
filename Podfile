@@ -11,5 +11,6 @@ target 'Instagram2018' do
   pod 'Firebase/Storage'
   pod 'Firebase/Core'
   pod 'FWPopupView'
+  pod 'DLRadioButton', '~> 1.4'
 
 end

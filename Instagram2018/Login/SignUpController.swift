@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import DLRadioButton
 
 class SignUpController: UIViewController, UINavigationControllerDelegate {
     
@@ -59,6 +60,26 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         return tf
     }()
     
+    private lazy var maleRadioButton: DLRadioButton = {
+        let maleButton = DLRadioButton()
+        maleButton.titleLabel!.font = UIFont.systemFont(ofSize: 14)
+        maleButton.setTitle("Male", for: [])
+        maleButton.setTitleColor(UIColor.lightGray, for: [])
+        maleButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
+        maleButton.addTarget(self, action: #selector(handleMaleRadio), for: .touchUpInside)
+        return maleButton
+    }()
+    
+    private lazy var femaleRadioButton: DLRadioButton = {
+        let femaleButton = DLRadioButton()
+        femaleButton.titleLabel!.font = UIFont.systemFont(ofSize: 14)
+        femaleButton.setTitle("Female", for: [])
+        femaleButton.setTitleColor(UIColor.lightGray, for: [])
+        femaleButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
+        femaleButton.addTarget(self, action: #selector(handleFemaleRadio), for: .touchUpInside)
+        return femaleButton
+    }()
+    
     private let signUpButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
@@ -81,6 +102,8 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         return button
     }()
     
+    private var sex: String?
+    
     private var profileImage: UIImage?
     
     override func viewDidLoad() {
@@ -97,10 +120,21 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         plusPhotoButton.layer.cornerRadius = 140 / 2
         
         setupInputFields()
+        
+        
     }
     
     private func setupInputFields() {
-        let stackView = UIStackView(arrangedSubviews: [emailTextField, usernameTextField, passwordTextField, signUpButton])
+        let label = UILabel()
+        label.text = "Sex: "
+        label.textColor = UIColor.lightGray
+        label.font = UIFont.systemFont(ofSize: 14)
+        let radioView = UIStackView(arrangedSubviews: [label, maleRadioButton, femaleRadioButton])
+        radioView.distribution = .fillEqually
+        radioView.axis = .horizontal
+        radioView.spacing = 5
+        
+        let stackView = UIStackView(arrangedSubviews: [emailTextField, usernameTextField, passwordTextField, radioView, signUpButton])
         stackView.distribution = .fillEqually
         stackView.axis = .vertical
         stackView.spacing = 10
@@ -108,6 +142,7 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         view.addSubview(stackView)
         stackView.anchor(top: plusPhotoButton.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, right: view.safeAreaLayoutGuide.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingRight: 40, height: 200)
     }
+    
     
     private func resetInputFields() {
         emailTextField.text = ""
@@ -120,6 +155,17 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         
         signUpButton.isEnabled = false
         signUpButton.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
+    }
+    
+    private func isVaildSignUp(){
+        let isFormValid = emailTextField.text?.isEmpty == false && usernameTextField.text?.isEmpty == false && passwordTextField.text?.isEmpty == false && (maleRadioButton.isSelected || femaleRadioButton.isSelected)
+        if isFormValid {
+            signUpButton.isEnabled = true
+            signUpButton.backgroundColor = UIColor.mainBlue
+        } else {
+            signUpButton.isEnabled = false
+            signUpButton.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
+        }
     }
     
     @objc private func handleTapOnView(_ sender: UITextField) {
@@ -136,14 +182,23 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
     }
     
     @objc private func handleTextInputChange() {
-        let isFormValid = emailTextField.text?.isEmpty == false && usernameTextField.text?.isEmpty == false && passwordTextField.text?.isEmpty == false
-        if isFormValid {
-            signUpButton.isEnabled = true
-            signUpButton.backgroundColor = UIColor.mainBlue
-        } else {
-            signUpButton.isEnabled = false
-            signUpButton.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
-        }
+        isVaildSignUp()
+    }
+    
+    @objc private func handleMaleRadio() {
+        maleRadioButton.isSelected = true;
+        femaleRadioButton.isSelected = false;
+        self.sex = "male"
+        
+       isVaildSignUp()
+    }
+    
+    @objc private func handleFemaleRadio() {
+        maleRadioButton.isSelected = false;
+        femaleRadioButton.isSelected = true;
+        self.sex = "female"
+        
+        isVaildSignUp()
     }
     
     @objc private func handleAlreadyHaveAccount() {
@@ -154,6 +209,7 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         guard let email = emailTextField.text else { return }
         guard let username = usernameTextField.text else { return }
         guard let password = passwordTextField.text else { return }
+        guard let sex = sex else { return }
         
         emailTextField.isUserInteractionEnabled = false
         usernameTextField.isUserInteractionEnabled = false
@@ -162,7 +218,7 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         signUpButton.isEnabled = false
         signUpButton.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
         
-        Auth.auth().createUser(withEmail: email, username: username, password: password, image: profileImage) { (err) in
+        Auth.auth().createUser(withEmail: email, username: username, password: password, image: profileImage, sex: sex) { (err) in
             if err != nil {
                 self.resetInputFields()
                 return

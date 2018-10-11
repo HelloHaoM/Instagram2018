@@ -10,7 +10,7 @@ import Foundation
 import Firebase
 
 extension Auth {
-    func createUser(withEmail email: String, username: String, password: String, image: UIImage?, completion: @escaping (Error?) -> ()) {
+    func createUser(withEmail email: String, username: String, password: String, image: UIImage?, sex: String?, completion: @escaping (Error?) -> ()) {
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, err) in
             if let err = err {
                 print("Failed to create user:", err)
@@ -20,23 +20,25 @@ extension Auth {
             guard let uid = user?.user.uid else { return }
             if let image = image {
                 Storage.storage().uploadUserProfileImage(image: image, completion: { (profileImageUrl) in
-                    self.uploadUser(withUID: uid, username: username, profileImageUrl: profileImageUrl) {
+                    self.uploadUser(withUID: uid, username: username, profileImageUrl: profileImageUrl, sex: sex) {
                         completion(nil)
                     }
                 })
             } else {
-                self.uploadUser(withUID: uid, username: username) {
+                self.uploadUser(withUID: uid, username: username, sex: sex) {
                     completion(nil)
                 }
             }
         })
     }
     
-    private func uploadUser(withUID uid: String, username: String, profileImageUrl: String? = nil, completion: @escaping (() -> ())) {
+    private func uploadUser(withUID uid: String, username: String, profileImageUrl: String? = nil, sex: String?, completion: @escaping (() -> ())) {
         var dictionaryValues = ["username": username]
         if profileImageUrl != nil {
             dictionaryValues["profileImageUrl"] = profileImageUrl
         }
+        
+        dictionaryValues["sex"] = sex
         
         let values = [uid: dictionaryValues]
         Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
@@ -127,6 +129,41 @@ extension Database {
                 guard let userDictionary = value as? [String: Any] else { return }
                 let user = User(uid: key, dictionary: userDictionary)
                 users.append(user)
+            })
+            
+            users.sort(by: { (user1, user2) -> Bool in
+                return user1.username.compare(user2.username) == .orderedAscending
+            })
+            completion(users)
+            
+        }) { (err) in
+            print("Failed to fetch all users from database:", (err))
+            cancel?(err)
+        }
+    }
+    
+    func fetchRecommendedUsers(currentUser: User?, includeCurrentUser: Bool = true, completion: @escaping ([User]) -> (), withCancel cancel: ((Error) -> ())?) {
+        let ref = Database.database().reference().child("users")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let dictionaries = snapshot.value as? [String: Any] else {
+                completion([])
+                return
+            }
+            
+            var users = [User]()
+            
+            dictionaries.forEach({ (key, value) in
+                if !includeCurrentUser, key == Auth.auth().currentUser?.uid {
+                    completion([])
+                    return
+                }
+                guard let userDictionary = value as? [String: Any] else { return }
+                let user = User(uid: key, dictionary: userDictionary)
+                guard let currentUser = currentUser else { return }
+                if(user.sex == currentUser.sex){
+                    users.append(user)
+                }
+                
             })
             
             users.sort(by: { (user1, user2) -> Bool in

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		29AE68DA216CC4E100832BED /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29AE68D9216CC4E100832BED /* GoogleService-Info.plist */; };
+		294DD967216F588300F54F9A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 294DD966216F588300F54F9A /* GoogleService-Info.plist */; };
 		5427198F2169EDA4005E61E6 /* LikesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5427198E2169EDA4005E61E6 /* LikesController.swift */; };
 		542719912169F0EA005E61E6 /* LikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542719902169F0EA005E61E6 /* LikeCell.swift */; };
 		5454367C216745A70052D393 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5454367B216745A70052D393 /* CameraController.swift */; };
@@ -56,12 +56,11 @@
 		54FEDD45216CA14500C3F243 /* AlertProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEDD44216CA14500C3F243 /* AlertProtocol.swift */; };
 		54FEDD48216CA1B300C3F243 /* InRangeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEDD47216CA1B300C3F243 /* InRangeCell.swift */; };
 		54FEDD4A216CA1C800C3F243 /* InRangeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEDD49216CA1C800C3F243 /* InRangeController.swift */; };
-		B307A130216CC08D0076B195 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B307A12F216CC08D0076B195 /* GoogleService-Info.plist */; };
 		C87CF840F3FACFB1D6400ECC /* Pods_Instagram2018.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD01EF0C1F6EB943A988BDD4 /* Pods_Instagram2018.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		29AE68D9216CC4E100832BED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		294DD966216F588300F54F9A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5427198E2169EDA4005E61E6 /* LikesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesController.swift; sourceTree = "<group>"; };
 		542719902169F0EA005E61E6 /* LikeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCell.swift; sourceTree = "<group>"; };
 		5454367B216745A70052D393 /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
@@ -112,7 +111,6 @@
 		54FEDD44216CA14500C3F243 /* AlertProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertProtocol.swift; sourceTree = "<group>"; };
 		54FEDD47216CA1B300C3F243 /* InRangeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InRangeCell.swift; sourceTree = "<group>"; };
 		54FEDD49216CA1C800C3F243 /* InRangeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InRangeController.swift; sourceTree = "<group>"; };
-		B307A12F216CC08D0076B195 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Documents/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CA553C2EC6258EFD37D213DD /* Pods-Instagram2018.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instagram2018.release.xcconfig"; path = "Pods/Target Support Files/Pods-Instagram2018/Pods-Instagram2018.release.xcconfig"; sourceTree = "<group>"; };
 		E63E5DF6092929F5A914C0B9 /* Pods-Instagram2018.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instagram2018.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Instagram2018/Pods-Instagram2018.debug.xcconfig"; sourceTree = "<group>"; };
 		FD01EF0C1F6EB943A988BDD4 /* Pods_Instagram2018.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Instagram2018.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -240,7 +238,7 @@
 		545436C421676FCC0052D393 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				29AE68D9216CC4E100832BED /* GoogleService-Info.plist */,
+				294DD966216F588300F54F9A /* GoogleService-Info.plist */,
 				54EF138C216729D900270808 /* Info.plist */,
 			);
 			path = "Supporting Files";
@@ -387,8 +385,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				54EF138B216729D900270808 /* LaunchScreen.storyboard in Resources */,
-				29AE68DA216CC4E100832BED /* GoogleService-Info.plist in Resources */,
 				54EF1388216729D900270808 /* Assets.xcassets in Resources */,
+				294DD967216F588300F54F9A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +400,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Instagram2018/Pods-Instagram2018-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/DLRadioButton/DLRadioButton.framework",
 				"${BUILT_PRODUCTS_DIR}/FWPopupView/FWPopupView.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -410,6 +409,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DLRadioButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FWPopupView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
@@ -631,14 +631,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8VGGQ7WE39;
+				DEVELOPMENT_TEAM = 2N6VQD646J;
 				INFOPLIST_FILE = "$(SRCROOT)/Instagram2018/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = weixu.Instagram2018;
+				PRODUCT_BUNDLE_IDENTIFIER = haom.instagram;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -651,14 +651,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8VGGQ7WE39;
+				DEVELOPMENT_TEAM = 2N6VQD646J;
 				INFOPLIST_FILE = "$(SRCROOT)/Instagram2018/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = weixu.Instagram2018;
+				PRODUCT_BUNDLE_IDENTIFIER = haom.instagram;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

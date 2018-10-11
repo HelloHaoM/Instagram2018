@@ -21,6 +21,8 @@ class UserSearchController: UICollectionViewController {
         return sb
     }()
     
+    var user: User?
+    
     private var users = [User]()
     private var filteredUsers = [User]()
     
@@ -41,7 +43,10 @@ class UserSearchController: UICollectionViewController {
         
         searchBar.delegate = self
         
-        fetchAllUsers()
+        // The original version (should be change to the original)
+        //fetchAllUsers()
+        // Show the user filter by sex
+        fetchRecommendedUsers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -54,6 +59,20 @@ class UserSearchController: UICollectionViewController {
         collectionView?.refreshControl?.beginRefreshing()
         
         Database.database().fetchAllUsers(includeCurrentUser: false, completion: { (users) in
+            self.users = users
+            self.filteredUsers = users
+            self.searchBar.text = ""
+            self.collectionView?.reloadData()
+            self.collectionView?.refreshControl?.endRefreshing()
+        }) { (_) in
+            self.collectionView?.refreshControl?.endRefreshing()
+        }
+    }
+    
+    private func fetchRecommendedUsers() {
+        collectionView?.refreshControl?.beginRefreshing()
+        
+        Database.database().fetchRecommendedUsers(currentUser: user, includeCurrentUser: false, completion: { (users) in
             self.users = users
             self.filteredUsers = users
             self.searchBar.text = ""
