@@ -44,9 +44,9 @@ class UserSearchController: UICollectionViewController {
         searchBar.delegate = self
         
         // The original version (should be change to the original)
-        //fetchAllUsers()
+        fetchAllUsers()
         // Show the user filter by sex
-        fetchRecommendedUsers()
+        //fetchRecommendedUsers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

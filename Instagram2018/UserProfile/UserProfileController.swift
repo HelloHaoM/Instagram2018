@@ -28,6 +28,7 @@ class UserProfileController: HomePostCellViewController {
     //    private var pagingCount: Int = 4
     
     private var isGridView: Bool = true
+    private var isBookMark: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +42,7 @@ class UserProfileController: HomePostCellViewController {
         collectionView?.register(UserProfilePhotoGridCell.self, forCellWithReuseIdentifier: UserProfilePhotoGridCell.cellId)
         collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: HomePostCell.cellId)
         collectionView?.register(UserProfileEmptyStateCell.self, forCellWithReuseIdentifier: UserProfileEmptyStateCell.cellId)
+        collectionView?.register(UserProfileBookMarkCell.self, forCellWithReuseIdentifier: UserProfileBookMarkCell.cellId)
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
@@ -118,7 +120,7 @@ class UserProfileController: HomePostCellViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if posts.count == 0 {
+        if posts.count == 0 && !isBookMark {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfileEmptyStateCell.cellId, for: indexPath)
             return cell
         }
@@ -132,6 +134,12 @@ class UserProfileController: HomePostCellViewController {
             cell.post = posts[indexPath.item]
             return cell
         }
+        
+        if isBookMark {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfileBookMarkCell.cellId, for: indexPath)
+            return cell
+        }
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomePostCell.cellId, for: indexPath) as! HomePostCell
         cell.post = posts[indexPath.item]
         cell.delegate = self
@@ -161,12 +169,17 @@ extension UserProfileController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if posts.count == 0 {
+        if posts.count == 0 && !isBookMark {
             let emptyStateCellHeight = (view.safeAreaLayoutGuide.layoutFrame.height - 200)
             return CGSize(width: view.frame.width, height: emptyStateCellHeight)
         }
         
-        if isGridView {
+        if isBookMark {
+            let emptyStateCellHeight = (view.safeAreaLayoutGuide.layoutFrame.height - 200)
+            return CGSize(width: view.frame.width, height: emptyStateCellHeight)
+        }
+        
+        if isGridView && !isBookMark {
             let width = (view.frame.width - 2) / 3
             return CGSize(width: width, height: width)
         } else {
@@ -197,11 +210,19 @@ extension UserProfileController: UserProfileHeaderDelegate {
     
     func didChangeToGridView() {
         isGridView = true
+        isBookMark = false
         collectionView?.reloadData()
     }
     
     func didChangeToListView() {
         isGridView = false
+        isBookMark = false
+        collectionView?.reloadData()
+    }
+    
+    func didChangeToBookMarkView() {
+        isGridView = false
+        isBookMark = true;
         collectionView?.reloadData()
     }
 }

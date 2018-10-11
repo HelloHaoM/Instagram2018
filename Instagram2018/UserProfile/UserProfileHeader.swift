@@ -14,6 +14,7 @@ import Firebase
 protocol UserProfileHeaderDelegate {
     func didChangeToListView()
     func didChangeToGridView()
+    func didChangeToBookMarkView()
 }
 
 //MARK: - UserProfileHeader
@@ -64,10 +65,11 @@ class UserProfileHeader: UICollectionViewCell {
         return button
     }()
     
-    private let bookmarkButton: UIButton = {
+    private lazy var bookmarkButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "ribbon"), for: .normal)
         button.tintColor = UIColor(white: 0, alpha: 0.2)
+        button.addTarget(self, action: #selector(handleChangeToBookMarkView), for: .touchUpInside)
         return button
     }()
     
@@ -216,13 +218,22 @@ class UserProfileHeader: UICollectionViewCell {
     @objc private func handleChangeToGridView() {
         gridButton.tintColor = UIColor.mainBlue
         listButton.tintColor = UIColor(white: 0, alpha: 0.2)
+        bookmarkButton.tintColor = UIColor(white: 0, alpha: 0.2)
         delegate?.didChangeToGridView()
     }
     
     @objc private func handleChangeToListView() {
         listButton.tintColor = UIColor.mainBlue
         gridButton.tintColor = UIColor(white: 0, alpha: 0.2)
+        bookmarkButton.tintColor = UIColor(white: 0, alpha: 0.2)
         delegate?.didChangeToListView()
+    }
+    
+    @objc private func handleChangeToBookMarkView() {
+        bookmarkButton.tintColor = UIColor.mainBlue
+        listButton.tintColor = UIColor(white: 0, alpha: 0.2)
+        gridButton.tintColor = UIColor(white: 0, alpha: 0.2)
+        delegate?.didChangeToBookMarkView()
     }
 }
 
