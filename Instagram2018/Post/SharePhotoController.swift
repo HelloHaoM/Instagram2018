@@ -34,13 +34,20 @@ class SharePhotoController: UIViewController {
         return tv
     }()
     
-    override var prefersStatusBarHidden: Bool { return true }
+    override var prefersStatusBarHidden: Bool { return false }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        
+        navigationController?.navigationBar.tintColor = .black
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(handleShare))
         layoutViews()
+    }
+    
+    @objc private func handleCancel() {
+        dismiss(animated: true, completion: nil)
     }
     
     private func layoutViews() {
@@ -62,7 +69,6 @@ class SharePhotoController: UIViewController {
         
         navigationItem.rightBarButtonItem?.isEnabled = false
         textView.isUserInteractionEnabled = false
-        
         
         Database.database().createPost(withImage: postImage, caption: caption) { (err) in
             if err != nil {

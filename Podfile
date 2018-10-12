@@ -12,6 +12,6 @@ target 'Instagram2018' do
   pod 'Firebase/Core'
   pod 'FWPopupView'
   pod 'DLRadioButton', '~> 1.4'
-  pod 'YPImagePicker'
+  pod 'YPImagePicker', '~> 3.5.2'
 
 end
