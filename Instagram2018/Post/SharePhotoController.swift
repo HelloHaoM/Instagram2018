@@ -8,14 +8,20 @@
 
 import UIKit
 import Firebase
+import MapKit
+import CoreLocation
 
-class SharePhotoController: UIViewController {
+class SharePhotoController: UIViewController, CLLocationManagerDelegate {
+    
+    var locationManager = CLLocationManager()
     
     var selectedImage: UIImage? {
         didSet {
             imageView.image = selectedImage
         }
     }
+    
+    let padding: CGFloat = 12
     
     private let imageView: UIImageView = {
         let iv = UIImageView()
@@ -34,7 +40,23 @@ class SharePhotoController: UIViewController {
         return tv
     }()
     
-    override var prefersStatusBarHidden: Bool { return false }
+    private let addLocationButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Add Location", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(handleAddLocation), for: .touchUpInside)
+        return button
+    }()
+    
+    private let locationLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.textColor = .gray
+        label.isUserInteractionEnabled = true
+        return label
+    }()
+    
+    override var prefersStatusBarHidden: Bool { return true }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +83,23 @@ class SharePhotoController: UIViewController {
         
         containerView.addSubview(textView)
         textView.anchor(top: containerView.topAnchor, left: imageView.rightAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingLeft: 4)
+        
+        let separatorView = UIView()
+        separatorView.backgroundColor = UIColor(white: 0, alpha: 0.2)
+        view.addSubview(separatorView)
+        separatorView.anchor(top: containerView.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, right: view.safeAreaLayoutGuide.rightAnchor, height: 0.5)
+        
+        let locationView = UIView()
+        locationView.backgroundColor = .white
+        view.addSubview(locationView)
+        
+        locationView.anchor(top: separatorView.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, right: view.safeAreaLayoutGuide.rightAnchor, height: 70)
+        
+        locationView.addSubview(addLocationButton)
+        addLocationButton.anchor(top: locationView.topAnchor, left: locationView.leftAnchor, paddingLeft: padding)
+        
+        view.addSubview(locationLabel)
+        locationLabel.anchor(top: addLocationButton.bottomAnchor, left: locationView.leftAnchor, paddingTop: padding, paddingLeft: padding)
     }
     
     @objc private func handleShare() {
@@ -82,6 +121,68 @@ class SharePhotoController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
+    
+    @objc private func handleAddLocation() {
+        // Ask for Authorisation from the User.
+        //self.locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        let userLocation = locations.last
+        
+        let geocoder = CLGeocoder()
+        
+        // Look up the location and pass it to the completion handler
+        geocoder.reverseGeocodeLocation(userLocation!,
+                                        completionHandler: { (placemarks, error) in
+                                            if error == nil {
+                                                let firstLocation = placemarks?[0]
+                                                self.locationLabel.text = firstLocation?.compactAddress
+                                            }
+                                            else {
+                                                // An error occurred during geocoding.
+                                                self.locationLabel.text = "cannot get location information"
+                                            }
+        })
+    }
+}
+
+
+extension CLPlacemark {
+    
+    var compactAddress: String? {
+        if let name = name {
+            var result = name
+            
+            if let street = thoroughfare {
+                result += ", \(street)"
+            }
+            
+            if let city = locality {
+                result += ", \(city)"
+            }
+            
+            if let country = country {
+                result += ", \(country)"
+            }
+            
+            return result
+        }
+        
+        return nil
+    }
+    
 }
 
 
