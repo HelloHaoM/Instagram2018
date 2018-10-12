@@ -17,30 +17,6 @@ class PostController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         showPicker()
-//        self.view.backgroundColor = .white
-//
-//        selectedImageV.contentMode = .scaleAspectFit
-//        selectedImageV.frame = CGRect(x: 0,
-//                                      y: 0,
-//                                      width: UIScreen.main.bounds.width,
-//                                      height: UIScreen.main.bounds.height * 0.45)
-//        view.addSubview(selectedImageV)
-//
-//        pickButton.setTitle("Pick", for: .normal)
-//        pickButton.setTitleColor(.black, for: .normal)
-//        pickButton.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-//        pickButton.addTarget(self, action: #selector(showPicker), for: .touchUpInside)
-//        view.addSubview(pickButton)
-//        pickButton.center = view.center
-//
-//        resultsButton.setTitle("Show selected", for: .normal)
-//        resultsButton.setTitleColor(.black, for: .normal)
-//        resultsButton.frame = CGRect(x: 0,
-//                                     y: UIScreen.main.bounds.height - 100,
-//                                     width: UIScreen.main.bounds.width,
-//                                     height: 100)
-//        resultsButton.addTarget(self, action: #selector(showResults), for: .touchUpInside)
-//        view.addSubview(resultsButton)
     }
     
     @objc
@@ -65,7 +41,7 @@ class PostController: UIViewController {
         /* Uncomment and play around with the configuration 👨‍🔬 🚀 */
         
         /* Set this to true if you want to force the  library output to be a squared image. Defaults to false */
-        //         config.library.onlySquare = true
+        config.library.onlySquare = true
         
         /* Set this to true if you want to force the camera output to be a squared image. Defaults to true */
         // config.onlySquareImagesFromCamera = false
@@ -75,7 +51,7 @@ class PostController: UIViewController {
         // config.targetImageSize = .cappedTo(size: 1024)
         
         /* Choose what media types are available in the library. Defaults to `.photo` */
-        config.library.mediaType = .photoAndVideo
+        config.library.mediaType = .photo
         
         /* Enables selecting the front camera by default, useful for avatars. Defaults to false */
         // config.usesFrontCamera = true
@@ -84,10 +60,10 @@ class PostController: UIViewController {
         // config.showsFilters = false
         
         /* Manage filters by yourself */
-        //        config.filters = [YPFilter(name: "Mono", coreImageFilterName: "CIPhotoEffectMono"),
+        // config.filters = [YPFilter(name: "Mono", coreImageFilterName: "CIPhotoEffectMono"),
         //                          YPFilter(name: "Normal", coreImageFilterName: "")]
-        //        config.filters.remove(at: 1)
-        //        config.filters.insert(YPFilter(name: "Blur", coreImageFilterName: "CIBoxBlur"), at: 1)
+        // config.filters.remove(at: 1)
+        // config.filters.insert(YPFilter(name: "Blur", coreImageFilterName: "CIBoxBlur"), at: 1)
         
         /* Enables you to opt out from saving new (or old but filtered) images to the
          user's photo library. Defaults to true. */
@@ -104,9 +80,10 @@ class PostController: UIViewController {
          Default value is `.photo` */
         config.startOnScreen = .library
         
+        
         /* Defines which screens are shown at launch, and their order.
          Default value is `[.library, .photo]` */
-        config.screens = [.library, .photo, .video]
+        //config.screens = [.library, .photo, .video]
         
         /* Can forbid the items with very big height with this property */
         //        config.library.minWidthForItem = UIScreen.main.bounds.width * 0.8
@@ -192,7 +169,7 @@ class PostController: UIViewController {
                     playerVC.player = player
                     
                     picker.dismiss(animated: true, completion: { [weak self] in
-                        self?.present(playerVC, animated: true, completion: nil)
+                        self?.present(SharePhotoController(), animated: true, completion: nil)
                         print("😀 \(String(describing: self?.resolutionForLocalVideo(url: assetURL)!))")
                     })
                 }

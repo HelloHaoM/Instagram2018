@@ -68,7 +68,7 @@ extension MainTabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         let index = viewControllers?.index(of: viewController)
         if index == 2 {
-            let layout = UICollectionViewFlowLayout()
+            //let layout = UICollectionViewFlowLayout()
             //let photoSelectorController = PhotoSelectorController(collectionViewLayout: layout)
             let photoSelectorController = PostController()
             let nacController = UINavigationController(rootViewController: photoSelectorController)
