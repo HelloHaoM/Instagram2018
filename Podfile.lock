@@ -74,6 +74,11 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - PryntTrimmerView (3.0.0)
+  - SteviaLayout (4.4.0)
+  - YPImagePicker (3.5.2):
+    - PryntTrimmerView (~> 3.0.0)
+    - SteviaLayout (~> 4.4.0)
 
 DEPENDENCIES:
   - DLRadioButton (~> 1.4)
@@ -82,6 +87,7 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Storage
   - FWPopupView
+  - YPImagePicker
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -100,6 +106,9 @@ SPEC REPOS:
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
+    - PryntTrimmerView
+    - SteviaLayout
+    - YPImagePicker
 
 SPEC CHECKSUMS:
   DLRadioButton: d7c4e225ed0e8013cef7be61455230c7557ad7c1
@@ -117,7 +126,10 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  PryntTrimmerView: 53ac64053c7ce63cb3e27f54090f52da0734891d
+  SteviaLayout: dd74d1abd127bbf0ce346ac9430441684fe427d0
+  YPImagePicker: 26d5bf7bfe1cffd1c5eedea3ac60422b314e2a42
 
-PODFILE CHECKSUM: 42ffe7aa065ad7168fb83591b30ea2b3deee5aa3
+PODFILE CHECKSUM: 9252f96307085ab6e6de1860ae790ba3c94468b0
 
 COCOAPODS: 1.5.3
