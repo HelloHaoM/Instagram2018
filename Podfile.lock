@@ -76,7 +76,7 @@ PODS:
   - nanopb/encode (0.3.8)
   - PryntTrimmerView (3.0.0)
   - SteviaLayout (4.4.0)
-  - YPImagePicker (3.5.2):
+  - YPImagePicker (3.5.1):
     - PryntTrimmerView (~> 3.0.0)
     - SteviaLayout (~> 4.4.0)
 
@@ -128,8 +128,8 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   PryntTrimmerView: 53ac64053c7ce63cb3e27f54090f52da0734891d
   SteviaLayout: dd74d1abd127bbf0ce346ac9430441684fe427d0
-  YPImagePicker: 26d5bf7bfe1cffd1c5eedea3ac60422b314e2a42
+  YPImagePicker: 63571f23673d54f743522fdf9d7765ab55e4be60
 
-PODFILE CHECKSUM: 9252f96307085ab6e6de1860ae790ba3c94468b0
+PODFILE CHECKSUM: 685a66d13684ee7f3b42cb96460e2d1c57e3bcaf
 
 COCOAPODS: 1.5.3
