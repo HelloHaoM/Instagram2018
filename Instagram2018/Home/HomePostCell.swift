@@ -121,7 +121,7 @@ class HomePostCell: UICollectionViewCell {
     }
     
     private func setupActionButtons() {
-//        let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton, sendMessageButton, browserButton])
+        //        let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton, sendMessageButton, browserButton])
         let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton, sendMessageButton])
         stackView.distribution = .fillEqually
         stackView.alignment = .top
@@ -147,6 +147,9 @@ class HomePostCell: UICollectionViewCell {
         
         let attributedText = NSMutableAttributedString(string: post.user.username, attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
         attributedText.append(NSAttributedString(string: " \(post.caption)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+        attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
+        
+        attributedText.append(NSAttributedString(string: "\(post.address)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
         attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
         
         let timeAgoDisplay = post.creationDate.timeAgoDisplay()

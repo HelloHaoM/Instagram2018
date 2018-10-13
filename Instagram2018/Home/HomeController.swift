@@ -9,13 +9,20 @@
 import UIKit
 import Firebase
 import MultipeerConnectivity
+import CoreLocation
 
-class HomeController: HomePostCellViewController {
+class HomeController: HomePostCellViewController, CLLocationManagerDelegate {
     
     private let alertController: UIAlertController = {
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         return ac
     }()
+    
+    var locationManager = CLLocationManager()
+    
+    var currentLocation = CLLocation()
+    
+    //var currentLocationArray: Array<Double> = Array(repeating: 0, count: 2)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,13 +64,26 @@ class HomeController: HomePostCellViewController {
         
         let sortByLocationAction = UIAlertAction(title: "Sort by location", style: .default) { (_) in
             do {
-                //TODO: fake sort, need to do sort by location (now is sort by time ascending)
-                self.posts.sort(by: { (p1, p2) -> Bool in
-                    return p1.creationDate.compare(p2.creationDate) == .orderedAscending
-                })
+                //FIXME: first time location is always wrong
+                self.locationManager.requestWhenInUseAuthorization()
                 
-                self.collectionView?.reloadData()
-
+                if CLLocationManager.locationServicesEnabled() {
+                    self.locationManager.delegate = self
+                    self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+                    self.locationManager.startUpdatingLocation()
+                    
+                    self.posts.sort(by: { (p1, p2) -> Bool in
+                        let coordinate1 = CLLocation(latitude: p1.location[0], longitude: p1.location[1])
+                        let coordinate2 = CLLocation(latitude: p2.location[0], longitude: p2.location[1])
+                        //                        let distance1 = sqrt(pow((p1.location[0] - self.currentLocationArray[0]), 2) + pow((p1.location[1] - self.currentLocationArray[1]), 2))
+                        //                        let distance2 = sqrt(pow((p2.location[0] - self.currentLocationArray[0]), 2) + pow((p2.location[1] - self.currentLocationArray[1]), 2))
+                        //                        return distance1 < distance2
+                        return self.distance(to: coordinate1) < self.distance(to: coordinate2)
+                    })
+                    
+                    self.collectionView?.reloadData()
+                }
+                
             }
         }
         alertController.addAction(sortByLocationAction)
@@ -174,6 +194,20 @@ class HomeController: HomePostCellViewController {
         let inRangeController = InRangeController(collectionViewLayout: UICollectionViewFlowLayout())
         self.navigationController?.pushViewController(inRangeController, animated: true)
     }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        print("current location = \(locValue.latitude) \(locValue.longitude)")
+//        self.currentLocationArray[0] = locValue.latitude
+//        self.currentLocationArray[1] = locValue.longitude
+        currentLocation = CLLocation(latitude: locValue.latitude, longitude: locValue.longitude)
+    }
+    
+    //calculate the distance from current location
+        func distance(to location: CLLocation) -> CLLocationDistance {
+            //print("current location: \(self.currentLocation)")
+            return location.distance(from: self.currentLocation)
+        }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count

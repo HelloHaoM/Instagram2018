@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>accept location information</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>accept get location information</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -26,6 +22,10 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>This lets you take photos and record video.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>accept to access your location information</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>accept to access your location information</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This lets you share photos from your library and save photos to your Camera Roll.</string>
 	<key>UILaunchStoryboardName</key>

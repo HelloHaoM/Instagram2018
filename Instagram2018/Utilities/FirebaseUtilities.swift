@@ -243,7 +243,7 @@ extension Database {
     
     //MARK: Posts
     
-    func createPost(withImage image: UIImage, caption: String, completion: @escaping (Error?) -> ()) {
+    func createPost(withImage image: UIImage, caption: String, address: String, location: [Double], completion: @escaping (Error?) -> ()) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         let userPostRef = Database.database().reference().child("posts").child(uid).childByAutoId()
@@ -251,7 +251,7 @@ extension Database {
         guard let postId = userPostRef.key else { return }
         
         Storage.storage().uploadPostImage(image: image, filename: postId) { (postImageUrl) in
-            let values = ["imageUrl": postImageUrl, "caption": caption, "imageWidth": image.size.width, "imageHeight": image.size.height, "creationDate": Date().timeIntervalSince1970, "id": postId] as [String : Any]
+            let values = ["imageUrl": postImageUrl, "caption": caption, "address": address,"location": location,"imageWidth": image.size.width, "imageHeight": image.size.height, "creationDate": Date().timeIntervalSince1970, "id": postId] as [String : Any]
             
             userPostRef.updateChildValues(values) { (err, ref) in
                 if let err = err {

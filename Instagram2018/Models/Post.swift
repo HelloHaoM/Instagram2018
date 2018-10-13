@@ -15,6 +15,8 @@ struct Post {
     let user: User
     let imageUrl: String
     let caption: String
+    let address: String
+    let location: [Double]
     let creationDate: Date
     
     var likes: Int = 0
@@ -24,6 +26,8 @@ struct Post {
         self.user = user
         self.imageUrl = dictionary["imageUrl"] as? String ?? ""
         self.caption = dictionary["caption"] as? String ?? ""
+        self.address = dictionary["address"] as? String ?? ""
+        self.location = dictionary["location"] as? [Double] ?? []
         self.id = dictionary["id"] as? String ?? ""
         
         let secondsFrom1970 = dictionary["creationDate"] as? Double ?? 0

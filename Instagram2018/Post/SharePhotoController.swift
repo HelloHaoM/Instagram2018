@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-import MapKit
 import CoreLocation
 
 class SharePhotoController: UIViewController, CLLocationManagerDelegate {
@@ -22,6 +21,10 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
     }
     
     let padding: CGFloat = 12
+    
+    var shortAddress = ""
+    
+    var locationArray: Array<Double> = Array(repeating: 0, count: 2)
     
     private let imageView: UIImageView = {
         let iv = UIImageView()
@@ -109,7 +112,7 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
         navigationItem.rightBarButtonItem?.isEnabled = false
         textView.isUserInteractionEnabled = false
         
-        Database.database().createPost(withImage: postImage, caption: caption) { (err) in
+        Database.database().createPost(withImage: postImage, caption: caption, address: self.shortAddress, location: self.locationArray) { (err) in
             if err != nil {
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
                 self.textView.isUserInteractionEnabled = true
@@ -139,6 +142,8 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         print("locations = \(locValue.latitude) \(locValue.longitude)")
+        self.locationArray[0] = locValue.latitude
+        self.locationArray[1] = locValue.longitude
         let userLocation = locations.last
         
         let geocoder = CLGeocoder()
@@ -148,7 +153,9 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
                                         completionHandler: { (placemarks, error) in
                                             if error == nil {
                                                 let firstLocation = placemarks?[0]
-                                                self.locationLabel.text = firstLocation?.compactAddress
+                                                let address = firstLocation?.compactAddress
+                                                self.locationLabel.text = address
+                                                self.shortAddress = address ?? ""
                                             }
                                             else {
                                                 // An error occurred during geocoding.
@@ -164,10 +171,6 @@ extension CLPlacemark {
     var compactAddress: String? {
         if let name = name {
             var result = name
-            
-            if let street = thoroughfare {
-                result += ", \(street)"
-            }
             
             if let city = locality {
                 result += ", \(city)"
