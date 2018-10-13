@@ -17,6 +17,7 @@ class UserSearchController: UICollectionViewController {
         let button = UIButton(type: .system)
         button.setTitle("All", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.height(20)
         button.addTarget(self, action: #selector(handleChangeToOrdinary), for: .touchUpInside)
         return button
     }()
@@ -25,6 +26,7 @@ class UserSearchController: UICollectionViewController {
         let button = UIButton(type: .system)
         button.setTitle("Recommend", for: .normal)
         button.setTitleColor(.gray, for: .normal)
+        button.height(20)
         button.addTarget(self, action: #selector(handleChangeToRecommend), for: .touchUpInside)
         return button
     }()
@@ -35,6 +37,7 @@ class UserSearchController: UICollectionViewController {
         sb.autocorrectionType = .no
         sb.autocapitalizationType = .none
         sb.barTintColor = .gray
+        sb.height(80)
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
         return sb
     }()
@@ -68,12 +71,22 @@ class UserSearchController: UICollectionViewController {
     }
     
     private func setUpNav(){
-        let navView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
-        let stackView = UIStackView(arrangedSubviews: [ordinaryButton, recommendButton, searchBar])
-        stackView.distribution = .fillEqually
-        navigationItem.titleView = navView
-        navView.addSubview(stackView)
-        stackView.anchor(top: navView.topAnchor, left: navView.leftAnchor, bottom: navView.bottomAnchor, right: navView.rightAnchor, paddingTop: 3, paddingLeft: 3, paddingBottom: 3, paddingRight: 3)
+//        let navView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+//        let stackView = UIStackView(arrangedSubviews: [ordinaryButton, recommendButton, searchBar])
+//        stackView.distribution = .fillEqually
+//        navigationItem.titleView = navView
+//        navView.addSubview(stackView)
+//        stackView.anchor(top: navView.topAnchor, left: navView.leftAnchor, bottom: navView.bottomAnchor, right: navView.rightAnchor, paddingTop: 3, paddingLeft: 3, paddingBottom: 3, paddingRight: 3)
+        
+        let buttonView = UIStackView(arrangedSubviews: [ordinaryButton, recommendButton])
+        buttonView.distribution = .fillEqually
+        buttonView.axis = .horizontal
+        
+        let searchView = UIStackView(arrangedSubviews: [buttonView, searchBar])
+        searchView.axis = .vertical
+        
+        navigationItem.titleView = searchView
+        navigationItem.titleView?.width(UIScreen.main.bounds.width)
         
         //navigationItem.titleView = searchBar
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -85,6 +98,16 @@ class UserSearchController: UICollectionViewController {
         super.viewWillDisappear(animated)
         navigationController?.view.setNeedsLayout()
         navigationController?.view.layoutIfNeeded()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.titleView?.width(UIScreen.main.bounds.width)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationItem.titleView?.width(UIScreen.main.bounds.width)
     }
     
     private func fetchAllUsers() {
