@@ -147,7 +147,10 @@ class UserSearchController: UICollectionViewController {
         ordinaryButton.setTitleColor(.black, for: .normal)
         recommendButton.setTitleColor(.gray, for: .normal)
         isRecommendPage = false
-        fetchAllUsers()
+        if(users.isEmpty){
+            fetchAllUsers()
+        }
+        
         collectionView?.reloadData()
     }
     
@@ -155,7 +158,9 @@ class UserSearchController: UICollectionViewController {
         ordinaryButton.setTitleColor(.gray, for: .normal)
         recommendButton.setTitleColor(.black, for: .normal)
         isRecommendPage = true
-        fetchRecommendedUsers()
+        if(recommendUsers.isEmpty){
+            fetchRecommendedUsers()
+        }
         collectionView?.reloadData()
     }
     
