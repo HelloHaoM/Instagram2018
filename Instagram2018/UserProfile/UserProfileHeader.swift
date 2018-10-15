@@ -93,6 +93,7 @@ class UserProfileHeader: UICollectionViewCell {
         sharedInit()
     }
     
+    /// init the user profile header
     private func sharedInit() {
         addSubview(profileImageView)
         profileImageView.anchor(top: topAnchor, left: leftAnchor, paddingTop: padding, paddingLeft: padding, width: 80, height: 80)
@@ -109,6 +110,7 @@ class UserProfileHeader: UICollectionViewCell {
         followButton.anchor(top: postsLabel.bottomAnchor, left: postsLabel.leftAnchor, right: followingLabel.rightAnchor, paddingTop: 2, height: 34)
     }
     
+    /// set the layout of the state
     private func layoutUserStatsView() {
         let stackView = UIStackView(arrangedSubviews: [postsLabel, followersLabel, followingLabel])
         stackView.distribution = .fillEqually
@@ -116,6 +118,7 @@ class UserProfileHeader: UICollectionViewCell {
         stackView.anchor(top: topAnchor, left: profileImageView.rightAnchor, right: rightAnchor, paddingTop: padding, paddingLeft: padding, paddingRight: padding, height: 50)
     }
     
+    /// set the layout of the tool bar
     private func layoutBottomToolbar() {
         let topDividerView = UIView()
         topDividerView.backgroundColor = UIColor(white: 0, alpha: 0.2)
@@ -135,6 +138,7 @@ class UserProfileHeader: UICollectionViewCell {
         stackView.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, height: 44)
     }
     
+    /// reload the user data
     func reloadData() {
         guard let user = user else { return }
         usernameLabel.text = user.username
@@ -145,6 +149,7 @@ class UserProfileHeader: UICollectionViewCell {
         }
     }
     
+    /// reload the state of follow button
     private func reloadFollowButton() {
         guard let currentLoggedInUserId = Auth.auth().currentUser?.uid else { return }
         guard let userId = user?.uid else { return }
@@ -168,6 +173,7 @@ class UserProfileHeader: UICollectionViewCell {
         }
     }
     
+    /// reload the state of user
     private func reloadUserStats() {
         guard let uid = user?.uid else { return }
         
@@ -192,6 +198,7 @@ class UserProfileHeader: UICollectionViewCell {
         followButton.type = .loading
         
         if previousButtonType == .follow {
+            // set follow
             Database.database().followUser(withUID: userId) { (err) in
                 if err != nil {
                     self.followButton.type = previousButtonType
@@ -202,6 +209,7 @@ class UserProfileHeader: UICollectionViewCell {
             }
             
         } else if previousButtonType == .unfollow {
+            // set unfollow
             Database.database().unfollowUser(withUID: userId) { (err) in
                 if err != nil {
                     self.followButton.type = previousButtonType

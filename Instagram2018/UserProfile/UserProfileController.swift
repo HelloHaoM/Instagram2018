@@ -51,10 +51,12 @@ class UserProfileController: HomePostCellViewController {
         configureAlertController()
     }
     
+    /// cofigure the alert controller
     private func configureAlertController() {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         
+        // add log out option
         let logOutAction = UIAlertAction(title: "Log Out", style: .default) { (_) in
             do {
                 try Auth.auth().signOut()
@@ -67,16 +69,20 @@ class UserProfileController: HomePostCellViewController {
         }
         alertController.addAction(logOutAction)
         
+        // add delete account option
         let deleteAccountAction = UIAlertAction(title: "Delete Account", style: .destructive, handler: nil)
         alertController.addAction(deleteAccountAction)
     }
     
+    /// configure the user information
     private func configureUser() {
         guard let user = user else { return }
         
         if user.uid == Auth.auth().currentUser?.uid {
+            // in the self profile page
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "gear").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleSettings))
         } else {
+            // in the other user profile page
             let optionsButton = UIBarButtonItem(title: "•••", style: .plain, target: nil, action: nil)
             optionsButton.tintColor = .black
             navigationItem.rightBarButtonItem = optionsButton
@@ -112,6 +118,12 @@ class UserProfileController: HomePostCellViewController {
         header?.reloadData()
     }
     
+    /// override the collectionview function when the view is loaded
+    ///
+    /// - Parameters:
+    ///   - collectionView: the collection view
+    ///   - section: the index of the items
+    /// - Returns: the count of post
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if posts.count == 0 {
             return 1
@@ -119,8 +131,15 @@ class UserProfileController: HomePostCellViewController {
         return posts.count
     }
     
+    /// override the collectionview function when the view is loaded
+    ///
+    /// - Parameters:
+    ///   - collectionView: the collection view
+    ///   - indexPath: the index of the items
+    /// - Returns: each post cell
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if posts.count == 0 && !isBookMark {
+            // load the empty state cell
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfileEmptyStateCell.cellId, for: indexPath)
             return cell
         }
@@ -130,16 +149,19 @@ class UserProfileController: HomePostCellViewController {
         //        }
         
         if isGridView {
+            // load the grid view cell
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfilePhotoGridCell.cellId, for: indexPath) as! UserProfilePhotoGridCell
             cell.post = posts[indexPath.item]
             return cell
         }
         
         if isBookMark {
+            // load the bookmark cell
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfileBookMarkCell.cellId, for: indexPath)
             return cell
         }
         
+        // load the home post cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomePostCell.cellId, for: indexPath) as! HomePostCell
         cell.post = posts[indexPath.item]
         cell.delegate = self
@@ -168,6 +190,13 @@ extension UserProfileController: UICollectionViewDelegateFlowLayout {
         return 1
     }
     
+    /// override the collection view function to get different size of cell
+    ///
+    /// - Parameters:
+    ///   - collectionView: the collection view
+    ///   - collectionViewLayout: the layout of the collection view
+    ///   - indexPath: the index of items
+    /// - Returns: the CGSize
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if posts.count == 0 && !isBookMark {
             let emptyStateCellHeight = (view.safeAreaLayoutGuide.layoutFrame.height - 200)

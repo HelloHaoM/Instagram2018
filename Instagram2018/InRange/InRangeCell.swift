@@ -51,6 +51,7 @@ class InRangeCell: UICollectionViewCell {
         sharedInit()
     }
     
+    /// init the in range cell
     private func sharedInit() {
         addSubview(usernameLabel)
         usernameLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, paddingLeft: 8, width: 70)

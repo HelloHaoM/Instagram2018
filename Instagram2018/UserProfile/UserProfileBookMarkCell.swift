@@ -41,13 +41,8 @@ class UserProfileBookMarkCell: UICollectionViewCell {
         sharedInit()
     }
     
+    /// init the bookmark view
     private func sharedInit() {
-        //        addSubview(bookMarkImageView)
-        //        bookMarkImageView.anchor(top: topAnchor, left: leftAnchor, paddingTop: 120, paddingLeft: 168, width: 80, height: 80)
-        //        bookMarkImageView.layer.cornerRadius = 80 / 2
-        //
-        //        addSubview(noBookMarksLabel)
-        //        noBookMarksLabel.anchor(top: bookMarkImageView.bottomAnchor, left: leftAnchor, paddingTop: 230, paddingLeft: 153)
         addSubview(noBookMarksLabel)
         noBookMarksLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
     }

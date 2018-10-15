@@ -28,30 +28,39 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
     
     // MARK MultipeerConnectivity
     
+    /// init the multipeer
     func initMultipeer() {
         if HomePostCellViewController.peerID == nil {
+            // set the id
             HomePostCellViewController.peerID = MCPeerID(displayName: UIDevice.current.name)
         }
         
         if HomePostCellViewController.session == nil {
+            // set the session
             HomePostCellViewController.session = MCSession(peer: HomePostCellViewController.peerID)
             HomePostCellViewController.session.delegate = self
         }
         
         if HomePostCellViewController.browser == nil {
+            // set the browser
             HomePostCellViewController.browser = MCBrowserViewController(serviceType: serviceType, session: HomePostCellViewController.session)
             HomePostCellViewController.browser.delegate = self
         }
         
         if HomePostCellViewController.assistant == nil {
+            // set the advertiser
             HomePostCellViewController.assistant = MCAdvertiserAssistant(serviceType: serviceType, discoveryInfo: nil, session: HomePostCellViewController.session)
             HomePostCellViewController.assistant.start()
         }
     }
     
+    /// do something when click done on browser
+    ///
+    /// - Parameter browserViewController: the controller of the browser view
     func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
         self.dismiss(animated: true, completion: nil)
         let imageData = image.pngData()
+        // try to sent a imgae data
         do {
             try HomePostCellViewController.session.send(imageData!, toPeers: HomePostCellViewController.session.connectedPeers, with: MCSessionSendDataMode.unreliable)
             print("Image Data Sent")
@@ -62,6 +71,9 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
         }
     }
     
+    /// do something when click cancel on browser
+    ///
+    /// - Parameter browserViewController: <#browserViewController description#>
     func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -70,6 +82,12 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
         print("didChange")
     }
     
+    /// do something when receive data
+    ///
+    /// - Parameters:
+    ///   - session: the session
+    ///   - data: the data
+    ///   - peerID: the sender peerID
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         print("receiving data")
         DispatchQueue.main.async(execute: {
@@ -83,11 +101,13 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
             let vProperty = FWAlertViewProperty()
             vProperty.touchWildToHide = "0"
             
+            // set up the pop up window
             let block: FWPopupItemClickedBlock = { (popupView, index, title) in
                 
                 if index == 1 {
                     // click confirm do something
                     print("View")
+                    // set up in range controller
                     let inRangeController = InRangeController(collectionViewLayout: UICollectionViewFlowLayout())
                     self.navigationController?.pushViewController(inRangeController, animated: true)
                 }
@@ -114,7 +134,7 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
     //MARK: - HomePostCellDelegate
     
     func didBrowse() {
-        //present(HomePostCellViewController.browser, animated: true, completion: nil)
+        // set up in range controller
         let inRangeController = InRangeController(collectionViewLayout: UICollectionViewFlowLayout())
         self.navigationController?.pushViewController(inRangeController, animated: true)
     }

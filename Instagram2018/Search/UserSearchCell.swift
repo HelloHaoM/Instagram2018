@@ -44,6 +44,7 @@ class UserSearchCell: UICollectionViewCell {
         sharedInit()
     }
     
+    /// init the cell
     private func sharedInit() {
         addSubview(profileImageView)
         profileImageView.anchor(left: leftAnchor, paddingLeft: 8, width: 50, height: 50)
@@ -59,6 +60,7 @@ class UserSearchCell: UICollectionViewCell {
         separatorView.anchor(left: usernameLabel.leftAnchor, bottom: bottomAnchor, right: rightAnchor, height: 0.5)
     }
     
+    /// get the user informationn
     private func configureCell() {
         usernameLabel.text = user?.username
         if let profileImageUrl = user?.profileImageUrl {

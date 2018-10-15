@@ -12,6 +12,11 @@ protocol AlertProtocol {}
 
 extension AlertProtocol where Self: UIViewController {
     
+    /// create a new alert
+    ///
+    /// - Parameters:
+    ///   - title: the title of the alert
+    ///   - msg: the msg of the alert
     func createAlertWithMsgAndTitle(_ title: String, msg: String) {
         
         let alertController = UIAlertController(title: title, message: msg, preferredStyle: .alert)

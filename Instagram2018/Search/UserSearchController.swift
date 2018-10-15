@@ -11,8 +11,10 @@ import Firebase
 
 class UserSearchController: UICollectionViewController {
     
+    /// a flag to identify which page
     private var isRecommendPage: Bool = false;
     
+    /// all user infromation button
     private lazy var ordinaryButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("All", for: .normal)
@@ -22,6 +24,7 @@ class UserSearchController: UICollectionViewController {
         return button
     }()
     
+    /// recommend user button
     private lazy var recommendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Recommend", for: .normal)
@@ -31,6 +34,7 @@ class UserSearchController: UICollectionViewController {
         return button
     }()
     
+    /// the search bar
     private let searchBar: UISearchBar = {
         let sb = UISearchBar()
         sb.placeholder = "Enter username"
@@ -42,8 +46,10 @@ class UserSearchController: UICollectionViewController {
         return sb
     }()
     
+    /// the current user
     var user: User?
     
+    /// the group of users need to be shown
     private var users = [User]()
     private var recommendUsers = [User]()
     private var filteredUsers = [User]()
@@ -71,13 +77,6 @@ class UserSearchController: UICollectionViewController {
     }
     
     private func setUpNav(){
-//        let navView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
-//        let stackView = UIStackView(arrangedSubviews: [ordinaryButton, recommendButton, searchBar])
-//        stackView.distribution = .fillEqually
-//        navigationItem.titleView = navView
-//        navView.addSubview(stackView)
-//        stackView.anchor(top: navView.topAnchor, left: navView.leftAnchor, bottom: navView.bottomAnchor, right: navView.rightAnchor, paddingTop: 3, paddingLeft: 3, paddingBottom: 3, paddingRight: 3)
-        
         let buttonView = UIStackView(arrangedSubviews: [ordinaryButton, recommendButton])
         buttonView.distribution = .fillEqually
         buttonView.axis = .horizontal
@@ -110,6 +109,7 @@ class UserSearchController: UICollectionViewController {
         navigationItem.titleView?.width(UIScreen.main.bounds.width)
     }
     
+    /// get all users from the database
     private func fetchAllUsers() {
         collectionView?.refreshControl?.beginRefreshing()
         
@@ -124,6 +124,7 @@ class UserSearchController: UICollectionViewController {
         }
     }
     
+    /// get all recommend user from the database
     private func fetchRecommendedUsers() {
         collectionView?.refreshControl?.beginRefreshing()
         
@@ -164,6 +165,11 @@ class UserSearchController: UICollectionViewController {
         collectionView?.reloadData()
     }
     
+    /// override the collectionview function when item is selected
+    ///
+    /// - Parameters:
+    ///   - collectionView: the collection view
+    ///   - indexPath: the index of items
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         searchBar.resignFirstResponder()
         let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
@@ -171,6 +177,12 @@ class UserSearchController: UICollectionViewController {
         navigationController?.pushViewController(userProfileController, animated: true)
     }
     
+    /// override the collectionview function when the view is loaded
+    ///
+    /// - Parameters:
+    ///   - collectionView: the collection view
+    ///   - section: the index of the items
+    /// - Returns: the count of filteruser number
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // Apply serach filter when reload to isRecommend page or ordinary page
         if isRecommendPage && self.searchBar.text == "" {
@@ -189,6 +201,12 @@ class UserSearchController: UICollectionViewController {
         return filteredUsers.count
     }
     
+    /// override the collectionview function when the view is loaded
+    ///
+    /// - Parameters:
+    ///   - collectionView: the collection view
+    ///   - indexPath: the index of the items
+    /// - Returns: each user cell
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserSearchCell.cellId, for: indexPath) as! UserSearchCell
         cell.user = filteredUsers[indexPath.item]
@@ -199,6 +217,14 @@ class UserSearchController: UICollectionViewController {
 //MARK: - UICollectionViewDelegateFlowLayout
 
 extension UserSearchController: UICollectionViewDelegateFlowLayout {
+    
+    /// override the collectionview function to resize the frame
+    ///
+    /// - Parameters:
+    ///   - collectionView: the collection view
+    ///   - collectionViewLayout: the layout of the collection view
+    ///   - indexPath: the index of the itmes
+    /// - Returns: the CGSize
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 66)
     }
@@ -207,7 +233,11 @@ extension UserSearchController: UICollectionViewDelegateFlowLayout {
 //MARK: - UISearchBarDelegate
 
 extension UserSearchController: UISearchBarDelegate {
-    
+    /// filter the user according to the search text
+    ///
+    /// - Parameters:
+    ///   - searchBar: the search bar
+    ///   - searchText: the search text
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty && !isRecommendPage {
             filteredUsers = users

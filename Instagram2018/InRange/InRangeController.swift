@@ -11,6 +11,7 @@ import UIKit
 
 class InRangeController: UICollectionViewController {
     
+    /// the arrays of the data
     private var senderNames = [String]()
     private var senderImages = [UIImage]()
     
@@ -34,6 +35,7 @@ class InRangeController: UICollectionViewController {
         
     }
     
+    // update all the data
     func updateData() {
         self.senderNames = MultiPeerUtilties.senderNames
         self.senderImages = MultiPeerUtilties.senderImages
@@ -41,11 +43,23 @@ class InRangeController: UICollectionViewController {
     
     // MARK: UICollectionViewDataSource
     
+    /// override the collectionview function when the view is loaded
+    ///
+    /// - Parameters:
+    ///   - collectionView: the collection view
+    ///   - section: the index of the items
+    /// - Returns: the count of image
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return senderImages.count
     }
     
+    /// override the collectionview function when the view is loaded
+    ///
+    /// - Parameters:
+    ///   - collectionView: the collection view
+    ///   - indexPath: the index of the items
+    /// - Returns: each cell
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InRangeCell.cellId, for: indexPath) as! InRangeCell
         cell.username = senderNames[indexPath.item]
@@ -58,6 +72,13 @@ class InRangeController: UICollectionViewController {
 //MARK: - UICollectionViewDelegateFlowLayout
 
 extension InRangeController: UICollectionViewDelegateFlowLayout {
+    /// override the collectionview function to resize the frame
+    ///
+    /// - Parameters:
+    ///   - collectionView: the collection view
+    ///   - collectionViewLayout: the layout of the collection view
+    ///   - indexPath: the index of the itmes
+    /// - Returns: the CGSize
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 150)
     }

@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 
 class MultiPeerUtilties {
+    
+    /// the static value to store name and imgae for multipeer
     static var senderNames = [String]()
     static var senderImages = [UIImage]()
     
