@@ -94,7 +94,7 @@ class HomeController: HomePostCellViewController, CLLocationManagerDelegate {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "camera3").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleCamera))
         
         let inRangeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "people_near").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleInRange))
-        let sortButton = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(handleSort))
+        let sortButton = UIBarButtonItem(image: #imageLiteral(resourceName: "inbox").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleSort))
         navigationItem.rightBarButtonItems = [sortButton, inRangeButton]
         
         //navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "inbox").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: nil)

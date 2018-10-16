@@ -140,7 +140,7 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
     }
     
     func didSend(image: UIImage){
-        print("Send Button Click")
+        //print("Send Button Click")
         self.image = image
         present(HomePostCellViewController.browser, animated: true, completion: nil)
     }

@@ -32,7 +32,7 @@ class PostController: UIViewController {
         config.video.compression = AVAssetExportPresetMediumQuality
         config.startOnScreen = .library
         config.video.libraryTimeLimit = 500.0
-        config.showsCrop = .rectangle(ratio: (16/9))
+        config.showsCrop = .rectangle(ratio: (1/1))
         config.wordings.libraryTitle = "Gallery"
         config.hidesStatusBar = false
         config.library.maxNumberOfItems = 5
