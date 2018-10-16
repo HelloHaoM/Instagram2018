@@ -13,7 +13,7 @@ import FWPopupView
 
 class HomePostCellViewController: UICollectionViewController, HomePostCellDelegate, MCBrowserViewControllerDelegate, MCSessionDelegate, AlertProtocol {
     
-    let serviceType = "InstagramClone"
+    let serviceType = "Instagram2018"
     
     static var browser: MCBrowserViewController!
     static var assistant: MCAdvertiserAssistant!

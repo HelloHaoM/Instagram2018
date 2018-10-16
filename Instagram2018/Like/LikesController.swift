@@ -17,7 +17,7 @@ class LikesController: UICollectionViewController {
         }
     }
     
-    //model name: Like
+    //liked users are a type of "User"
     private var likedUsers = [User]()
 
     
@@ -48,7 +48,7 @@ class LikesController: UICollectionViewController {
     @objc private func fetchLikes() {
         guard let postId = post?.id else { return }
         collectionView?.refreshControl?.beginRefreshing()
-        //add db fetch function
+        //get the likes information for the specific post
         Database.database().userOfLikesForPost(withId: postId, completion: { (users) in
             self.likedUsers = users
             self.collectionView?.reloadData()

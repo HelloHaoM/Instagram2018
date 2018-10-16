@@ -121,7 +121,6 @@ class HomePostCell: UICollectionViewCell {
     }
     
     private func setupActionButtons() {
-        //        let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton, sendMessageButton, browserButton])
         let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton, sendMessageButton])
         stackView.distribution = .fillEqually
         stackView.alignment = .top
@@ -132,7 +131,7 @@ class HomePostCell: UICollectionViewCell {
         addSubview(bookmarkButton)
         bookmarkButton.anchor(top: photoImageView.bottomAnchor, right: rightAnchor, paddingTop: padding, paddingRight: padding)
     }
-    
+    // get post related information (author, image, likes, and caption)
     private func configurePost() {
         guard let post = post else { return }
         header.user = post.user
@@ -148,10 +147,10 @@ class HomePostCell: UICollectionViewCell {
         let attributedText = NSMutableAttributedString(string: post.user.username, attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
         attributedText.append(NSAttributedString(string: " \(post.caption)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
         attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
-        
+        //show address information of the post
         attributedText.append(NSAttributedString(string: "\(post.address)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
         attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
-        
+        //show time information of the post
         let timeAgoDisplay = post.creationDate.timeAgoDisplay()
         attributedText.append(NSAttributedString(string: timeAgoDisplay, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
         captionLabel.attributedText = attributedText
@@ -166,11 +165,11 @@ class HomePostCell: UICollectionViewCell {
             likeCounter.text = "\(value) likes"
         }
     }
-    
+    //function when "like" a post
     @objc private func handleLike() {
         delegate?.didLike(for: self)
     }
-    
+    //function when checking who liked the post
     @objc private func handleLikeTap() {
         guard let post = post else { return }
         delegate?.didTapLike(post: post)
@@ -180,12 +179,12 @@ class HomePostCell: UICollectionViewCell {
         guard let post = post else { return }
         delegate?.didTapComment(post: post)
     }
-    
+    //function when clicking "send" button, trigger the bluetooth function
     @objc private func handleSend() {
         guard let image = photoImageView.image else { return }
         delegate?.didSend(image: image)
     }
-    
+    //function when clicking "browse" button, show the photos sent via bluetooth
     @objc private func handleBrowse() {
         delegate?.didBrowse()
     }

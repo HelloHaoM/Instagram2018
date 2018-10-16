@@ -18,11 +18,10 @@ class HomeController: HomePostCellViewController, CLLocationManagerDelegate {
         return ac
     }()
     
+    //set location manager
     var locationManager = CLLocationManager()
-    
+    //set current location of the user
     var currentLocation = CLLocation()
-    
-    //var currentLocationArray: Array<Double> = Array(repeating: 0, count: 2)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +45,7 @@ class HomeController: HomePostCellViewController, CLLocationManagerDelegate {
         
         configureAlertController()
     }
-    
+    // set alert controller (sort by time and sort by location function)
     private func configureAlertController() {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
@@ -64,7 +63,7 @@ class HomeController: HomePostCellViewController, CLLocationManagerDelegate {
         
         let sortByLocationAction = UIAlertAction(title: "Sort by location", style: .default) { (_) in
             do {
-                //FIXME: first time location is always wrong
+                //request user authorization to access current location
                 self.locationManager.requestWhenInUseAuthorization()
                 
                 if CLLocationManager.locationServicesEnabled() {
@@ -75,12 +74,8 @@ class HomeController: HomePostCellViewController, CLLocationManagerDelegate {
                     self.posts.sort(by: { (p1, p2) -> Bool in
                         let coordinate1 = CLLocation(latitude: p1.location[0], longitude: p1.location[1])
                         let coordinate2 = CLLocation(latitude: p2.location[0], longitude: p2.location[1])
-                        //                        let distance1 = sqrt(pow((p1.location[0] - self.currentLocationArray[0]), 2) + pow((p1.location[1] - self.currentLocationArray[1]), 2))
-                        //                        let distance2 = sqrt(pow((p2.location[0] - self.currentLocationArray[0]), 2) + pow((p2.location[1] - self.currentLocationArray[1]), 2))
-                        //                        return distance1 < distance2
                         return self.distance(to: coordinate1) < self.distance(to: coordinate2)
                     })
-                    
                     self.collectionView?.reloadData()
                 }
                 
@@ -88,7 +83,7 @@ class HomeController: HomePostCellViewController, CLLocationManagerDelegate {
         }
         alertController.addAction(sortByLocationAction)
     }
-    
+    //set the top navigation bar
     private func configureNavigationBar() {
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo").withRenderingMode(.alwaysOriginal))
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "camera3").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleCamera))
@@ -96,8 +91,6 @@ class HomeController: HomePostCellViewController, CLLocationManagerDelegate {
         let inRangeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "people_near").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleInRange))
         let sortButton = UIBarButtonItem(image: #imageLiteral(resourceName: "inbox").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleSort))
         navigationItem.rightBarButtonItems = [sortButton, inRangeButton]
-        
-        //navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "inbox").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: nil)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = .black
     }
@@ -116,7 +109,7 @@ class HomeController: HomePostCellViewController, CLLocationManagerDelegate {
         Database.database().fetchAllPosts(withUID: currentLoggedInUserId, completion: { (posts) in
             self.posts.append(contentsOf: posts)
             
-            //post sort function
+            //by default, sort by time
             self.posts.sort(by: { (p1, p2) -> Bool in
                 return p1.creationDate.compare(p2.creationDate) == .orderedDescending
             })
@@ -142,7 +135,7 @@ class HomeController: HomePostCellViewController, CLLocationManagerDelegate {
                     
                     self.posts.append(contentsOf: posts)
                     
-                    //post sort function
+                    //by default, sort by time
                     self.posts.sort(by: { (p1, p2) -> Bool in
                         return p1.creationDate.compare(p2.creationDate) == .orderedDescending
                     })
@@ -175,7 +168,7 @@ class HomeController: HomePostCellViewController, CLLocationManagerDelegate {
             })
         }
     }
-    
+    //when refreshing, remove all posts, and fetch all posts again
     @objc private func handleRefresh() {
         posts.removeAll()
         fetchAllPosts()
@@ -197,17 +190,16 @@ class HomeController: HomePostCellViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        print("current location = \(locValue.latitude) \(locValue.longitude)")
-//        self.currentLocationArray[0] = locValue.latitude
-//        self.currentLocationArray[1] = locValue.longitude
+        //print("current location = \(locValue.latitude) \(locValue.longitude)")
+        //get current location
         currentLocation = CLLocation(latitude: locValue.latitude, longitude: locValue.longitude)
     }
     
     //calculate the distance from current location
-        func distance(to location: CLLocation) -> CLLocationDistance {
-            //print("current location: \(self.currentLocation)")
-            return location.distance(from: self.currentLocation)
-        }
+    func distance(to location: CLLocation) -> CLLocationDistance {
+        //print("current location: \(self.currentLocation)")
+        return location.distance(from: self.currentLocation)
+    }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count

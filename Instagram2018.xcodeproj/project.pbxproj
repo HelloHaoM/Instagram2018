@@ -42,6 +42,7 @@
 		545436BD21676D1D0052D393 /* FirebaseUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545436BC21676D1D0052D393 /* FirebaseUtilities.swift */; };
 		545436BF21676D390052D393 /* HomePostCellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545436BE21676D390052D393 /* HomePostCellViewController.swift */; };
 		545436C121676D510052D393 /* PlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545436C021676D510052D393 /* PlaceholderTextView.swift */; };
+		54BFAD852175AA0F00588733 /* UserSearchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BFAD842175AA0F00588733 /* UserSearchHeader.swift */; };
 		54EF1381216729D900270808 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EF1380216729D900270808 /* AppDelegate.swift */; };
 		54EF1383216729D900270808 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EF1382216729D900270808 /* MainTabBarController.swift */; };
 		54EF1388216729D900270808 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54EF1387216729D900270808 /* Assets.xcassets */; };
@@ -96,6 +97,7 @@
 		545436BC21676D1D0052D393 /* FirebaseUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtilities.swift; sourceTree = "<group>"; };
 		545436BE21676D390052D393 /* HomePostCellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePostCellViewController.swift; sourceTree = "<group>"; };
 		545436C021676D510052D393 /* PlaceholderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderTextView.swift; sourceTree = "<group>"; };
+		54BFAD842175AA0F00588733 /* UserSearchHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchHeader.swift; sourceTree = "<group>"; };
 		54EF137D216729D900270808 /* Instagram2018.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagram2018.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54EF1380216729D900270808 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		54EF1382216729D900270808 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 			children = (
 				545436AA216757C80052D393 /* UserSearchController.swift */,
 				545436AC21676BC90052D393 /* UserSearchCell.swift */,
+				54BFAD842175AA0F00588733 /* UserSearchHeader.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -470,6 +473,7 @@
 				54543682216746590052D393 /* PreviewPhotoContainerView.swift in Sources */,
 				5454369C216756050052D393 /* Post.swift in Sources */,
 				54FEDD45216CA14500C3F243 /* AlertProtocol.swift in Sources */,
+				54BFAD852175AA0F00588733 /* UserSearchHeader.swift in Sources */,
 				54FEDD38216C9C7300C3F243 /* FirebaseUserActivityExtensions.swift in Sources */,
 				545436C121676D510052D393 /* PlaceholderTextView.swift in Sources */,
 				54FEDD3B216C9C8E00C3F243 /* FollowFeedCell.swift in Sources */,
@@ -648,7 +652,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2018";
+				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2019";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -668,7 +672,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2018";
+				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2019";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -14,7 +14,6 @@ protocol LikeCellDelegate {
 
 class LikeCell: UICollectionViewCell {
     
-    //model name: Like
     var likedUser: User? {
         didSet {
             configureLike()

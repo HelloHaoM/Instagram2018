@@ -83,6 +83,7 @@ class HomePostCellHeader: UIView {
         if let profileImageUrl = user.profileImageUrl {
             userProfileImageView.loadImage(urlString: profileImageUrl)
         } else {
+            //give a default user image
             userProfileImageView.image = #imageLiteral(resourceName: "user")
         }
     }

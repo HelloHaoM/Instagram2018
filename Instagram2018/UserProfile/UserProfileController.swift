@@ -24,9 +24,6 @@ class UserProfileController: HomePostCellViewController {
         return ac
     }()
     
-    //    private var isFinishedPaging = false
-    //    private var pagingCount: Int = 4
-    
     private var isGridView: Bool = true
     private var isBookMark: Bool = false
     

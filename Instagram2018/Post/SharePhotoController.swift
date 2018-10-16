@@ -11,7 +11,7 @@ import Firebase
 import CoreLocation
 
 class SharePhotoController: UIViewController, CLLocationManagerDelegate {
-    
+    //set location manager
     var locationManager = CLLocationManager()
     
     var selectedImage: UIImage? {
@@ -21,10 +21,10 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
     }
     
     let padding: CGFloat = 12
-    
-    var shortAddress = ""
-    
-    var locationArray: Array<Double> = Array(repeating: 0, count: 2)
+    //set globle variable: the address of the user
+    var userAddress = ""
+    //store the user location information as coordinates
+    var coordinates: Array<Double> = Array(repeating: 0, count: 2)
     
     private let imageView: UIImageView = {
         let iv = UIImageView()
@@ -111,14 +111,14 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
         
         navigationItem.rightBarButtonItem?.isEnabled = false
         textView.isUserInteractionEnabled = false
-        
-        Database.database().createPost(withImage: postImage, caption: caption, address: self.shortAddress, location: self.locationArray) { (err) in
+        //create a new post when clicking "share", send image, caption, address and location information
+        Database.database().createPost(withImage: postImage, caption: caption, address: self.userAddress, location: self.coordinates) { (err) in
             if err != nil {
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
                 self.textView.isUserInteractionEnabled = true
                 return
             }
-            
+            //after post, update home page feeds and user profile page feeds
             NotificationCenter.default.post(name: NSNotification.Name.updateHomeFeed, object: nil)
             NotificationCenter.default.post(name: NSNotification.Name.updateUserProfileFeed, object: nil)
             self.dismiss(animated: true, completion: nil)
@@ -126,10 +126,8 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
     }
     
     @objc private func handleAddLocation() {
-        // Ask for Authorisation from the User.
-        //self.locationManager.requestAlwaysAuthorization()
         
-        // For use in foreground
+        // Ask for Authorisation from the User
         self.locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.locationServicesEnabled() {
@@ -141,21 +139,22 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
-        self.locationArray[0] = locValue.latitude
-        self.locationArray[1] = locValue.longitude
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
+        //store coordinates information
+        self.coordinates[0] = locValue.latitude
+        self.coordinates[1] = locValue.longitude
         let userLocation = locations.last
         
         let geocoder = CLGeocoder()
         
-        // Look up the location and pass it to the completion handler
+        //based on the coordinates information, show its address
         geocoder.reverseGeocodeLocation(userLocation!,
                                         completionHandler: { (placemarks, error) in
                                             if error == nil {
                                                 let firstLocation = placemarks?[0]
                                                 let address = firstLocation?.compactAddress
                                                 self.locationLabel.text = address
-                                                self.shortAddress = address ?? ""
+                                                self.userAddress = address ?? ""
                                             }
                                             else {
                                                 // An error occurred during geocoding.
@@ -165,7 +164,7 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
     }
 }
 
-
+//customize the format of address information
 extension CLPlacemark {
     
     var compactAddress: String? {

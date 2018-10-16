@@ -142,7 +142,7 @@ extension Database {
         }
     }
     
-    func fetchRecommendedUsers(currentUser: User?, includeCurrentUser: Bool = true, completion: @escaping ([User]) -> (), withCancel cancel: ((Error) -> ())?) {
+    func fetchSuggestedUsers(currentUser: User?, includeCurrentUser: Bool = true, completion: @escaping ([User]) -> (), withCancel cancel: ((Error) -> ())?) {
         let ref = Database.database().reference().child("users")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             guard let dictionaries = snapshot.value as? [String: Any] else {
