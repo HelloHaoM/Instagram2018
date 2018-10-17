@@ -4,7 +4,7 @@
 //
 //  Created by wry on 2018/10/7.
 //  Copyright © 2018年 jiacheng. All rights reserved.
-//
+//  View Controller for showing list of liked users
 
 import UIKit
 
@@ -53,20 +53,28 @@ class LikeCell: UICollectionViewCell {
     
     private func sharedInit() {
         addSubview(profileImageView)
-        profileImageView.anchor(left: leftAnchor, paddingLeft: 8, width: 50, height: 50)
-        profileImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        profileImageView.anchor(
+            left: leftAnchor, paddingLeft: 8, width: 50, height: 50)
+        profileImageView.centerYAnchor.constraint(
+            equalTo: centerYAnchor).isActive = true
         profileImageView.layer.cornerRadius = 50 / 2
-        profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
+        profileImageView.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(handleTap)))
         
         addSubview(usernameLabel)
-        usernameLabel.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 8)
+        usernameLabel.anchor(
+            top: topAnchor, left: profileImageView.rightAnchor,
+            bottom: bottomAnchor, right: rightAnchor, paddingLeft: 8)
         
         let separatorView = UIView()
         separatorView.backgroundColor = UIColor(white: 0, alpha: 0.2)
         addSubview(separatorView)
-        separatorView.anchor(left: usernameLabel.leftAnchor, bottom: bottomAnchor, right: rightAnchor, height: 0.5)
+        separatorView.anchor(
+            left: usernameLabel.leftAnchor, bottom: bottomAnchor,
+            right: rightAnchor, height: 0.5)
     }
     
+    //set liked user name and profile image
     private func configureLike() {
         guard let likedUser = likedUser else { return }
         

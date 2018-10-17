@@ -4,7 +4,7 @@
 //
 //  Created by wry on 2018/10/5.
 //  Copyright © 2018年 jiacheng. All rights reserved.
-//
+//  View Controller for showing list of comments
 
 import UIKit
 
@@ -55,28 +55,47 @@ class CommentCell: UICollectionViewCell {
     
     private func sharedInit() {
         addSubview(profileImageView)
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, paddingTop: 8, paddingLeft: 8, width: 40, height: 40)
+        profileImageView.anchor(top: topAnchor, left: leftAnchor,
+                                paddingTop: 8, paddingLeft: 8,
+                                width: 40, height: 40)
         profileImageView.layer.cornerRadius = 40 / 2
-        profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
+        //add tap guesture to the user profile image
+        profileImageView.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(handleTap)))
         
         addSubview(textView)
-        textView.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 4, paddingBottom: 04, paddingRight: 4)
+        textView.anchor(
+            top: topAnchor, left: profileImageView.rightAnchor,
+            bottom: bottomAnchor, right: rightAnchor,
+            paddingTop: 4, paddingLeft: 4, paddingBottom: 04, paddingRight: 4)
         
         let separatorView = UIView()
         separatorView.backgroundColor = UIColor(white: 0, alpha: 0.2)
         addSubview(separatorView)
-        separatorView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, height: 0.5)
+        separatorView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor,
+                             right: rightAnchor, height: 0.5)
     }
     
+    //set comment information
     private func configureComment() {
         guard let comment = comment else { return }
-        
-        let attributedText = NSMutableAttributedString(string: comment.user.username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: " " + comment.text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
-        attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
-        
+        //show user name
+        let attributedText = NSMutableAttributedString(
+            string: comment.user.username,
+            attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
+        //add comments
+        attributedText.append(NSAttributedString(
+            string: " " + comment.text,
+            attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+        attributedText.append(NSAttributedString(
+            string: "\n\n",
+            attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
+        //show comment time
         let timeAgoDisplay = comment.creationDate.timeAgoDisplayShort()
-        attributedText.append(NSAttributedString(string: timeAgoDisplay, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
+        attributedText.append(
+            NSAttributedString(
+                string: timeAgoDisplay,
+                attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
         
         textView.attributedText = attributedText
         

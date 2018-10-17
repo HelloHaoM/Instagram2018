@@ -4,7 +4,7 @@
 //
 //  Created by wry on 2018/10/5.
 //  Copyright © 2018年 jiacheng. All rights reserved.
-//
+//  View Controller for showing input of comments
 
 import UIKit
 
@@ -52,17 +52,24 @@ class CommentInputAccessoryView: UIView, UITextViewDelegate {
         autoresizingMask = .flexibleHeight
         
         addSubview(submitButton)
-        submitButton.anchor(top: safeAreaLayoutGuide.topAnchor, right: rightAnchor, paddingRight: 12, width: 50, height: 50)
+        submitButton.anchor(top: safeAreaLayoutGuide.topAnchor, right: rightAnchor,
+                            paddingRight: 12, width: 50, height: 50)
         
         addSubview(commentTextView)
-        commentTextView.anchor(top: safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: submitButton.leftAnchor, paddingTop: 8, paddingLeft: 12, paddingBottom: 8)
+        commentTextView.anchor(
+            top: safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor,
+            bottom: safeAreaLayoutGuide.bottomAnchor, right: submitButton.leftAnchor,
+            paddingTop: 8, paddingLeft: 12, paddingBottom: 8)
         
         let lineSeparatorView = UIView()
         lineSeparatorView.backgroundColor = UIColor.rgb(red: 230, green: 230, blue: 230)
         addSubview(lineSeparatorView)
-        lineSeparatorView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 0.5)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange), name: UITextView.textDidChangeNotification, object: nil)
+        lineSeparatorView.anchor(
+            top: topAnchor, left: leftAnchor, right: rightAnchor, height: 0.5)
+        // change button style when text input is changed
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(handleTextChange),
+            name: UITextView.textDidChangeNotification, object: nil)
     }
     
     func clearCommentTextField() {

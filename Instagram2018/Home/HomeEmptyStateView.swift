@@ -4,7 +4,7 @@
 //
 //  Created by wry on 2018/10/5.
 //  Copyright © 2018年 jiacheng. All rights reserved.
-//
+//  ViewController for showing the welcome page when the posts are empty
 
 import UIKit
 
@@ -15,14 +15,25 @@ class HomeEmptyStateView: UIView {
         label.numberOfLines = 5
         label.textAlignment = .center
         
-        let attributedText = NSMutableAttributedString(string: "Welcome to Instagram\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16)])
-        attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
-        attributedText.append(NSMutableAttributedString(string: "When you follow people, you'll see the photos and videos they share here.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+        let attributedText =
+            NSMutableAttributedString(
+                string: "Welcome to Instagram\n",
+                attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16)])
+        attributedText.append(
+            NSAttributedString(
+                string: "\n\n",
+                attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
+        attributedText.append(
+            NSMutableAttributedString(
+                string: "When you follow people, you'll see the photos and videos they share here.",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
+                             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineBreakMode = .byTruncatingTail
         paragraphStyle.alignment = .center
-        attributedText.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSRange(location: 0, length: attributedText.length))
+        attributedText.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle],
+                                     range: NSRange(location: 0, length: attributedText.length))
         
         label.attributedText = attributedText
         return label
@@ -42,7 +53,10 @@ class HomeEmptyStateView: UIView {
     
     private func sharedInit() {
         addSubview(noPostsLabel)
-        noPostsLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 12, paddingLeft: 12, paddingBottom: 12, paddingRight: 12)
+        noPostsLabel.anchor(
+            top: topAnchor, left: leftAnchor, bottom: bottomAnchor,
+            right: rightAnchor, paddingTop: 12, paddingLeft: 12,
+            paddingBottom: 12, paddingRight: 12)
     }
     
 }

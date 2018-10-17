@@ -4,7 +4,9 @@
 //
 //  Created by wry on 2018/10/5.
 //  Copyright © 2018年 jiacheng. All rights reserved.
-//
+//  ViewController for showing the header part of a post, including
+//  user profile image, user name, and option button ("delete a post" or
+//  "unfollow a user" based on different users)
 
 import UIKit
 
@@ -15,6 +17,7 @@ protocol HomePostCellHeaderDelegate {
 
 class HomePostCellHeader: UIView {
     
+    //set user information
     var user: User? {
         didSet {
             configureUser()
@@ -66,17 +69,25 @@ class HomePostCellHeader: UIView {
     
     private func sharedInit() {
         addSubview(userProfileImageView)
-        userProfileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: padding, paddingLeft: padding, paddingBottom: padding, width: 40, height: 40)
+        userProfileImageView.anchor(
+            top: topAnchor, left: leftAnchor, bottom: bottomAnchor,
+            paddingTop: padding, paddingLeft: padding, paddingBottom: padding,
+            width: 40, height: 40)
         userProfileImageView.layer.cornerRadius = 40 / 2
-        userProfileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleUserTap)))
+        userProfileImageView.addGestureRecognizer(UITapGestureRecognizer(
+            target: self, action: #selector(handleUserTap)))
         
         addSubview(optionsButton)
-        optionsButton.anchor(top: topAnchor, bottom: bottomAnchor, right: rightAnchor, paddingRight: padding, width: 44)
+        optionsButton.anchor(top: topAnchor, bottom: bottomAnchor,
+                             right: rightAnchor, paddingRight: padding, width: 44)
         
         addSubview(usernameButton)
-        usernameButton.anchor(top: topAnchor, left: userProfileImageView.rightAnchor, bottom: bottomAnchor, paddingLeft: 8)
+        usernameButton.anchor(
+            top: topAnchor, left: userProfileImageView.rightAnchor,
+            bottom: bottomAnchor, paddingLeft: 8)
     }
     
+    //set user profile image and user name
     private func configureUser() {
         guard let user = user else { return }
         usernameButton.setTitle(user.username, for: .normal)

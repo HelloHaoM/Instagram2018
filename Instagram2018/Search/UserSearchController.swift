@@ -4,7 +4,10 @@
 //
 //  Created by wry on 2018/10/5.
 //  Copyright © 2018年 jiacheng. All rights reserved.
-//
+//  Main controller of user search page,
+//  controls the page switching ("All" and "Suggested"), fetch user information,
+//  setup navigation item, UserSearchHeader and UserSearchCell, and override
+//  corresponding collectionView methods
 
 import UIKit
 import Firebase
@@ -19,11 +22,13 @@ class UserSearchController: UICollectionViewController {
     /// the search bar
     private let searchBar: UISearchBar = {
         let sb = UISearchBar()
-        sb.placeholder = "Enter username"
+        sb.placeholder = "Search"
         sb.autocorrectionType = .no
         sb.autocapitalizationType = .none
         sb.barTintColor = .gray
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        UITextField.appearance(whenContainedInInstancesOf:
+            [UISearchBar.self]).backgroundColor = UIColor.rgb(
+                red: 240, green: 240, blue: 240)
         return sb
     }()
     
@@ -39,18 +44,24 @@ class UserSearchController: UICollectionViewController {
         super.viewDidLoad()
         
         navigationItem.titleView = searchBar
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(
+            title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = .black
         
         collectionView?.backgroundColor = .white
         collectionView?.alwaysBounceVertical = true
         collectionView?.keyboardDismissMode = .onDrag
-        collectionView?.register(UserSearchHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: UserSearchHeader.headerId)
-        collectionView?.register(UserSearchCell.self, forCellWithReuseIdentifier: UserSearchCell.cellId)
+        collectionView?.register(
+            UserSearchHeader.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: UserSearchHeader.headerId)
+        collectionView?.register(
+            UserSearchCell.self, forCellWithReuseIdentifier: UserSearchCell.cellId)
         
         
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(handleRefresh),
+                                 for: .valueChanged)
         collectionView?.refreshControl = refreshControl
         
         searchBar.delegate = self
@@ -79,11 +90,12 @@ class UserSearchController: UICollectionViewController {
         navigationItem.titleView?.height(44)
     }
     
-    /// get all users from the database
+    /// get all users from the database (not include current user)
     private func fetchAllUsers() {
         collectionView?.refreshControl?.beginRefreshing()
         
-        Database.database().fetchAllUsers(includeCurrentUser: false, completion: { (users) in
+        Database.database().fetchAllUsers(includeCurrentUser: false,
+                                          completion: { (users) in
             self.users = users
             self.filteredUsers = users
             self.searchBar.text = ""
@@ -98,9 +110,9 @@ class UserSearchController: UICollectionViewController {
     private func fetchSuggestedUsers() {
         collectionView?.refreshControl?.beginRefreshing()
         
-        Database.database().fetchSuggestedUsers(currentUser: user, includeCurrentUser: false, completion: { (users) in
+        Database.database().fetchSuggestedUsers(
+            currentUser: user, includeCurrentUser: false, completion: { (users) in
             self.suggestedUsers = users
-            //self.filteredUsers = users
             self.searchBar.text = ""
             self.collectionView?.reloadData()
             self.collectionView?.refreshControl?.endRefreshing()
@@ -119,11 +131,14 @@ class UserSearchController: UICollectionViewController {
     /// - Parameters:
     ///   - collectionView: the collection view
     ///   - indexPath: the index of items
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    override func collectionView(_ collectionView: UICollectionView,
+                                 didSelectItemAt indexPath: IndexPath) {
         searchBar.resignFirstResponder()
-        let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
+        let userProfileController = UserProfileController(
+            collectionViewLayout: UICollectionViewFlowLayout())
         userProfileController.user = filteredUsers[indexPath.item]
-        navigationController?.pushViewController(userProfileController, animated: true)
+        navigationController?.pushViewController(userProfileController,
+                                                 animated: true)
     }
     
     /// override the collectionview function when the view is loaded
@@ -132,7 +147,8 @@ class UserSearchController: UICollectionViewController {
     ///   - collectionView: the collection view
     ///   - section: the index of the items
     /// - Returns: the count of filteruser number
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView,
+                                 numberOfItemsInSection section: Int) -> Int {
         // Apply serach filter when reload to isSuggested page or ordinary page
         if isSuggestedPage && self.searchBar.text == "" {
             filteredUsers = suggestedUsers
@@ -140,11 +156,13 @@ class UserSearchController: UICollectionViewController {
             filteredUsers = users
         } else if isSuggestedPage && self.searchBar.text != ""{
             filteredUsers = suggestedUsers.filter { (user) -> Bool in
-                return user.username.lowercased().contains(self.searchBar.text!.lowercased())
+                return user.username.lowercased().contains(
+                    self.searchBar.text!.lowercased())
             }
         } else if !isSuggestedPage && self.searchBar.text != ""{
             filteredUsers = users.filter { (user) -> Bool in
-                return user.username.lowercased().contains(self.searchBar.text!.lowercased())
+                return user.username.lowercased().contains(
+                    self.searchBar.text!.lowercased())
             }
         }
         return filteredUsers.count
@@ -156,15 +174,26 @@ class UserSearchController: UICollectionViewController {
     ///   - collectionView: the collection view
     ///   - indexPath: the index of the items
     /// - Returns: each user cell
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserSearchCell.cellId, for: indexPath) as! UserSearchCell
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: UserSearchCell.cellId,
+            for: indexPath) as! UserSearchCell
         cell.user = filteredUsers[indexPath.item]
         return cell
     }
     
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    //override viewForSupplementaryElementOfKind method
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath) -> UICollectionReusableView {
         if header == nil {
-            header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: UserSearchHeader.headerId, for: indexPath) as? UserSearchHeader
+            header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: UserSearchHeader.headerId,
+                for: indexPath) as? UserSearchHeader
             header?.delegate = self
         }
         return header!
@@ -175,11 +204,19 @@ class UserSearchController: UICollectionViewController {
 
 extension UserSearchController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    //set minimumInteritemSpacingForSectionAt layout
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    //set minimumLineSpacingForSectionAt layout
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
     
@@ -190,11 +227,17 @@ extension UserSearchController: UICollectionViewDelegateFlowLayout {
     ///   - collectionViewLayout: the layout of the collection view
     ///   - indexPath: the index of the itmes
     /// - Returns: the CGSize
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 66)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    //set referenceSizeForHeaderInSection layout
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 30)
     }
 }
@@ -229,7 +272,7 @@ extension UserSearchController: UISearchBarDelegate {
     }
 }
 
-//MARK: - UserProfileHeaderDelegate
+//MARK: - UserSearchHeaderDelegate
 
 extension UserSearchController: UserSearchHeaderDelegate {
     

@@ -4,7 +4,8 @@
 //
 //  Created by wry on 2018/10/16.
 //  Copyright © 2018年 jiacheng. All rights reserved.
-//
+//  ViewController for the header part of search page, including
+//  "All" and "Suggested" button and its mothod to handle page switching
 
 import UIKit
 import Firebase
@@ -25,7 +26,8 @@ class UserSearchHeader: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.setTitle("All", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action: #selector(handleChangeToOrdinary), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleChangeToAll),
+                         for: .touchUpInside)
         return button
     }()
     
@@ -34,7 +36,8 @@ class UserSearchHeader: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.setTitle("Suggested", for: .normal)
         button.setTitleColor(.gray, for: .normal)
-        button.addTarget(self, action: #selector(handleChangeToSuggested), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleChangeToSuggested),
+                         for: .touchUpInside)
         return button
     }()
     
@@ -55,24 +58,18 @@ class UserSearchHeader: UICollectionViewCell {
     
     /// init the user profile header
     private func sharedInit() {
-
-        let topDividerView = UIView()
-        topDividerView.backgroundColor = UIColor(white: 0, alpha: 0.2)
-   
-        addSubview(topDividerView)
- 
-        let stackView = UIStackView(arrangedSubviews: [allUserButton, suggestedUserButton])
+        
+        let stackView = UIStackView(arrangedSubviews: [allUserButton,
+                                                       suggestedUserButton])
         stackView.distribution = .fillEqually
-        
         addSubview(stackView)
-        
-        topDividerView.anchor(top: stackView.topAnchor, left: leftAnchor, right: rightAnchor, height: 0.5)
-        stackView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 30)
+        stackView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor,
+                         height: 30)
 
     }
     
     
-    @objc private func handleChangeToOrdinary() {
+    @objc private func handleChangeToAll() {
         allUserButton.setTitleColor(.black, for: .normal)
         suggestedUserButton.setTitleColor(.gray, for: .normal)
 

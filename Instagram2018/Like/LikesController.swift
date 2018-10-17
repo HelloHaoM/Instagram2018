@@ -4,13 +4,14 @@
 //
 //  Created by wry on 2018/10/7.
 //  Copyright © 2018年 jiacheng. All rights reserved.
-//
+//  Main ViewController for "Likes" page
 
 import UIKit
 import Firebase
 
 class LikesController: UICollectionViewController {
     
+    //set "likes" information of the post
     var post: Post? {
         didSet {
             fetchLikes()
@@ -24,16 +25,19 @@ class LikesController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Likes"
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(
+            title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = .black
         
         collectionView?.backgroundColor = .white
         collectionView?.alwaysBounceVertical = true
         collectionView?.keyboardDismissMode = .interactive
-        collectionView?.register(LikeCell.self, forCellWithReuseIdentifier: LikeCell.cellId)
+        collectionView?.register(LikeCell.self,
+                                 forCellWithReuseIdentifier: LikeCell.cellId)
         
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(fetchLikes), for: .valueChanged)
+        refreshControl.addTarget(
+            self, action: #selector(fetchLikes), for: .valueChanged)
         collectionView?.refreshControl = refreshControl
     }
     
@@ -49,7 +53,8 @@ class LikesController: UICollectionViewController {
         guard let postId = post?.id else { return }
         collectionView?.refreshControl?.beginRefreshing()
         //get the likes information for the specific post
-        Database.database().userOfLikesForPost(withId: postId, completion: { (users) in
+        Database.database().userOfLikesForPost(withId: postId,
+                                               completion: { (users) in
             self.likedUsers = users
             self.collectionView?.reloadData()
             self.collectionView?.refreshControl?.endRefreshing()
@@ -58,12 +63,19 @@ class LikesController: UICollectionViewController {
         }
     }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    //override numberOfItemsInSection method
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int) -> Int {
         return likedUsers.count
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCell.cellId, for: indexPath) as! LikeCell
+    //override cellForItemAt method
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: LikeCell.cellId, for: indexPath) as! LikeCell
         cell.likedUser = likedUsers[indexPath.item]
         cell.delegate = self
         return cell
@@ -74,12 +86,21 @@ class LikesController: UICollectionViewController {
 
 extension LikesController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    //set minimumLineSpacingForSectionAt layout
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let dummyCell = LikeCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
+    //set sizeForItemAt layout
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let dummyCell = LikeCell(frame: CGRect(
+            x: 0, y: 0, width: view.frame.width, height: 50))
         dummyCell.likedUser = likedUsers[indexPath.item]
         dummyCell.layoutIfNeeded()
         
@@ -96,9 +117,11 @@ extension LikesController: UICollectionViewDelegateFlowLayout {
 
 extension LikesController: LikeCellDelegate {
     func didTapUser(user: User) {
-        let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
+        let userProfileController = UserProfileController(
+            collectionViewLayout: UICollectionViewFlowLayout())
         userProfileController.user = user
-        navigationController?.pushViewController(userProfileController, animated: true)
+        navigationController?.pushViewController(
+            userProfileController, animated: true)
     }
 }
 

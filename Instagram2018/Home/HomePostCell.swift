@@ -4,11 +4,13 @@
 //
 //  Created by wry on 2018/10/5.
 //  Copyright © 2018年 jiacheng. All rights reserved.
-//
+//  ViewController for showing each post, also inculding "like" function,
+//  "comment" function
 
 import UIKit
 import MultipeerConnectivity
 
+//set delegate methods of HomePostCell controller
 protocol HomePostCellDelegate {
     func didBrowse()
     func didSend(image: UIImage)
@@ -23,12 +25,14 @@ class HomePostCell: UICollectionViewCell {
     
     var delegate: HomePostCellDelegate?
     
+    //set information of one post
     var post: Post? {
         didSet {
             configurePost()
         }
     }
     
+    //set the header of one post
     let header = HomePostCellHeader()
     
     let captionLabel: UILabel = {
@@ -68,13 +72,6 @@ class HomePostCell: UICollectionViewCell {
         return button
     }()
     
-    private lazy var browserButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "people_near").withRenderingMode(.alwaysOriginal), for: .normal)
-        button.addTarget(self, action: #selector(handleBrowse), for: .touchUpInside)
-        return button
-    }()
-    
     private let bookmarkButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "ribbon").withRenderingMode(.alwaysOriginal), for: .normal)
@@ -107,36 +104,49 @@ class HomePostCell: UICollectionViewCell {
         header.delegate = self
         
         addSubview(photoImageView)
-        photoImageView.anchor(top: header.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor)
-        photoImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
+        photoImageView.anchor(top: header.bottomAnchor, left: leftAnchor,
+                              bottom: nil, right: rightAnchor)
+        //add constraint for the post image
+        photoImageView.heightAnchor.constraint(equalTo: widthAnchor,
+                                               multiplier: 1).isActive = true
         
         setupActionButtons()
         
         addSubview(likeCounter)
-        likeCounter.anchor(top: likeButton.bottomAnchor, left: leftAnchor, paddingTop: padding, paddingLeft: padding)
-        likeCounter.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleLikeTap)))
+        likeCounter.anchor(top: likeButton.bottomAnchor, left: leftAnchor,
+                           paddingTop: padding, paddingLeft: padding)
+        likeCounter.addGestureRecognizer(UITapGestureRecognizer(
+            target: self, action: #selector(handleLikeTap)))
         
         addSubview(captionLabel)
-        captionLabel.anchor(top: likeCounter.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: padding - 6, paddingLeft: padding, paddingRight: padding)
+        captionLabel.anchor(
+            top: likeCounter.bottomAnchor, left: leftAnchor, right: rightAnchor,
+            paddingTop: padding - 6, paddingLeft: padding, paddingRight: padding)
     }
     
     private func setupActionButtons() {
-        let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton, sendMessageButton])
+        let stackView = UIStackView(
+            arrangedSubviews: [likeButton, commentButton, sendMessageButton])
         stackView.distribution = .fillEqually
         stackView.alignment = .top
         stackView.spacing = 16
         addSubview(stackView)
-        stackView.anchor(top: photoImageView.bottomAnchor, left: leftAnchor, paddingTop: padding, paddingLeft: padding)
+        stackView.anchor(top: photoImageView.bottomAnchor, left: leftAnchor,
+                         paddingTop: padding, paddingLeft: padding)
         
         addSubview(bookmarkButton)
-        bookmarkButton.anchor(top: photoImageView.bottomAnchor, right: rightAnchor, paddingTop: padding, paddingRight: padding)
+        bookmarkButton.anchor(
+            top: photoImageView.bottomAnchor, right: rightAnchor,
+            paddingTop: padding, paddingRight: padding)
     }
     // get post related information (author, image, likes, and caption)
     private func configurePost() {
         guard let post = post else { return }
         header.user = post.user
         photoImageView.loadImage(urlString: post.imageUrl)
-        likeButton.setImage(post.likedByCurrentUser == true ? #imageLiteral(resourceName: "like_selected").withRenderingMode(.alwaysOriginal) : #imageLiteral(resourceName: "like_unselected").withRenderingMode(.alwaysOriginal), for: .normal)
+        likeButton.setImage(post.likedByCurrentUser == true ?
+            #imageLiteral(resourceName: "like_selected").withRenderingMode(.alwaysOriginal) :
+            #imageLiteral(resourceName: "like_unselected").withRenderingMode(.alwaysOriginal), for: .normal)
         setLikes(to: post.likes)
         setupAttributedCaption()
     }
@@ -144,18 +154,39 @@ class HomePostCell: UICollectionViewCell {
     private func setupAttributedCaption() {
         guard let post = self.post else { return }
         
-        let attributedText = NSMutableAttributedString(string: post.user.username, attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: " \(post.caption)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
-        attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
+        //show user name of the post
+        let attributedText =
+            NSMutableAttributedString(
+                string: post.user.username,
+                attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)])
+        //add caption of the post
+        attributedText.append(
+            NSAttributedString(
+                string: " \(post.caption)",
+                attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+        attributedText.append(
+            NSAttributedString(
+                string: "\n\n",
+                attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
         //show address information of the post
-        attributedText.append(NSAttributedString(string: "\(post.address)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
-        attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
+        attributedText.append(
+            NSAttributedString(
+                string: "\(post.address)",
+                attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
+        attributedText.append(
+            NSAttributedString(
+                string: "\n\n",
+                attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
         //show time information of the post
         let timeAgoDisplay = post.creationDate.timeAgoDisplay()
-        attributedText.append(NSAttributedString(string: timeAgoDisplay, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
+        attributedText.append(
+            NSAttributedString(
+                string: timeAgoDisplay,
+                attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
         captionLabel.attributedText = attributedText
     }
     
+    //function set the text of "like" label
     private func setLikes(to value: Int) {
         if value <= 0 {
             likeCounter.text = ""
@@ -174,7 +205,7 @@ class HomePostCell: UICollectionViewCell {
         guard let post = post else { return }
         delegate?.didTapLike(post: post)
     }
-    
+    //function when clicking "comment" button
     @objc private func handleComment() {
         guard let post = post else { return }
         delegate?.didTapComment(post: post)

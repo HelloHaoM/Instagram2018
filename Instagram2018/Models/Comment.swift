@@ -4,7 +4,8 @@
 //
 //  Created by wry on 2018/10/5.
 //  Copyright © 2018年 jiacheng. All rights reserved.
-//
+//  Comment Model, including
+//  user who made the comment, comment text, create date of the comment
 
 import Foundation
 
