@@ -10,6 +10,7 @@ import UIKit
 
 class UserProfileEmptyStateCell: UICollectionViewCell {
     
+    /// the label to show
     private let noPostsLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)

@@ -12,6 +12,7 @@ import DLRadioButton
 
 class SignUpController: UIViewController, UINavigationControllerDelegate {
     
+    /// add profile image button
     private let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "plus_photo").withRenderingMode(.alwaysOriginal), for: .normal)
@@ -21,6 +22,7 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         return button
     }()
     
+    /// email text field
     private lazy var emailTextField: UITextField = {
         let tf = UITextField()
         tf.autocorrectionType = .no
@@ -35,6 +37,7 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         return tf
     }()
     
+    /// user name text field
     private lazy var usernameTextField: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Username"
@@ -48,6 +51,7 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         return tf
     }()
     
+    /// password text field
     private lazy var passwordTextField: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Password"
@@ -60,6 +64,7 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         return tf
     }()
     
+    /// male radio button
     private lazy var maleRadioButton: DLRadioButton = {
         let maleButton = DLRadioButton()
         maleButton.titleLabel!.font = UIFont.systemFont(ofSize: 14)
@@ -70,6 +75,7 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         return maleButton
     }()
     
+    /// female radio button
     private lazy var femaleRadioButton: DLRadioButton = {
         let femaleButton = DLRadioButton()
         femaleButton.titleLabel!.font = UIFont.systemFont(ofSize: 14)
@@ -80,6 +86,7 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         return femaleButton
     }()
     
+    /// sign up button
     private let signUpButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
@@ -92,6 +99,7 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         return button
     }()
     
+    /// go to login button
     private let alreadyHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
         let attributedTitle = NSMutableAttributedString(string: "Already have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
@@ -124,6 +132,7 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         
     }
     
+    /// set up the view of the input text field
     private func setupInputFields() {
         let label = UILabel()
         label.text = "Sex: "
@@ -143,7 +152,7 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         stackView.anchor(top: plusPhotoButton.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, right: view.safeAreaLayoutGuide.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingRight: 40, height: 200)
     }
     
-    
+    /// reset the input text field
     private func resetInputFields() {
         emailTextField.text = ""
         usernameTextField.text = ""
@@ -157,7 +166,9 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         signUpButton.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
     }
     
+    /// identify sign up is vaild
     private func isVaildSignUp(){
+        // each field should be not empty
         let isFormValid = emailTextField.text?.isEmpty == false && usernameTextField.text?.isEmpty == false && passwordTextField.text?.isEmpty == false && (maleRadioButton.isSelected || femaleRadioButton.isSelected)
         if isFormValid {
             signUpButton.isEnabled = true
@@ -218,6 +229,7 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         signUpButton.isEnabled = false
         signUpButton.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
         
+        // use Auth to create a user in the Firebase
         Auth.auth().createUser(withEmail: email, username: username, password: password, image: profileImage, sex: sex) { (err) in
             if err != nil {
                 self.resetInputFields()
@@ -235,10 +247,12 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
 //MARK: UIImagePickerControllerDelegate
 
 extension SignUpController: UIImagePickerControllerDelegate {
+    /// the imgae picker
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         
+        // set the imgae to the button
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
             plusPhotoButton.setImage(editedImage.withRenderingMode(.alwaysOriginal), for: .normal)
             profileImage = editedImage

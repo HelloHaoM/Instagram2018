@@ -11,14 +11,17 @@ import Firebase
 
 class UserProfileController: HomePostCellViewController {
     
+    /// the current user
     var user: User? {
         didSet {
             configureUser()
         }
     }
     
+    /// the profile header
     private var header: UserProfileHeader?
     
+    /// the pop up window
     private let alertController: UIAlertController = {
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         return ac
@@ -165,6 +168,13 @@ class UserProfileController: HomePostCellViewController {
         return cell
     }
     
+    /// override the collectionview function when the view is loaded to load the header
+    ///
+    /// - Parameters:
+    ///   - collectionView: the collection view
+    ///   - kind: the kind
+    ///   - indexPath: the index of the items
+    /// - Returns: the header
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if header == nil {
             header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: UserProfileHeader.headerId, for: indexPath) as? UserProfileHeader
@@ -225,6 +235,13 @@ extension UserProfileController: UICollectionViewDelegateFlowLayout {
         }
     }
     
+    /// override the collection view function to reszie
+    ///
+    /// - Parameters:
+    ///   - collectionView: the collection view
+    ///   - collectionViewLayout: the layout of the collection view
+    ///   - section: the section
+    /// - Returns: the CGSize
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 200)
     }

@@ -11,6 +11,7 @@ import Firebase
 
 class LoginController: UIViewController {
     
+    /// the instagram view container
     private let logoContainerView: UIView = {
         let container = UIView()
         container.backgroundColor = UIColor.rgb(red: 0, green: 120, blue: 175)
@@ -23,6 +24,7 @@ class LoginController: UIViewController {
         return container
     }()
     
+    /// email edit text field
     private lazy var emailTextField: UITextField = {
         let tf = UITextField()
         tf.autocorrectionType = .no
@@ -37,6 +39,7 @@ class LoginController: UIViewController {
         return tf
     }()
     
+    /// password edit text field
     private lazy var passwordTextField: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Password"
@@ -49,6 +52,7 @@ class LoginController: UIViewController {
         return tf
     }()
     
+    /// login button
     private let loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Login", for: .normal)
@@ -61,6 +65,7 @@ class LoginController: UIViewController {
         return button
     }()
     
+    /// the sign up text on the bottom
     private let dontHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
         let attributedTitle = NSMutableAttributedString(string: "Don't have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
@@ -88,6 +93,7 @@ class LoginController: UIViewController {
         setupInputFields()
     }
     
+    /// set up the view of the input text field
     private func setupInputFields() {
         let stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton])
         stackView.axis = .vertical
@@ -97,6 +103,7 @@ class LoginController: UIViewController {
         stackView.anchor(top: logoContainerView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 40, paddingRight: 40, height: 140)
     }
     
+    /// reset all input text field
     private func resetInputFields() {
         emailTextField.text = ""
         passwordTextField.text = ""
@@ -116,6 +123,7 @@ class LoginController: UIViewController {
         loginButton.isEnabled = false
         loginButton.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
         
+        // sign in used Auth
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, err) in
             if let err = err {
                 print("Failed to sign in with email:", err)

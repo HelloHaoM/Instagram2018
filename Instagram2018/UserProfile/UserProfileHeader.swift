@@ -23,12 +23,14 @@ class UserProfileHeader: UICollectionViewCell {
     
     var delegate: UserProfileHeaderDelegate?
     
+    /// the current user
     var user: User? {
         didSet {
             reloadData()
         }
     }
     
+    /// the profile image view
     private let profileImageView: CustomImageView = {
         let iv = CustomImageView()
         iv.clipsToBounds = true
@@ -39,10 +41,12 @@ class UserProfileHeader: UICollectionViewCell {
         return iv
     }()
     
+    /// the label
     private let postsLabel = UserProfileStatsLabel(value: 0, title: "posts")
     private let followersLabel = UserProfileStatsLabel(value: 0, title: "followers")
     private let followingLabel = UserProfileStatsLabel(value: 0, title: "following")
     
+    /// the follow button
     private lazy var followButton: UserProfileFollowButton = {
         let button = UserProfileFollowButton(type: .system)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
@@ -50,6 +54,7 @@ class UserProfileHeader: UICollectionViewCell {
         return button
     }()
     
+    /// the grid button
     private lazy var gridButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "grid"), for: .normal)
@@ -57,6 +62,7 @@ class UserProfileHeader: UICollectionViewCell {
         return button
     }()
     
+    /// the list button
     private lazy var listButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "list"), for: .normal)
@@ -65,6 +71,7 @@ class UserProfileHeader: UICollectionViewCell {
         return button
     }()
     
+    /// the bookmark button
     private lazy var bookmarkButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "ribbon"), for: .normal)
@@ -73,6 +80,7 @@ class UserProfileHeader: UICollectionViewCell {
         return button
     }()
     
+    /// the label of the user name
     private let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)
@@ -269,17 +277,22 @@ private class UserProfileStatsLabel: UILabel {
         sharedInit()
     }
     
+    /// init the state
     private func sharedInit() {
         numberOfLines = 0
         textAlignment = .center
         setAttributedText()
     }
     
+    /// set the state
+    ///
+    /// - Parameter value: the state
     func setValue(_ value: Int) {
         self.value = value
         setAttributedText()
     }
     
+    /// set the attributedtext
     private func setAttributedText() {
         let attributedText = NSMutableAttributedString(string: "\(value)\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
         attributedText.append(NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
@@ -313,6 +326,7 @@ private class UserProfileFollowButton: UIButton {
         sharedInit()
     }
     
+    /// init the following button
     private func sharedInit() {
         titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
@@ -321,6 +335,7 @@ private class UserProfileFollowButton: UIButton {
         configureButton()
     }
     
+    /// change the state of the following button
     private func configureButton() {
         switch type {
         case .loading:

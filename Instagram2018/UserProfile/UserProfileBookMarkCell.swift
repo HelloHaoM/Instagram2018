@@ -10,6 +10,7 @@ import UIKit
 
 class UserProfileBookMarkCell: UICollectionViewCell {
     
+    /// the image view to show
     private let bookMarkImageView: CustomImageView = {
         let iv = CustomImageView()
         iv.clipsToBounds = true
@@ -20,6 +21,7 @@ class UserProfileBookMarkCell: UICollectionViewCell {
         return iv
     }()
     
+    /// the label to show
     private let noBookMarksLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)

@@ -10,24 +10,28 @@ import UIKit
 
 class InRangeCell: UICollectionViewCell {
     
+    /// the username
     var username: String? {
         didSet {
             usernameLabel.text = username
         }
     }
     
+    /// the image
     var sentImage: UIImage? {
         didSet {
             sentImageView.image = sentImage
         }
     }
     
+    /// the lael of the username
     private let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)
         return label
     }()
     
+    /// the image view
     private let sentImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill

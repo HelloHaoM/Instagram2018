@@ -10,6 +10,7 @@ import UIKit
 
 class UserProfilePhotoGridCell: UICollectionViewCell {
     
+    /// the post information
     var post: Post? {
         didSet {
             guard let imageUrl = post?.imageUrl else { return }
@@ -17,6 +18,7 @@ class UserProfilePhotoGridCell: UICollectionViewCell {
         }
     }
     
+    /// the post image view
     private let photoImageView: CustomImageView = {
         let iv = CustomImageView()
         iv.contentMode = .scaleAspectFill
