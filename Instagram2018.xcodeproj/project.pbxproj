@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		181FFA0121704FF600243118 /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181FFA0021704FF600243118 /* PostController.swift */; };
-		29D445832174601900EFCFAE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29D445822174601900EFCFAE /* GoogleService-Info.plist */; };
 		5427198F2169EDA4005E61E6 /* LikesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5427198E2169EDA4005E61E6 /* LikesController.swift */; };
 		542719912169F0EA005E61E6 /* LikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542719902169F0EA005E61E6 /* LikeCell.swift */; };
 		5454367C216745A70052D393 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5454367B216745A70052D393 /* CameraController.swift */; };
@@ -47,6 +46,7 @@
 		54EF1383216729D900270808 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EF1382216729D900270808 /* MainTabBarController.swift */; };
 		54EF1388216729D900270808 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54EF1387216729D900270808 /* Assets.xcassets */; };
 		54EF138B216729D900270808 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54EF1389216729D900270808 /* LaunchScreen.storyboard */; };
+		54F1560C217704F100284234 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54F1560B217704F100284234 /* GoogleService-Info.plist */; };
 		54FEDD34216C9C5700C3F243 /* ActivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEDD33216C9C5700C3F243 /* ActivityController.swift */; };
 		54FEDD36216C9C6400C3F243 /* EmptyActivityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEDD35216C9C6400C3F243 /* EmptyActivityCell.swift */; };
 		54FEDD38216C9C7300C3F243 /* FirebaseUserActivityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEDD37216C9C7300C3F243 /* FirebaseUserActivityExtensions.swift */; };
@@ -63,7 +63,6 @@
 
 /* Begin PBXFileReference section */
 		181FFA0021704FF600243118 /* PostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
-		29D445822174601900EFCFAE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5427198E2169EDA4005E61E6 /* LikesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesController.swift; sourceTree = "<group>"; };
 		542719902169F0EA005E61E6 /* LikeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCell.swift; sourceTree = "<group>"; };
 		5454367B216745A70052D393 /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
@@ -104,6 +103,7 @@
 		54EF1387216729D900270808 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54EF138A216729D900270808 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		54EF138C216729D900270808 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		54F1560B217704F100284234 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		54FEDD33216C9C5700C3F243 /* ActivityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityController.swift; sourceTree = "<group>"; };
 		54FEDD35216C9C6400C3F243 /* EmptyActivityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyActivityCell.swift; sourceTree = "<group>"; };
 		54FEDD37216C9C7300C3F243 /* FirebaseUserActivityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserActivityExtensions.swift; sourceTree = "<group>"; };
@@ -244,7 +244,7 @@
 		545436C421676FCC0052D393 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				29D445822174601900EFCFAE /* GoogleService-Info.plist */,
+				54F1560B217704F100284234 /* GoogleService-Info.plist */,
 				54EF138C216729D900270808 /* Info.plist */,
 			);
 			path = "Supporting Files";
@@ -392,7 +392,7 @@
 			files = (
 				54EF138B216729D900270808 /* LaunchScreen.storyboard in Resources */,
 				54EF1388216729D900270808 /* Assets.xcassets in Resources */,
-				29D445832174601900EFCFAE /* GoogleService-Info.plist in Resources */,
+				54F1560C217704F100284234 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,7 +652,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2019";
+				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2018";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -672,7 +672,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2019";
+				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2018";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

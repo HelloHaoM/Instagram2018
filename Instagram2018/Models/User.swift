@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct User {
+struct User: Equatable {
     
     let uid: String
     let username: String
@@ -20,5 +20,9 @@ struct User {
         self.username = dictionary["username"] as? String ?? ""
         self.profileImageUrl = dictionary["profileImageUrl"] as? String ?? nil
         self.sex = dictionary["sex"] as? String ?? "male"
+    }
+    
+    static func == (user1: User, user2: User) -> Bool {
+        return user1.username == user2.username
     }
 }

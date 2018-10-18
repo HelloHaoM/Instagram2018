@@ -9,7 +9,7 @@
 //  For Authentication: createUser, uploadUser
 //  For Storage: uploadUserProfileImage, uploadPostImage
 //  For Database:
-//      User Table: fetchUser, fetchAllUsers, fetchSuggestedUsers,
+//      User Table: fetchUser, fetchAllUsers, fetchSuggestedUsers,fetchSameSexUsers
 //      Following & Followers: isFollowingUser, followUser, unfollowUser
 //      Post Table: createPost, fetchPost, fetchAllPosts, deletePost
 //      Comment Table: addCommentToPost, fetchCommentsForPost
@@ -26,25 +26,25 @@ extension Auth {
                     completion: @escaping (Error?) -> ()) {
         Auth.auth().createUser(withEmail: email, password: password,
                                completion: { (user, err) in
-            if let err = err {
-                print("Failed to create user:", err)
-                completion(err)
-                return
-            }
-            guard let uid = user?.user.uid else { return }
-            if let image = image {
-                Storage.storage().uploadUserProfileImage(
-                    image: image, completion: { (profileImageUrl) in
-                    self.uploadUser(withUID: uid, username: username,
-                                    profileImageUrl: profileImageUrl, sex: sex) {
-                        completion(nil)
-                    }
-                })
-            } else {
-                self.uploadUser(withUID: uid, username: username, sex: sex) {
-                    completion(nil)
-                }
-            }
+                                if let err = err {
+                                    print("Failed to create user:", err)
+                                    completion(err)
+                                    return
+                                }
+                                guard let uid = user?.user.uid else { return }
+                                if let image = image {
+                                    Storage.storage().uploadUserProfileImage(
+                                        image: image, completion: { (profileImageUrl) in
+                                            self.uploadUser(withUID: uid, username: username,
+                                                            profileImageUrl: profileImageUrl, sex: sex) {
+                                                                completion(nil)
+                                            }
+                                    })
+                                } else {
+                                    self.uploadUser(withUID: uid, username: username, sex: sex) {
+                                        completion(nil)
+                                    }
+                                }
         })
     }
     
@@ -61,12 +61,12 @@ extension Auth {
         let values = [uid: dictionaryValues]
         Database.database().reference().child("users")
             .updateChildValues(values, withCompletionBlock: { (err, ref) in
-            if let err = err {
-                print("Failed to upload user to database:", err)
-                return
-            }
-            completion()
-        })
+                if let err = err {
+                    print("Failed to upload user to database:", err)
+                    return
+                }
+                completion()
+            })
     }
 }
 
@@ -128,11 +128,11 @@ extension Database {
         Database.database().reference()
             .child("users").child(uid).observeSingleEvent(of: .value, with: {
                 (snapshot) in
-            guard let userDictionary = snapshot.value as? [String: Any] else { return }
-            let user = User(uid: uid, dictionary: userDictionary)
-            completion(user)
-        }) { (err) in
-            print("Failed to fetch user from database:", err)
+                guard let userDictionary = snapshot.value as? [String: Any] else { return }
+                let user = User(uid: uid, dictionary: userDictionary)
+                completion(user)
+            }) { (err) in
+                print("Failed to fetch user from database:", err)
         }
     }
     
@@ -169,7 +169,57 @@ extension Database {
         }
     }
     
+    //given current user ID, return users who are followed by the users
+    //that current user is following, not include users who are already followed
+    //by the current user
     func fetchSuggestedUsers(
+        withUID uid: String,
+        completion: @escaping ([User]) -> (), withCancel cancel: ((Error) -> ())?) {
+        
+        let ref = Database.database().reference().child("following").child(uid)
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let dictionaries = snapshot.value as? [String: Any] else {
+                completion([])
+                return
+            }
+            
+            var followingUserfollowingUsers = [User]()
+            
+            dictionaries.forEach({ (key, value) in
+                
+                Database.database().fetchFollowingUsers(
+                    withId: key, completion: { (followingUsers) in
+                        
+                        followingUserfollowingUsers += followingUsers
+                        var uniqueFollowingUserfollowingUsers = [User]()
+                        
+                        for followingUserfollowingUser in followingUserfollowingUsers {
+                            //remove duplicated following users, remove current user self
+                            //also remove users who have been followed by the current user
+                            if !uniqueFollowingUserfollowingUsers.contains(followingUserfollowingUser),
+                                followingUserfollowingUser.uid != uid,
+                                followingUserfollowingUser.uid != key{
+                                uniqueFollowingUserfollowingUsers.append(followingUserfollowingUser)
+                            }
+                        }
+                        
+                        uniqueFollowingUserfollowingUsers.sort(by: { (user1, user2) -> Bool in
+                            return user1.username.compare(user2.username) == .orderedAscending
+                        })
+                        completion(uniqueFollowingUserfollowingUsers)
+                })
+                
+            })
+            
+        }) { (err) in
+            print("Failed to fetch suggested users from database:", (err))
+            cancel?(err)
+        }
+        
+    }
+    
+    //given current user, return users who have the same sex as the current user
+    func fetchSameSexUsers(
         currentUser: User?, includeCurrentUser: Bool = true,
         completion: @escaping ([User]) -> (), withCancel cancel: ((Error) -> ())?) {
         let ref = Database.database().reference().child("users")
@@ -189,19 +239,27 @@ extension Database {
                 guard let userDictionary = value as? [String: Any] else { return }
                 let user = User(uid: key, dictionary: userDictionary)
                 guard let currentUser = currentUser else { return }
-                if(user.sex == currentUser.sex){
-                    users.append(user)
-                }
-                
-            })
             
-            users.sort(by: { (user1, user2) -> Bool in
-                return user1.username.compare(user2.username) == .orderedAscending
+                Database.database().fetchFollowingUsers(
+                    withId: currentUser.uid, completion: { (followingUsers) in
+                        
+                        for followingUser in followingUsers {
+                            //remove users who have been followed by the current user
+                            if user.sex == currentUser.sex,
+                                user.uid != followingUser.uid
+                            {
+                                users.append(user)
+                            }
+                            users.sort(by: { (user1, user2) -> Bool in
+                                return user1.username.compare(user2.username) == .orderedAscending
+                            })
+                            completion(users)
+                        }
+                })
             })
-            completion(users)
             
         }) { (err) in
-            print("Failed to fetch all users from database:", (err))
+            print("Failed to fetch same sex users from database:", (err))
             cancel?(err)
         }
     }
@@ -214,15 +272,15 @@ extension Database {
         Database.database().reference()
             .child("following").child(currentLoggedInUserId)
             .child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-            if let isFollowing = snapshot.value as? Int, isFollowing == 1 {
-                completion(true)
-            } else {
-                completion(false)
-            }
-            
-        }) { (err) in
-            print("Failed to check if following:", err)
-            cancel?(err)
+                if let isFollowing = snapshot.value as? Int, isFollowing == 1 {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+                
+            }) { (err) in
+                print("Failed to check if following:", err)
+                cancel?(err)
         }
     }
     
@@ -233,29 +291,29 @@ extension Database {
         Database.database().reference()
             .child("following").child(currentLoggedInUserId)
             .updateChildValues(values) { (err, ref) in
-            if let err = err {
-                completion(err)
-                return
-            }
-            
-            let values = [currentLoggedInUserId: 1]
-            Database.database().reference()
-                .child("followers").child(uid).updateChildValues(values) {
-                    (err, ref) in
                 if let err = err {
                     completion(err)
                     return
                 }
-                // Record follow feeds
-                let feedRef = Database.database().reference()
-                    .child("feed").child(uid).childByAutoId()
-                let feedValue = ["type": Feed.followType,
-                                 "user": currentLoggedInUserId,
-                                 "creationDate": Date().timeIntervalSince1970] as
-                                    [String : Any]
-                feedRef.updateChildValues(feedValue)
-                completion(nil)
-            }
+                
+                let values = [currentLoggedInUserId: 1]
+                Database.database().reference()
+                    .child("followers").child(uid).updateChildValues(values) {
+                        (err, ref) in
+                        if let err = err {
+                            completion(err)
+                            return
+                        }
+                        // Record follow feeds
+                        let feedRef = Database.database().reference()
+                            .child("feed").child(uid).childByAutoId()
+                        let feedValue = ["type": Feed.followType,
+                                         "user": currentLoggedInUserId,
+                                         "creationDate": Date().timeIntervalSince1970] as
+                                            [String : Any]
+                        feedRef.updateChildValues(feedValue)
+                        completion(nil)
+                }
         }
     }
     
@@ -265,22 +323,22 @@ extension Database {
         Database.database().reference()
             .child("following").child(currentLoggedInUserId)
             .child(uid).removeValue { (err, _) in
-            if let err = err {
-                print("Failed to remove user from following:", err)
-                completion(err)
-                return
-            }
-            
-            Database.database().reference()
-                .child("followers").child(uid).child(currentLoggedInUserId)
-                .removeValue(completionBlock: { (err, _) in
                 if let err = err {
-                    print("Failed to remove user from followers:", err)
+                    print("Failed to remove user from following:", err)
                     completion(err)
                     return
                 }
-                completion(nil)
-            })
+                
+                Database.database().reference()
+                    .child("followers").child(uid).child(currentLoggedInUserId)
+                    .removeValue(completionBlock: { (err, _) in
+                        if let err = err {
+                            print("Failed to remove user from followers:", err)
+                            completion(err)
+                            return
+                        }
+                        completion(nil)
+                    })
         }
     }
     
@@ -336,21 +394,21 @@ extension Database {
                 Database.database().reference()
                     .child("likes").child(postId).child(currentLoggedInUser)
                     .observeSingleEvent(of: .value, with: { (snapshot) in
-                    if let value = snapshot.value as? Int, value == 1 {
-                        post.likedByCurrentUser = true
-                    } else {
-                        post.likedByCurrentUser = false
-                    }
-                    
-                    Database.database().numberOfLikesForPost(
-                        withPostId: postId, completion: { (count) in
-                        post.likes = count
-                        completion(post)
+                        if let value = snapshot.value as? Int, value == 1 {
+                            post.likedByCurrentUser = true
+                        } else {
+                            post.likedByCurrentUser = false
+                        }
+                        
+                        Database.database().numberOfLikesForPost(
+                            withPostId: postId, completion: { (count) in
+                                post.likes = count
+                                completion(post)
+                        })
+                    }, withCancel: { (err) in
+                        print("Failed to fetch like info for post:", err)
+                        cancel?(err)
                     })
-                }, withCancel: { (err) in
-                    print("Failed to fetch like info for post:", err)
-                    cancel?(err)
-                })
             })
         })
     }
@@ -371,11 +429,11 @@ extension Database {
             dictionaries.forEach({ (postId, value) in
                 Database.database().fetchPost(withUID: uid, postId: postId,
                                               completion: { (post) in
-                    posts.append(post)
-                    
-                    if posts.count == dictionaries.count {
-                        completion(posts)
-                    }
+                                                posts.append(post)
+                                                
+                                                if posts.count == dictionaries.count {
+                                                    completion(posts)
+                                                }
                 })
             })
         }) { (err) in
@@ -388,41 +446,41 @@ extension Database {
                     completion: ((Error?) -> ())? = nil) {
         Database.database().reference()
             .child("posts").child(uid).child(postId).removeValue { (err, _) in
-            if let err = err {
-                print("Failed to delete post:", err)
-                completion?(err)
-                return
-            }
-            
-            Database.database().reference()
-                .child("comments").child(postId).removeValue(completionBlock: {
-                    (err, _) in
                 if let err = err {
-                    print("Failed to delete comments on post:", err)
+                    print("Failed to delete post:", err)
                     completion?(err)
                     return
                 }
                 
-                Database.database().reference().child("likes")
-                    .child(postId).removeValue(completionBlock: { (err, _) in
-                    if let err = err {
-                        print("Failed to delete likes on post:", err)
-                        completion?(err)
-                        return
-                    }
-                    
-                    Storage.storage().reference().child("post_images")
-                        .child(postId).delete(completion: { (err) in
+                Database.database().reference()
+                    .child("comments").child(postId).removeValue(completionBlock: {
+                        (err, _) in
                         if let err = err {
-                            print("Failed to delete post image from storage:", err)
+                            print("Failed to delete comments on post:", err)
                             completion?(err)
                             return
                         }
+                        
+                        Database.database().reference().child("likes")
+                            .child(postId).removeValue(completionBlock: { (err, _) in
+                                if let err = err {
+                                    print("Failed to delete likes on post:", err)
+                                    completion?(err)
+                                    return
+                                }
+                                
+                                Storage.storage().reference().child("post_images")
+                                    .child(postId).delete(completion: { (err) in
+                                        if let err = err {
+                                            print("Failed to delete post image from storage:", err)
+                                            completion?(err)
+                                            return
+                                        }
+                                    })
+                                
+                                completion?(nil)
+                            })
                     })
-                    
-                    completion?(nil)
-                })
-            })
         }
     }
     
@@ -506,6 +564,7 @@ extension Database {
                             return likedUser1.username.compare(likedUser2.username)
                                 == .orderedAscending
                         })
+                        print("likedUsers: \(likedUsers)")
                         completion(likedUsers)
                     }
                 }
@@ -518,17 +577,51 @@ extension Database {
         }
     }
     
+    func fetchFollowingUsers(
+        withId userID: String, completion: @escaping ([User]) -> ()) {
+        let followingReference = Database.database().reference().child("following").child(userID)
+        
+        followingReference.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            guard let dictionaries = snapshot.value as? [String: Any] else {
+                completion([])
+                return
+            }
+            
+            var followingUsers = [User]()
+            
+            dictionaries.forEach({ (key, value) in
+                Database.database().fetchUser(withUID: key) { (followingUser) in
+                    followingUsers.append(followingUser)
+                    
+                    if followingUsers.count == dictionaries.count {
+                        followingUsers.sort(by: { (followingUser1, followingUser2) -> Bool in
+                            return followingUser1.username.compare(followingUser2.username)
+                                == .orderedAscending
+                        })
+                        completion(followingUsers)
+                    }
+                }
+                
+            })
+            
+            
+        }) { (err) in
+            print("Failed to fetch following users:", err)
+        }
+    }
+    
     //MARK: Utilities
     
     func numberOfPostsForUser(withUID uid: String,
                               completion: @escaping (Int) -> ()) {
         Database.database().reference().child("posts")
             .child(uid).observeSingleEvent(of: .value) { (snapshot) in
-            if let dictionaries = snapshot.value as? [String: Any] {
-                completion(dictionaries.count)
-            } else {
-                completion(0)
-            }
+                if let dictionaries = snapshot.value as? [String: Any] {
+                    completion(dictionaries.count)
+                } else {
+                    completion(0)
+                }
         }
     }
     
@@ -536,11 +629,11 @@ extension Database {
                                   completion: @escaping (Int) -> ()) {
         Database.database().reference().child("followers")
             .child(uid).observeSingleEvent(of: .value) { (snapshot) in
-            if let dictionaries = snapshot.value as? [String: Any] {
-                completion(dictionaries.count)
-            } else {
-                completion(0)
-            }
+                if let dictionaries = snapshot.value as? [String: Any] {
+                    completion(dictionaries.count)
+                } else {
+                    completion(0)
+                }
         }
     }
     
@@ -548,11 +641,11 @@ extension Database {
                                   completion: @escaping (Int) -> ()) {
         Database.database().reference().child("following")
             .child(uid).observeSingleEvent(of: .value) { (snapshot) in
-            if let dictionaries = snapshot.value as? [String: Any] {
-                completion(dictionaries.count)
-            } else {
-                completion(0)
-            }
+                if let dictionaries = snapshot.value as? [String: Any] {
+                    completion(dictionaries.count)
+                } else {
+                    completion(0)
+                }
         }
     }
     
@@ -560,12 +653,11 @@ extension Database {
                               completion: @escaping (Int) -> ()) {
         Database.database().reference().child("likes")
             .child(postId).observeSingleEvent(of: .value) { (snapshot) in
-            if let dictionaries = snapshot.value as? [String: Any] {
-                completion(dictionaries.count)
-            } else {
-                completion(0)
-            }
+                if let dictionaries = snapshot.value as? [String: Any] {
+                    completion(dictionaries.count)
+                } else {
+                    completion(0)
+                }
         }
     }
 }
-

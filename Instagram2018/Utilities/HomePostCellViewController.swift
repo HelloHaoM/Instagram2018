@@ -11,7 +11,8 @@ import Firebase
 import MultipeerConnectivity
 import FWPopupView
 
-class HomePostCellViewController: UICollectionViewController, HomePostCellDelegate, MCBrowserViewControllerDelegate, MCSessionDelegate, AlertProtocol {
+class HomePostCellViewController: UICollectionViewController, HomePostCellDelegate,
+MCBrowserViewControllerDelegate, MCSessionDelegate, AlertProtocol {
     
     let serviceType = "Instagram2018"
     
@@ -32,24 +33,29 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
     func initMultipeer() {
         if HomePostCellViewController.peerID == nil {
             // set the id
-            HomePostCellViewController.peerID = MCPeerID(displayName: UIDevice.current.name)
+            HomePostCellViewController.peerID = MCPeerID(
+                displayName: UIDevice.current.name)
         }
         
         if HomePostCellViewController.session == nil {
             // set the session
-            HomePostCellViewController.session = MCSession(peer: HomePostCellViewController.peerID)
+            HomePostCellViewController.session = MCSession(
+                peer: HomePostCellViewController.peerID)
             HomePostCellViewController.session.delegate = self
         }
         
         if HomePostCellViewController.browser == nil {
             // set the browser
-            HomePostCellViewController.browser = MCBrowserViewController(serviceType: serviceType, session: HomePostCellViewController.session)
+            HomePostCellViewController.browser = MCBrowserViewController(
+                serviceType: serviceType, session: HomePostCellViewController.session)
             HomePostCellViewController.browser.delegate = self
         }
         
         if HomePostCellViewController.assistant == nil {
             // set the advertiser
-            HomePostCellViewController.assistant = MCAdvertiserAssistant(serviceType: serviceType, discoveryInfo: nil, session: HomePostCellViewController.session)
+            HomePostCellViewController.assistant = MCAdvertiserAssistant(
+                serviceType: serviceType, discoveryInfo: nil,
+                session: HomePostCellViewController.session)
             HomePostCellViewController.assistant.start()
         }
     }
@@ -62,7 +68,10 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
         let imageData = image.pngData()
         // try to sent a imgae data
         do {
-            try HomePostCellViewController.session.send(imageData!, toPeers: HomePostCellViewController.session.connectedPeers, with: MCSessionSendDataMode.unreliable)
+            try HomePostCellViewController.session.send(
+                imageData!,
+                toPeers: HomePostCellViewController.session.connectedPeers,
+                with: MCSessionSendDataMode.unreliable)
             print("Image Data Sent")
             createAlertWithMsgAndTitle("Success", msg: "Photo sent to \(HomePostCellViewController.session.connectedPeers.description)")
             
@@ -73,12 +82,14 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
     
     /// do something when click cancel on browser
     ///
-    /// - Parameter browserViewController: <#browserViewController description#>
-    func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
+    /// - Parameter browserViewController: browserViewController description
+    func browserViewControllerWasCancelled(
+        _ browserViewController: MCBrowserViewController) {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+    func session(_ session: MCSession, peer peerID: MCPeerID,
+                 didChange state: MCSessionState) {
         print("didChange")
     }
     
@@ -88,11 +99,13 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
     ///   - session: the session
     ///   - data: the data
     ///   - peerID: the sender peerID
-    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+    func session(_ session: MCSession, didReceive data: Data,
+                 fromPeer peerID: MCPeerID) {
         print("receiving data")
         DispatchQueue.main.async(execute: {
             
-            MultiPeerUtilties.appendData(name: peerID.displayName, image: UIImage(data: data))
+            MultiPeerUtilties.appendData(name: peerID.displayName,
+                                         image: UIImage(data: data))
             
             let imageView = UIImageView(image: UIImage(data: data))
             imageView.frame = CGRect(x: 85, y: 20, width: 100, height: 100)
@@ -108,26 +121,44 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
                     // click confirm do something
                     print("View")
                     // set up in range controller
-                    let inRangeController = InRangeController(collectionViewLayout: UICollectionViewFlowLayout())
-                    self.navigationController?.pushViewController(inRangeController, animated: true)
+                    let inRangeController = InRangeController(
+                        collectionViewLayout: UICollectionViewFlowLayout())
+                    self.navigationController?.pushViewController(
+                        inRangeController, animated: true)
                 }
             }
-            let items = [FWPopupItem(title: "Confirm", itemType: .normal, isCancel: true, canAutoHide: true, itemClickedBlock: block),
-                         FWPopupItem(title: "View", itemType: .normal, isCancel: false, canAutoHide: true, itemClickedBlock: block)]
-            let alert = FWAlertView.alert(title: "Nearby Image", detail: "Image Sent From \(peerID.displayName)", inputPlaceholder: nil, keyboardType: .default, isSecureTextEntry: false, customView: imageView, items: items, vProperty: vProperty)
+            let items = [FWPopupItem(
+                title: "Confirm", itemType: .normal, isCancel: true,
+                canAutoHide: true, itemClickedBlock: block),
+                         FWPopupItem(title: "View", itemType: .normal,
+                                     isCancel: false, canAutoHide: true,
+                                     itemClickedBlock: block)]
+            let alert = FWAlertView.alert(
+                title: "Nearby Image",
+                detail: "Image Sent From \(peerID.displayName)",
+                inputPlaceholder: nil, keyboardType: .default,
+                isSecureTextEntry: false, customView: imageView,
+                items: items, vProperty: vProperty)
             alert.show()
         })
     }
     
-    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+    func session(_ session: MCSession,
+                 didReceive stream: InputStream,
+                 withName streamName: String, fromPeer peerID: MCPeerID) {
         
     }
     
-    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+    func session(_ session: MCSession,
+                 didStartReceivingResourceWithName resourceName: String,
+                 fromPeer peerID: MCPeerID, with progress: Progress) {
         
     }
     
-    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
+    func session(_ session: MCSession,
+                 didFinishReceivingResourceWithName resourceName: String,
+                 fromPeer peerID: MCPeerID, at localURL: URL?,
+                 withError error: Error?) {
         
     }
     
@@ -135,8 +166,10 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
     
     func didBrowse() {
         // set up in range controller
-        let inRangeController = InRangeController(collectionViewLayout: UICollectionViewFlowLayout())
-        self.navigationController?.pushViewController(inRangeController, animated: true)
+        let inRangeController = InRangeController(
+            collectionViewLayout: UICollectionViewFlowLayout())
+        self.navigationController?.pushViewController(
+            inRangeController, animated: true)
     }
     
     func didSend(image: UIImage){
@@ -146,19 +179,23 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
     }
     
     func didTapComment(post: Post) {
-        let commentsController = CommentsController(collectionViewLayout: UICollectionViewFlowLayout())
+        let commentsController = CommentsController(
+            collectionViewLayout: UICollectionViewFlowLayout())
         commentsController.post = post
-        navigationController?.pushViewController(commentsController, animated: true)
+        navigationController?.pushViewController(commentsController,
+                                                 animated: true)
     }
     
     func didTapLike(post: Post) {
-        let likesController = LikesController(collectionViewLayout: UICollectionViewFlowLayout())
+        let likesController = LikesController(
+            collectionViewLayout: UICollectionViewFlowLayout())
         likesController.post = post
         navigationController?.pushViewController(likesController, animated: true)
     }
     
     func didTapUser(user: User) {
-        let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
+        let userProfileController = UserProfileController(
+            collectionViewLayout: UICollectionViewFlowLayout())
         userProfileController.user = user
         navigationController?.pushViewController(userProfileController, animated: true)
     }
@@ -166,8 +203,10 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
     func didTapOptions(post: Post) {
         guard let currentLoggedInUserId = Auth.auth().currentUser?.uid else { return }
         
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let alertController = UIAlertController(
+            title: nil, message: nil, preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel,
+                                         handler: nil)
         alertController.addAction(cancelAction)
         
         if currentLoggedInUserId == post.user.uid {
@@ -185,13 +224,18 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
     private func deleteAction(forPost post: Post) -> UIAlertAction? {
         guard let currentLoggedInUserId = Auth.auth().currentUser?.uid else { return nil }
         
-        let action = UIAlertAction(title: "Delete", style: .destructive, handler: { (_) in
+        let action = UIAlertAction(title: "Delete", style: .destructive,
+                                   handler: { (_) in
             
-            let alert = UIAlertController(title: "Delete Post?", message: nil, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (_) in
+            let alert = UIAlertController(title: "Delete Post?",
+                                          message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel",
+                                          style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Delete",
+                                          style: .default, handler: { (_) in
                 
-                Database.database().deletePost(withUID: currentLoggedInUserId, postId: post.id) { (_) in
+                Database.database().deletePost(
+                withUID: currentLoggedInUserId, postId: post.id) { (_) in
                     if let postIndex = self.posts.index(where: {$0.id == post.id}) {
                         self.posts.remove(at: postIndex)
                         self.collectionView?.reloadData()
@@ -225,7 +269,8 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
         var post = posts[indexPath.item]
         
         if post.likedByCurrentUser {
-            Database.database().reference().child("likes").child(post.id).child(uid).removeValue { (err, _) in
+            Database.database().reference()
+                .child("likes").child(post.id).child(uid).removeValue { (err, _) in
                 if let err = err {
                     print("Failed to unlike post:", err)
                     return
@@ -239,7 +284,8 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
             }
         } else {
             let values = [uid : 1]
-            Database.database().reference().child("likes").child(post.id).updateChildValues(values) { (err, _) in
+            Database.database().reference()
+                .child("likes").child(post.id).updateChildValues(values) { (err, _) in
                 if let err = err {
                     print("Failed to like post:", err)
                     return
@@ -253,7 +299,8 @@ class HomePostCellViewController: UICollectionViewController, HomePostCellDelega
                 
                 // record like feed
                 guard let currentLoggedInUserId = Auth.auth().currentUser?.uid else { return }
-                let feedRef = Database.database().reference().child("feed").child(post.user.uid).childByAutoId()
+                let feedRef = Database.database().reference()
+                    .child("feed").child(post.user.uid).childByAutoId()
                 let feedValue = ["type": Feed.likeType,
                                  "user": currentLoggedInUserId,
                                  "post": post.id,

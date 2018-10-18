@@ -69,6 +69,7 @@ class UserSearchController: UICollectionViewController {
         // fetch all user
         fetchAllUsers()
         // fetch all suggested user
+        fetchSameSexUsers()
         fetchSuggestedUsers()
     }
     
@@ -96,26 +97,48 @@ class UserSearchController: UICollectionViewController {
         
         Database.database().fetchAllUsers(includeCurrentUser: false,
                                           completion: { (users) in
-            self.users = users
-            self.filteredUsers = users
-            self.searchBar.text = ""
-            self.collectionView?.reloadData()
-            self.collectionView?.refreshControl?.endRefreshing()
+                                            self.users = users
+                                            self.filteredUsers = users
+                                            self.searchBar.text = ""
+                                            self.collectionView?.reloadData()
+                                            self.collectionView?.refreshControl?.endRefreshing()
         }) { (_) in
             self.collectionView?.refreshControl?.endRefreshing()
         }
     }
     
     /// get all suggested user from the database
+    private func fetchSameSexUsers() {
+        collectionView?.refreshControl?.beginRefreshing()
+        
+        Database.database().fetchSameSexUsers(
+            currentUser: user, includeCurrentUser: false, completion: { (users) in
+                self.suggestedUsers = users
+                self.suggestedUsers.sort(by: { (user1, user2) -> Bool in
+                    return user1.username.compare(user2.username) == .orderedAscending
+                })
+                self.searchBar.text = ""
+                self.collectionView?.reloadData()
+                self.collectionView?.refreshControl?.endRefreshing()
+        }) { (_) in
+            self.collectionView?.refreshControl?.endRefreshing()
+        }
+    }
+    
     private func fetchSuggestedUsers() {
+        guard let userId = user?.uid else { return }
+        
         collectionView?.refreshControl?.beginRefreshing()
         
         Database.database().fetchSuggestedUsers(
-            currentUser: user, includeCurrentUser: false, completion: { (users) in
-            self.suggestedUsers = users
-            self.searchBar.text = ""
-            self.collectionView?.reloadData()
-            self.collectionView?.refreshControl?.endRefreshing()
+            withUID: userId, completion: { (users) in
+                self.suggestedUsers += users
+                self.suggestedUsers.sort(by: { (user1, user2) -> Bool in
+                    return user1.username.compare(user2.username) == .orderedAscending
+                })
+                self.searchBar.text = ""
+                self.collectionView?.reloadData()
+                self.collectionView?.refreshControl?.endRefreshing()
         }) { (_) in
             self.collectionView?.refreshControl?.endRefreshing()
         }
@@ -123,6 +146,7 @@ class UserSearchController: UICollectionViewController {
     
     @objc private func handleRefresh() {
         fetchAllUsers()
+        fetchSameSexUsers()
         fetchSuggestedUsers()
     }
     
@@ -287,6 +311,7 @@ extension UserSearchController: UserSearchHeaderDelegate {
     func didChangeToSuggested() {
         isSuggestedPage = true
         if(suggestedUsers.isEmpty){
+            fetchSameSexUsers()
             fetchSuggestedUsers()
         }
         collectionView?.reloadData()
