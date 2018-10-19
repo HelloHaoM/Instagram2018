@@ -56,6 +56,8 @@ class UserSearchController: UICollectionViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: UserSearchHeader.headerId)
         collectionView?.register(
+            EmptySearchCell.self, forCellWithReuseIdentifier: EmptySearchCell.cellId)
+        collectionView?.register(
             UserSearchCell.self, forCellWithReuseIdentifier: UserSearchCell.cellId)
         
         
@@ -126,12 +128,11 @@ class UserSearchController: UICollectionViewController {
     }
     
     private func fetchSuggestedUsers() {
-        guard let userId = user?.uid else { return }
         
         collectionView?.refreshControl?.beginRefreshing()
         
         Database.database().fetchSuggestedUsers(
-            withUID: userId, completion: { (users) in
+            currentUser: user, completion: { (users) in
                 self.suggestedUsers += users
                 self.suggestedUsers.sort(by: { (user1, user2) -> Bool in
                     return user1.username.compare(user2.username) == .orderedAscending
@@ -145,6 +146,8 @@ class UserSearchController: UICollectionViewController {
     }
     
     @objc private func handleRefresh() {
+        users.removeAll()
+        suggestedUsers.removeAll()
         fetchAllUsers()
         fetchSameSexUsers()
         fetchSuggestedUsers()
@@ -157,12 +160,15 @@ class UserSearchController: UICollectionViewController {
     ///   - indexPath: the index of items
     override func collectionView(_ collectionView: UICollectionView,
                                  didSelectItemAt indexPath: IndexPath) {
-        searchBar.resignFirstResponder()
-        let userProfileController = UserProfileController(
-            collectionViewLayout: UICollectionViewFlowLayout())
-        userProfileController.user = filteredUsers[indexPath.item]
-        navigationController?.pushViewController(userProfileController,
-                                                 animated: true)
+        //only when there is at least one user, activate didSelectItemAt method
+        if filteredUsers.count != 0{
+            searchBar.resignFirstResponder()
+            let userProfileController = UserProfileController(
+                collectionViewLayout: UICollectionViewFlowLayout())
+            userProfileController.user = filteredUsers[indexPath.item]
+            navigationController?.pushViewController(userProfileController,
+                                                     animated: true)
+        }
     }
     
     /// override the collectionview function when the view is loaded
@@ -189,6 +195,10 @@ class UserSearchController: UICollectionViewController {
                     self.searchBar.text!.lowercased())
             }
         }
+        //if there is no user, set the item number as 1 (for empty cell)
+        if filteredUsers.count == 0{
+            return 1
+        }
         return filteredUsers.count
     }
     
@@ -201,6 +211,19 @@ class UserSearchController: UICollectionViewController {
     override func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        //show empty cell if there is no user
+        if isSuggestedPage && suggestedUsers.count == 0{
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: EmptySearchCell.cellId, for: indexPath)
+            return cell
+        }
+        //show empty cell if there is no user
+        if !isSuggestedPage && users.count == 0 {
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: EmptySearchCell.cellId, for: indexPath)
+            return cell
+        }
+        
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: UserSearchCell.cellId,
             for: indexPath) as! UserSearchCell
@@ -255,7 +278,19 @@ extension UserSearchController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath) -> CGSize {
+        //set empty cell view layout
+        if isSuggestedPage && suggestedUsers.count == 0{
+            let emptyStateCellHeight = (view.safeAreaLayoutGuide.layoutFrame.height - 200)
+            return CGSize(width: view.frame.width, height: emptyStateCellHeight)
+        }
+        //set empty cell view layout
+        if !isSuggestedPage && users.count == 0 {
+            let emptyStateCellHeight = (view.safeAreaLayoutGuide.layoutFrame.height - 200)
+            return CGSize(width: view.frame.width, height: emptyStateCellHeight)
+        }
+        
         return CGSize(width: view.frame.width, height: 66)
+        
     }
     //set referenceSizeForHeaderInSection layout
     func collectionView(

@@ -47,6 +47,7 @@
 		54EF1388216729D900270808 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54EF1387216729D900270808 /* Assets.xcassets */; };
 		54EF138B216729D900270808 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54EF1389216729D900270808 /* LaunchScreen.storyboard */; };
 		54F1560C217704F100284234 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54F1560B217704F100284234 /* GoogleService-Info.plist */; };
+		54FE1B69217A132300DFDC6C /* EmptySearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FE1B68217A132300DFDC6C /* EmptySearchCell.swift */; };
 		54FEDD34216C9C5700C3F243 /* ActivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEDD33216C9C5700C3F243 /* ActivityController.swift */; };
 		54FEDD36216C9C6400C3F243 /* EmptyActivityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEDD35216C9C6400C3F243 /* EmptyActivityCell.swift */; };
 		54FEDD38216C9C7300C3F243 /* FirebaseUserActivityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEDD37216C9C7300C3F243 /* FirebaseUserActivityExtensions.swift */; };
@@ -104,6 +105,7 @@
 		54EF138A216729D900270808 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		54EF138C216729D900270808 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54F1560B217704F100284234 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		54FE1B68217A132300DFDC6C /* EmptySearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySearchCell.swift; sourceTree = "<group>"; };
 		54FEDD33216C9C5700C3F243 /* ActivityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityController.swift; sourceTree = "<group>"; };
 		54FEDD35216C9C6400C3F243 /* EmptyActivityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyActivityCell.swift; sourceTree = "<group>"; };
 		54FEDD37216C9C7300C3F243 /* FirebaseUserActivityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserActivityExtensions.swift; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				545436AA216757C80052D393 /* UserSearchController.swift */,
 				545436AC21676BC90052D393 /* UserSearchCell.swift */,
 				54BFAD842175AA0F00588733 /* UserSearchHeader.swift */,
+				54FE1B68217A132300DFDC6C /* EmptySearchCell.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -462,6 +465,7 @@
 				54FEDD3F216C9D7900C3F243 /* Feed.swift in Sources */,
 				545436A8216757660052D393 /* SharePhotoController.swift in Sources */,
 				54EF1383216729D900270808 /* MainTabBarController.swift in Sources */,
+				54FE1B69217A132300DFDC6C /* EmptySearchCell.swift in Sources */,
 				545436A2216756E10052D393 /* PhotoSelectorCell.swift in Sources */,
 				545436B421676C840052D393 /* UserProfileHeader.swift in Sources */,
 				54FEDD43216CA11C00C3F243 /* MultiPeerUtilities.swift in Sources */,
@@ -652,7 +656,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2018";
+				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2019";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -672,7 +676,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2018";
+				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2019";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
