@@ -23,6 +23,6 @@ struct User: Equatable {
     }
     
     static func == (user1: User, user2: User) -> Bool {
-        return user1.username == user2.username
+        return user1.uid == user2.uid
     }
 }

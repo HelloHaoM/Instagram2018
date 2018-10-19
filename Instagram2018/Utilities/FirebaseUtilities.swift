@@ -169,14 +169,15 @@ extension Database {
         }
     }
     
-    //given current user ID, return users who are followed by the users
+    //given current user, return users who are followed by the users
     //that current user is following, not include users who are already followed
     //by the current user
     func fetchSuggestedUsers(
-        withUID uid: String,
+        currentUser: User?,
         completion: @escaping ([User]) -> (), withCancel cancel: ((Error) -> ())?) {
         
-        let ref = Database.database().reference().child("following").child(uid)
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        let ref = Database.database().reference().child("following").child(currentUserId)
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             guard let dictionaries = snapshot.value as? [String: Any] else {
                 completion([])
@@ -185,27 +186,50 @@ extension Database {
             
             var followingUserfollowingUsers = [User]()
             
+            var uniqueFollowingUserfollowingUsers = [User]()
+            
+            var keys = [String]()
+            
             dictionaries.forEach({ (key, value) in
                 
                 Database.database().fetchFollowingUsers(
                     withId: key, completion: { (followingUsers) in
                         
+                        keys.append(key)
+                        guard let currentUser = currentUser else { return }
                         followingUserfollowingUsers += followingUsers
-                        var uniqueFollowingUserfollowingUsers = [User]()
-                        
-                        for followingUserfollowingUser in followingUserfollowingUsers {
-                            //remove duplicated following users, remove current user self
-                            //also remove users who have been followed by the current user
-                            if !uniqueFollowingUserfollowingUsers.contains(followingUserfollowingUser),
-                                followingUserfollowingUser.uid != uid,
-                                followingUserfollowingUser.uid != key{
-                                uniqueFollowingUserfollowingUsers.append(followingUserfollowingUser)
-                            }
+                        if followingUserfollowingUsers.count <= 0 {
+                            uniqueFollowingUserfollowingUsers = []
                         }
-                        
-                        uniqueFollowingUserfollowingUsers.sort(by: { (user1, user2) -> Bool in
-                            return user1.username.compare(user2.username) == .orderedAscending
-                        })
+                            
+                        else{
+                            for followingUserfollowingUser in followingUserfollowingUsers {
+                                //remove duplicated following users,
+                                //remove current user self
+                                if !uniqueFollowingUserfollowingUsers
+                                    .contains(followingUserfollowingUser),
+                                    followingUserfollowingUser.uid != currentUser.uid
+                                {
+                                    uniqueFollowingUserfollowingUsers
+                                        .append(followingUserfollowingUser)
+                                }
+                                //also remove users who have been followed by the current user
+                                if keys.contains(followingUserfollowingUser.uid){
+                                    if let index =
+                                        uniqueFollowingUserfollowingUsers
+                                            .index(of: followingUserfollowingUser) {
+                                        uniqueFollowingUserfollowingUsers.remove(at: index)
+                                    }
+                                }
+                            }
+                            
+                            uniqueFollowingUserfollowingUsers
+                                .sort(by: { (user1, user2) -> Bool in
+                                return user1.username.compare(
+                                    user2.username) == .orderedAscending
+                            })
+                            
+                        }
                         completion(uniqueFollowingUserfollowingUsers)
                 })
                 
@@ -239,22 +263,24 @@ extension Database {
                 guard let userDictionary = value as? [String: Any] else { return }
                 let user = User(uid: key, dictionary: userDictionary)
                 guard let currentUser = currentUser else { return }
-            
+                
                 Database.database().fetchFollowingUsers(
                     withId: currentUser.uid, completion: { (followingUsers) in
                         
-                        for followingUser in followingUsers {
-                            //remove users who have been followed by the current user
-                            if user.sex == currentUser.sex,
-                                user.uid != followingUser.uid
-                            {
-                                users.append(user)
-                            }
-                            users.sort(by: { (user1, user2) -> Bool in
-                                return user1.username.compare(user2.username) == .orderedAscending
-                            })
-                            completion(users)
+                        //remove duplicates,
+                        //remove users who have been followed by the current user
+                        //choose the user with the same sex as current user
+                        if !users.contains(user),
+                            user.sex == currentUser.sex,
+                            !followingUsers.contains(user){
+                            users.append(user)
                         }
+                        users.sort(by: { (user1, user2) -> Bool in
+                            return user1.username.compare(
+                                user2.username) == .orderedAscending
+                        })
+                        completion(users)
+                        
                 })
             })
             
@@ -564,7 +590,6 @@ extension Database {
                             return likedUser1.username.compare(likedUser2.username)
                                 == .orderedAscending
                         })
-                        print("likedUsers: \(likedUsers)")
                         completion(likedUsers)
                     }
                 }
