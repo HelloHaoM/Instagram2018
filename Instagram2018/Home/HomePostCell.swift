@@ -110,6 +110,12 @@ class HomePostCell: UICollectionViewCell {
         photoImageView.heightAnchor.constraint(equalTo: widthAnchor,
                                                multiplier: 1).isActive = true
         
+        //add swipe guester to the post photo,
+        //to activate send photo by Bluetooth method
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSend))
+        swipe.direction = [.left, .right]
+        photoImageView.addGestureRecognizer(swipe)
+        
         setupActionButtons()
         
         addSubview(likeCounter)
