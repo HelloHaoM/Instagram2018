@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		181FFA0121704FF600243118 /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181FFA0021704FF600243118 /* PostController.swift */; };
+		18EAA68E217AEAF2001DE025 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18EAA68D217AEAF2001DE025 /* GoogleService-Info.plist */; };
 		5427198F2169EDA4005E61E6 /* LikesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5427198E2169EDA4005E61E6 /* LikesController.swift */; };
 		542719912169F0EA005E61E6 /* LikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542719902169F0EA005E61E6 /* LikeCell.swift */; };
 		5454367C216745A70052D393 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5454367B216745A70052D393 /* CameraController.swift */; };
@@ -26,9 +27,6 @@
 		5454369A216755BF0052D393 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54543699216755BF0052D393 /* Comment.swift */; };
 		5454369C216756050052D393 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5454369B216756050052D393 /* Post.swift */; };
 		5454369E2167566B0052D393 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5454369D2167566B0052D393 /* User.swift */; };
-		545436A2216756E10052D393 /* PhotoSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545436A1216756E10052D393 /* PhotoSelectorCell.swift */; };
-		545436A42167571E0052D393 /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545436A32167571E0052D393 /* PhotoSelectorController.swift */; };
-		545436A6216757430052D393 /* PhotoSelectorHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545436A5216757430052D393 /* PhotoSelectorHeader.swift */; };
 		545436A8216757660052D393 /* SharePhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545436A7216757660052D393 /* SharePhotoController.swift */; };
 		545436AB216757C80052D393 /* UserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545436AA216757C80052D393 /* UserSearchController.swift */; };
 		545436AD21676BC90052D393 /* UserSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545436AC21676BC90052D393 /* UserSearchCell.swift */; };
@@ -46,7 +44,6 @@
 		54EF1383216729D900270808 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EF1382216729D900270808 /* MainTabBarController.swift */; };
 		54EF1388216729D900270808 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54EF1387216729D900270808 /* Assets.xcassets */; };
 		54EF138B216729D900270808 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54EF1389216729D900270808 /* LaunchScreen.storyboard */; };
-		54F1560C217704F100284234 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54F1560B217704F100284234 /* GoogleService-Info.plist */; };
 		54FE1B69217A132300DFDC6C /* EmptySearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FE1B68217A132300DFDC6C /* EmptySearchCell.swift */; };
 		54FEDD34216C9C5700C3F243 /* ActivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEDD33216C9C5700C3F243 /* ActivityController.swift */; };
 		54FEDD36216C9C6400C3F243 /* EmptyActivityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEDD35216C9C6400C3F243 /* EmptyActivityCell.swift */; };
@@ -64,6 +61,7 @@
 
 /* Begin PBXFileReference section */
 		181FFA0021704FF600243118 /* PostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
+		18EAA68D217AEAF2001DE025 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5427198E2169EDA4005E61E6 /* LikesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesController.swift; sourceTree = "<group>"; };
 		542719902169F0EA005E61E6 /* LikeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCell.swift; sourceTree = "<group>"; };
 		5454367B216745A70052D393 /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
@@ -82,9 +80,6 @@
 		54543699216755BF0052D393 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		5454369B216756050052D393 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		5454369D2167566B0052D393 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		545436A1216756E10052D393 /* PhotoSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCell.swift; sourceTree = "<group>"; };
-		545436A32167571E0052D393 /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
-		545436A5216757430052D393 /* PhotoSelectorHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorHeader.swift; sourceTree = "<group>"; };
 		545436A7216757660052D393 /* SharePhotoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePhotoController.swift; sourceTree = "<group>"; };
 		545436AA216757C80052D393 /* UserSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchController.swift; sourceTree = "<group>"; };
 		545436AC21676BC90052D393 /* UserSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchCell.swift; sourceTree = "<group>"; };
@@ -104,7 +99,6 @@
 		54EF1387216729D900270808 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54EF138A216729D900270808 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		54EF138C216729D900270808 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		54F1560B217704F100284234 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		54FE1B68217A132300DFDC6C /* EmptySearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySearchCell.swift; sourceTree = "<group>"; };
 		54FEDD33216C9C5700C3F243 /* ActivityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityController.swift; sourceTree = "<group>"; };
 		54FEDD35216C9C6400C3F243 /* EmptyActivityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyActivityCell.swift; sourceTree = "<group>"; };
@@ -198,9 +192,6 @@
 		5454369F216756AE0052D393 /* Post */ = {
 			isa = PBXGroup;
 			children = (
-				545436A1216756E10052D393 /* PhotoSelectorCell.swift */,
-				545436A32167571E0052D393 /* PhotoSelectorController.swift */,
-				545436A5216757430052D393 /* PhotoSelectorHeader.swift */,
 				545436A7216757660052D393 /* SharePhotoController.swift */,
 				181FFA0021704FF600243118 /* PostController.swift */,
 			);
@@ -247,7 +238,7 @@
 		545436C421676FCC0052D393 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				54F1560B217704F100284234 /* GoogleService-Info.plist */,
+				18EAA68D217AEAF2001DE025 /* GoogleService-Info.plist */,
 				54EF138C216729D900270808 /* Info.plist */,
 			);
 			path = "Supporting Files";
@@ -394,8 +385,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				54EF138B216729D900270808 /* LaunchScreen.storyboard in Resources */,
+				18EAA68E217AEAF2001DE025 /* GoogleService-Info.plist in Resources */,
 				54EF1388216729D900270808 /* Assets.xcassets in Resources */,
-				54F1560C217704F100284234 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,7 +457,6 @@
 				545436A8216757660052D393 /* SharePhotoController.swift in Sources */,
 				54EF1383216729D900270808 /* MainTabBarController.swift in Sources */,
 				54FE1B69217A132300DFDC6C /* EmptySearchCell.swift in Sources */,
-				545436A2216756E10052D393 /* PhotoSelectorCell.swift in Sources */,
 				545436B421676C840052D393 /* UserProfileHeader.swift in Sources */,
 				54FEDD43216CA11C00C3F243 /* MultiPeerUtilities.swift in Sources */,
 				54FEDD34216C9C5700C3F243 /* ActivityController.swift in Sources */,
@@ -496,7 +486,6 @@
 				545436B221676C650052D393 /* UserProfileEmptyStateCell.swift in Sources */,
 				5454369A216755BF0052D393 /* Comment.swift in Sources */,
 				54543687216747330052D393 /* CommentsController.swift in Sources */,
-				545436A6216757430052D393 /* PhotoSelectorHeader.swift in Sources */,
 				5427198F2169EDA4005E61E6 /* LikesController.swift in Sources */,
 				545436B921676CDC0052D393 /* CustomImageView.swift in Sources */,
 				545436B621676CA10052D393 /* UserProfilePhotoGridCell.swift in Sources */,
@@ -509,7 +498,6 @@
 				54543685216746DC0052D393 /* CommentCell.swift in Sources */,
 				545436952167551E0052D393 /* LoginController.swift in Sources */,
 				542719912169F0EA005E61E6 /* LikeCell.swift in Sources */,
-				545436A42167571E0052D393 /* PhotoSelectorController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -649,14 +637,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KJCZ3M9BA6;
+				DEVELOPMENT_TEAM = VM8DWJ4LL6;
 				INFOPLIST_FILE = "$(SRCROOT)/Instagram2018/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2019";
+				PRODUCT_BUNDLE_IDENTIFIER = Jianboma.Instagram2019;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -669,14 +657,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KJCZ3M9BA6;
+				DEVELOPMENT_TEAM = VM8DWJ4LL6;
 				INFOPLIST_FILE = "$(SRCROOT)/Instagram2018/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2019";
+				PRODUCT_BUNDLE_IDENTIFIER = Jianboma.Instagram2019;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
