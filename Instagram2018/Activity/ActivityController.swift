@@ -23,6 +23,7 @@ class ActivityController: UICollectionViewController {
     
     var image: UIImage!
     
+    // The button on the top nav bar
     private lazy var followingButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Following", for: .normal)
@@ -31,6 +32,7 @@ class ActivityController: UICollectionViewController {
         return button
     }()
     
+    // The button on the top nav bar
     private lazy var youButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("You", for: .normal)
@@ -47,6 +49,16 @@ class ActivityController: UICollectionViewController {
         isFollowingPage = false
         handleRefresh()
         fetchFollowingUserPosts()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.titleView?.width(UIScreen.main.bounds.width)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationItem.titleView?.width(UIScreen.main.bounds.width)
     }
     
     private func setupNavigationAndRefreshControl() {
@@ -68,6 +80,7 @@ class ActivityController: UICollectionViewController {
         collectionView?.refreshControl = refreshControl
     }
     
+    // get the data for activity page and feed page
     private func fetchFollowingUserPosts() {
         guard let currentLoggedInUserId = Auth.auth().currentUser?.uid else { return }
         collectionView?.refreshControl?.beginRefreshing()
@@ -136,6 +149,8 @@ class ActivityController: UICollectionViewController {
         }
     }
     
+    // using collection view as page control
+    // if content is empty display the empty state cell
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if isFollowingPage {
             if posts.count == 0 {
@@ -186,11 +201,13 @@ extension ActivityController : FeedCellDelegate {
     }
     
     func didTapPost(post: Post) {
+        // TODO:
         
     }
     
     func didPressFollow(user: User) {
-        
+        // TODO:
+
     }
     
 }
@@ -211,7 +228,7 @@ extension ActivityController : UICollectionViewDelegateFlowLayout {
                 let emptyStateCellHeight = (view.safeAreaLayoutGuide.layoutFrame.height - 200)
                 return CGSize(width: view.frame.width, height: emptyStateCellHeight)
             }
-            
+            // calculate the height using dummyCell
             let dummyCell = HomePostCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 1000))
             dummyCell.post = posts[indexPath.item]
             dummyCell.layoutIfNeeded()
@@ -220,7 +237,6 @@ extension ActivityController : UICollectionViewDelegateFlowLayout {
             height += 24 + 2 * dummyCell.padding //bookmark button + padding
             height += dummyCell.captionLabel.intrinsicContentSize.height + 8
             return CGSize(width: view.frame.width, height: height + 5)
-            
         } else {
             if userFeeds.count == 0 {
                 let emptyStateCellHeight = (view.safeAreaLayoutGuide.layoutFrame.height - 200)
@@ -233,6 +249,8 @@ extension ActivityController : UICollectionViewDelegateFlowLayout {
 }
 
 extension NSMutableAttributedString {
+    
+    // using attribute string for the username bold
     @discardableResult func activityBold(_ text: String) -> NSMutableAttributedString {
         let attrs: [NSAttributedString.Key: Any] = [.font: UIFont(name: "Helvetica-Bold", size: 14)!]
         let boldString = NSMutableAttributedString(string:text, attributes: attrs)
@@ -240,6 +258,7 @@ extension NSMutableAttributedString {
         return self
     }
     
+    // normal text
     @discardableResult func activityNormal(_ text: String) -> NSMutableAttributedString {
         let attrs: [NSAttributedString.Key: Any] = [.font: UIFont(name: "Helvetica", size: 14)!]
         let normal = NSAttributedString(string: text, attributes:attrs)
@@ -247,6 +266,7 @@ extension NSMutableAttributedString {
         return self
     }
     
+    // date gray
     @discardableResult func activityGray(_ text: String) -> NSMutableAttributedString {
         let attrs: [NSAttributedString.Key: Any] = [.font: UIFont(name: "Helvetica", size: 12)!, .foregroundColor: UIColor.gray]
         let normal = NSAttributedString(string: text, attributes:attrs)
@@ -254,7 +274,6 @@ extension NSMutableAttributedString {
         return self
     }
 }
-
 
 extension ActivityController: HomePostCellDelegate {
     

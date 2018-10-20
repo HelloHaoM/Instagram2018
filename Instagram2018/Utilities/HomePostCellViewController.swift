@@ -299,6 +299,10 @@ MCBrowserViewControllerDelegate, MCSessionDelegate, AlertProtocol {
                 
                 // record like feed
                 guard let currentLoggedInUserId = Auth.auth().currentUser?.uid else { return }
+                    // don't record activity of like their own post
+                    if (currentLoggedInUserId == post.user.uid){
+                        return
+                    }
                 let feedRef = Database.database().reference()
                     .child("feed").child(post.user.uid).childByAutoId()
                 let feedValue = ["type": Feed.likeType,
