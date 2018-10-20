@@ -345,10 +345,10 @@ extension UserSearchController: UserSearchHeaderDelegate {
     
     func didChangeToSuggested() {
         isSuggestedPage = true
-        if(suggestedUsers.isEmpty){
-            fetchSameSexUsers()
-            fetchSuggestedUsers()
-        }
+        suggestedUsers.removeAll()
+        fetchSameSexUsers()
+        fetchSuggestedUsers()
+        
         collectionView?.reloadData()
     }
     
