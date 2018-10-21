@@ -188,14 +188,14 @@ extension Database {
             
             var uniqueFollowingUserfollowingUsers = [User]()
             
-            var keys = [String]()
+            var followingUsersId = [String]()
             
             dictionaries.forEach({ (key, value) in
                 
                 Database.database().fetchFollowingUsers(
                     withId: key, completion: { (followingUsers) in
                         
-                        keys.append(key)
+                        followingUsersId.append(key)
                         guard let currentUser = currentUser else { return }
                         followingUserfollowingUsers += followingUsers
                         if followingUserfollowingUsers.count <= 0 {
@@ -214,7 +214,7 @@ extension Database {
                                         .append(followingUserfollowingUser)
                                 }
                                 //also remove users who have been followed by the current user
-                                if keys.contains(followingUserfollowingUser.uid){
+                                if followingUsersId.contains(followingUserfollowingUser.uid){
                                     if let index =
                                         uniqueFollowingUserfollowingUsers
                                             .index(of: followingUserfollowingUser) {

@@ -4,7 +4,7 @@
 //
 //  Created by wry on 2018/10/5.
 //  Copyright © 2018年 jiacheng. All rights reserved.
-//
+//  Customize UITextView as PlaceholderTextView
 
 import UIKit
 
@@ -27,9 +27,13 @@ class PlaceholderTextView: UITextView {
     }
     
     private func sharedInit() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange), name: UITextView.textDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(handleTextChange),
+            name: UITextView.textDidChangeNotification, object: nil)
         addSubview(placeholderLabel)
-        placeholderLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 8)
+        placeholderLabel.anchor(top: topAnchor, left: leftAnchor,
+                                bottom: bottomAnchor, right: rightAnchor,
+                                paddingTop: 8, paddingLeft: 8)
     }
     
     func showPlaceholderLabel() {

@@ -4,7 +4,9 @@
 //
 //  Created by wry on 2018/10/5.
 //  Copyright © 2018年 jiacheng. All rights reserved.
-//
+//  Post Model, including
+//  user who did the post, image Url, caption of the post, address information,
+//  location(coordinates) information, and create date of the post
 
 import Foundation
 

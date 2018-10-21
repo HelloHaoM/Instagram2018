@@ -172,12 +172,13 @@ MCBrowserViewControllerDelegate, MCSessionDelegate, AlertProtocol {
             inRangeController, animated: true)
     }
     
+    //show build-in browser view when sending pictures by Bluetooth
     func didSend(image: UIImage){
-        //print("Send Button Click")
         self.image = image
         present(HomePostCellViewController.browser, animated: true, completion: nil)
     }
     
+    //when clicking "Comment" button, go to "Comments" page
     func didTapComment(post: Post) {
         let commentsController = CommentsController(
             collectionViewLayout: UICollectionViewFlowLayout())
@@ -186,6 +187,7 @@ MCBrowserViewControllerDelegate, MCSessionDelegate, AlertProtocol {
                                                  animated: true)
     }
     
+    //when clicking "Likes" label, go to "Likes" page
     func didTapLike(post: Post) {
         let likesController = LikesController(
             collectionViewLayout: UICollectionViewFlowLayout())
@@ -193,6 +195,7 @@ MCBrowserViewControllerDelegate, MCSessionDelegate, AlertProtocol {
         navigationController?.pushViewController(likesController, animated: true)
     }
     
+    //when clicking user portrait, go to "User Profile" page
     func didTapUser(user: User) {
         let userProfileController = UserProfileController(
             collectionViewLayout: UICollectionViewFlowLayout())
@@ -200,6 +203,7 @@ MCBrowserViewControllerDelegate, MCSessionDelegate, AlertProtocol {
         navigationController?.pushViewController(userProfileController, animated: true)
     }
     
+    //when clicking "option" button, show corresponding alert actions
     func didTapOptions(post: Post) {
         guard let currentLoggedInUserId = Auth.auth().currentUser?.uid else { return }
         
@@ -209,11 +213,14 @@ MCBrowserViewControllerDelegate, MCSessionDelegate, AlertProtocol {
                                          handler: nil)
         alertController.addAction(cancelAction)
         
+        //if it is the current user, user can "delete" the post
         if currentLoggedInUserId == post.user.uid {
             if let deleteAction = deleteAction(forPost: post) {
                 alertController.addAction(deleteAction)
             }
-        } else {
+        }
+        //otherwise, user can choose to "unfollow" the author of the post
+        else {
             if let unfollowAction = unfollowAction(forPost: post) {
                 alertController.addAction(unfollowAction)
             }
@@ -221,6 +228,7 @@ MCBrowserViewControllerDelegate, MCSessionDelegate, AlertProtocol {
         present(alertController, animated: true, completion: nil)
     }
     
+    //set action when user clicks "delete" the post
     private func deleteAction(forPost post: Post) -> UIAlertAction? {
         guard let currentLoggedInUserId = Auth.auth().currentUser?.uid else { return nil }
         
@@ -234,6 +242,7 @@ MCBrowserViewControllerDelegate, MCSessionDelegate, AlertProtocol {
             alert.addAction(UIAlertAction(title: "Delete",
                                           style: .default, handler: { (_) in
                 
+                //query the database "deletePost" method and reload post data
                 Database.database().deletePost(
                 withUID: currentLoggedInUserId, postId: post.id) { (_) in
                     if let postIndex = self.posts.index(where: {$0.id == post.id}) {
@@ -248,10 +257,12 @@ MCBrowserViewControllerDelegate, MCSessionDelegate, AlertProtocol {
         return action
     }
     
+    //set action when user clicks "unfollow" the user
     private func unfollowAction(forPost post: Post) -> UIAlertAction? {
         let action = UIAlertAction(title: "Unfollow", style: .destructive) { (_) in
             
             let uid = post.user.uid
+            //query the database "unfollowUser" method and reload post data
             Database.database().unfollowUser(withUID: uid, completion: { (_) in
                 let filteredPosts = self.posts.filter({$0.user.uid != uid})
                 self.posts = filteredPosts
@@ -262,12 +273,14 @@ MCBrowserViewControllerDelegate, MCSessionDelegate, AlertProtocol {
         return action
     }
     
+    //function when clicking "like" the post button
     func didLike(for cell: HomePostCell) {
         guard let indexPath = collectionView?.indexPath(for: cell) else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         var post = posts[indexPath.item]
         
+        //if already liked before, this action should be "unlike"
         if post.likedByCurrentUser {
             Database.database().reference()
                 .child("likes").child(post.id).child(uid).removeValue { (err, _) in
@@ -282,7 +295,9 @@ MCBrowserViewControllerDelegate, MCSessionDelegate, AlertProtocol {
                     self.collectionView?.reloadItems(at: [indexPath])
                 }
             }
-        } else {
+        }
+        //otherwise, update "likes" table to add a new "Like"
+        else {
             let values = [uid : 1]
             Database.database().reference()
                 .child("likes").child(post.id).updateChildValues(values) { (err, _) in

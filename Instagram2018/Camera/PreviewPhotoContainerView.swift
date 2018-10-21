@@ -62,13 +62,20 @@ class PreviewPhotoContainerView: UIView {
     
     private func sharedInit() {
         addSubview(previewImageView)
-        previewImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        previewImageView.anchor(top: topAnchor, left: leftAnchor,
+                                bottom: bottomAnchor, right: rightAnchor,
+                                paddingTop: 0, paddingLeft: 0, paddingBottom: 0,
+                                paddingRight: 0, width: 0, height: 0)
         
         addSubview(cancelButton)
-        cancelButton.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 44, height: 44)
+        cancelButton.anchor(top: topAnchor, left: leftAnchor, bottom: nil,
+                            right: nil, paddingTop: 8, paddingLeft: 8,
+                            paddingBottom: 0, paddingRight: 0, width: 44, height: 44)
         
         addSubview(saveButton)
-        saveButton.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 24, paddingBottom: 24, paddingRight: 0, width: 50, height: 50)
+        saveButton.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor,
+                          right: nil, paddingTop: 0, paddingLeft: 24,
+                          paddingBottom: 24, paddingRight: 0, width: 50, height: 50)
     }
     
     @objc private func handleCancel() {
@@ -101,11 +108,15 @@ class PreviewPhotoContainerView: UIView {
         
         savedLabel.layer.transform = CATransform3DMakeScale(0, 0, 0)
         
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0,
+                       usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5,
+                       options: .curveEaseOut, animations: {
             self.savedLabel.layer.transform = CATransform3DMakeScale(1, 1, 1)
         }, completion: { (completed) in
             
-            UIView.animate(withDuration: 0.5, delay: 0.75, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.5, delay: 0.75,
+                           usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5,
+                           options: .curveEaseOut, animations: {
                 self.savedLabel.layer.transform = CATransform3DMakeScale(0.1, 0.1, 0.1)
                 self.savedLabel.alpha = 0
             }, completion: { (_) in

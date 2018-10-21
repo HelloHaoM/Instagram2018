@@ -4,7 +4,9 @@
 //
 //  Created by wry on 2018/10/9.
 //  Copyright © 2018年 jiacheng. All rights reserved.
-//
+//  Feed Model, including
+//  feed type (follow or like), user who did the activity, and create date of
+//  the activity
 
 import Foundation
 

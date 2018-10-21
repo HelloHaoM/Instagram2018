@@ -1,3 +1,10 @@
+//
+//  PostController.swift
+//  Instagram2018
+//
+//  Created by wry on 2018/10/5.
+//  Copyright © 2018年 jiacheng. All rights reserved.
+//
 
 import Foundation
 import UIKit
@@ -64,24 +71,14 @@ class PostController: UIViewController {
                     
                     picker.dismiss(animated: true, completion: { [weak self] in
                         self?.present(playerVC, animated: true, completion: nil)
-                        print("😀 \(String(describing: self?.resolutionForLocalVideo(url: assetURL)!))")
                     })
                 }
             }
             self.sharePhotoController.selectedImage = self.selectedImageV.image
-            self.navigationController?.pushViewController(self.sharePhotoController, animated: true)
+            self.navigationController?.pushViewController(self.sharePhotoController,
+                                                          animated: true)
         }
         present(picker, animated: true, completion: nil)
-    }
-}
-
-// Support methods
-extension PostController {
-    /* Gives a resolution for the video by URL */
-    func resolutionForLocalVideo(url: URL) -> CGSize? {
-        guard let track = AVURLAsset(url: url).tracks(withMediaType: AVMediaType.video).first else { return nil }
-        let size = track.naturalSize.applying(track.preferredTransform)
-        return CGSize(width: abs(size.width), height: abs(size.height))
     }
 }
 

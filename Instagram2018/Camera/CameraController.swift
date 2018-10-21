@@ -43,11 +43,18 @@ class CameraController: UIViewController {
     
     private func setupHUD() {
         view.addSubview(capturePhotoButton)
-        capturePhotoButton.anchor(top: nil, left: nil, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 24, paddingRight: 0, width: 80, height: 80)
-        capturePhotoButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        capturePhotoButton.anchor(
+            top: nil, left: nil, bottom: view.safeAreaLayoutGuide.bottomAnchor,
+            right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 24,
+            paddingRight: 0, width: 80, height: 80)
+        capturePhotoButton.centerXAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
         
         view.addSubview(dismissButton)
-        dismissButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, right: view.safeAreaLayoutGuide.rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 44, height: 44)
+        dismissButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                             right: view.safeAreaLayoutGuide.rightAnchor,
+                             paddingTop: 8, paddingLeft: 0, paddingBottom: 0,
+                             paddingRight: 8, width: 44, height: 44)
     }
     
     private func setupCaptureSession() {
@@ -99,7 +106,8 @@ class CameraController: UIViewController {
 //MARK: - AVCapturePhotoCaptureDelegate
 
 extension CameraController: AVCapturePhotoCaptureDelegate {
-    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+    func photoOutput(_ output: AVCapturePhotoOutput,
+                     didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation() else { return }
         
         let previewImage = UIImage(data: imageData)
@@ -107,7 +115,10 @@ extension CameraController: AVCapturePhotoCaptureDelegate {
         let containerView = PreviewPhotoContainerView()
         containerView.previewImageView.image = previewImage
         view.addSubview(containerView)
-        containerView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        containerView.anchor(
+            top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor,
+            right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0,
+            paddingRight: 0, width: 0, height: 0)
     }
 }
 
@@ -115,11 +126,15 @@ extension CameraController: AVCapturePhotoCaptureDelegate {
 
 extension CameraController: UIViewControllerTransitioningDelegate {
     
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(
+        forPresented presented: UIViewController,
+        presenting: UIViewController,
+        source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return customAnimationPresentor
     }
     
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(
+        forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return customAnimationDismissor
     }
 }

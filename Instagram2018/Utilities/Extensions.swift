@@ -4,7 +4,7 @@
 //
 //  Created by wry on 2018/10/5.
 //  Copyright © 2018年 jiacheng. All rights reserved.
-//
+//  Extensions for basic UI elements and showing Date
 
 import UIKit
 
@@ -18,7 +18,11 @@ extension UIColor {
 }
 
 extension UIView {
-    func anchor(top: NSLayoutYAxisAnchor? = nil, left: NSLayoutXAxisAnchor? = nil, bottom: NSLayoutYAxisAnchor? = nil, right: NSLayoutXAxisAnchor? = nil, paddingTop: CGFloat = 0, paddingLeft: CGFloat = 0, paddingBottom: CGFloat = 0, paddingRight: CGFloat = 0, width: CGFloat = 0, height: CGFloat = 0) {
+    func anchor(top: NSLayoutYAxisAnchor? = nil, left: NSLayoutXAxisAnchor? = nil,
+                bottom: NSLayoutYAxisAnchor? = nil, right: NSLayoutXAxisAnchor? = nil,
+                paddingTop: CGFloat = 0, paddingLeft: CGFloat = 0,
+                paddingBottom: CGFloat = 0, paddingRight: CGFloat = 0,
+                width: CGFloat = 0, height: CGFloat = 0) {
         
         translatesAutoresizingMaskIntoConstraints = false
         

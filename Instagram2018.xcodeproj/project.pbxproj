@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		181FFA0121704FF600243118 /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181FFA0021704FF600243118 /* PostController.swift */; };
-		18EAA68E217AEAF2001DE025 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18EAA68D217AEAF2001DE025 /* GoogleService-Info.plist */; };
 		5427198F2169EDA4005E61E6 /* LikesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5427198E2169EDA4005E61E6 /* LikesController.swift */; };
 		542719912169F0EA005E61E6 /* LikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542719902169F0EA005E61E6 /* LikeCell.swift */; };
 		5454367C216745A70052D393 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5454367B216745A70052D393 /* CameraController.swift */; };
@@ -39,6 +38,7 @@
 		545436BD21676D1D0052D393 /* FirebaseUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545436BC21676D1D0052D393 /* FirebaseUtilities.swift */; };
 		545436BF21676D390052D393 /* HomePostCellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545436BE21676D390052D393 /* HomePostCellViewController.swift */; };
 		545436C121676D510052D393 /* PlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545436C021676D510052D393 /* PlaceholderTextView.swift */; };
+		547D4BDC217C05A600000602 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 547D4BDB217C05A600000602 /* GoogleService-Info.plist */; };
 		54BFAD852175AA0F00588733 /* UserSearchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BFAD842175AA0F00588733 /* UserSearchHeader.swift */; };
 		54EF1381216729D900270808 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EF1380216729D900270808 /* AppDelegate.swift */; };
 		54EF1383216729D900270808 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EF1382216729D900270808 /* MainTabBarController.swift */; };
@@ -61,7 +61,6 @@
 
 /* Begin PBXFileReference section */
 		181FFA0021704FF600243118 /* PostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
-		18EAA68D217AEAF2001DE025 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5427198E2169EDA4005E61E6 /* LikesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesController.swift; sourceTree = "<group>"; };
 		542719902169F0EA005E61E6 /* LikeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCell.swift; sourceTree = "<group>"; };
 		5454367B216745A70052D393 /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
@@ -92,6 +91,7 @@
 		545436BC21676D1D0052D393 /* FirebaseUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtilities.swift; sourceTree = "<group>"; };
 		545436BE21676D390052D393 /* HomePostCellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePostCellViewController.swift; sourceTree = "<group>"; };
 		545436C021676D510052D393 /* PlaceholderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderTextView.swift; sourceTree = "<group>"; };
+		547D4BDB217C05A600000602 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		54BFAD842175AA0F00588733 /* UserSearchHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchHeader.swift; sourceTree = "<group>"; };
 		54EF137D216729D900270808 /* Instagram2018.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagram2018.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54EF1380216729D900270808 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -238,7 +238,7 @@
 		545436C421676FCC0052D393 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				18EAA68D217AEAF2001DE025 /* GoogleService-Info.plist */,
+				547D4BDB217C05A600000602 /* GoogleService-Info.plist */,
 				54EF138C216729D900270808 /* Info.plist */,
 			);
 			path = "Supporting Files";
@@ -385,8 +385,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				54EF138B216729D900270808 /* LaunchScreen.storyboard in Resources */,
-				18EAA68E217AEAF2001DE025 /* GoogleService-Info.plist in Resources */,
 				54EF1388216729D900270808 /* Assets.xcassets in Resources */,
+				547D4BDC217C05A600000602 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,14 +637,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VM8DWJ4LL6;
+				DEVELOPMENT_TEAM = KJCZ3M9BA6;
 				INFOPLIST_FILE = "$(SRCROOT)/Instagram2018/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Jianboma.Instagram2019;
+				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2019";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -657,14 +657,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VM8DWJ4LL6;
+				DEVELOPMENT_TEAM = KJCZ3M9BA6;
 				INFOPLIST_FILE = "$(SRCROOT)/Instagram2018/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Jianboma.Instagram2019;
+				PRODUCT_BUNDLE_IDENTIFIER = "Jiacheng-Sun.Instagram2019";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

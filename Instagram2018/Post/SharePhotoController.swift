@@ -47,7 +47,8 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
         let button = UIButton(type: .system)
         button.setTitle("Add Location", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action: #selector(handleAddLocation), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleAddLocation),
+                         for: .touchUpInside)
         return button
     }()
     
@@ -66,8 +67,10 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
         view.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
         
         navigationController?.navigationBar.tintColor = .black
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(handleShare))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: "Back", style: .plain, target: self, action: #selector(handleCancel))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Share", style: .plain, target: self, action: #selector(handleShare))
         layoutViews()
     }
     
@@ -79,30 +82,46 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
         let containerView = UIView()
         containerView.backgroundColor = .white
         view.addSubview(containerView)
-        containerView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.safeAreaLayoutGuide.leftAnchor, right: view.safeAreaLayoutGuide.rightAnchor, height: 100)
+        containerView.anchor(
+            top: view.safeAreaLayoutGuide.topAnchor,
+            left: view.safeAreaLayoutGuide.leftAnchor,
+            right: view.safeAreaLayoutGuide.rightAnchor, height: 100)
         
         containerView.addSubview(imageView)
-        imageView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, width: 84)
+        imageView.anchor(top: containerView.topAnchor,
+                         left: containerView.leftAnchor,
+                         bottom: containerView.bottomAnchor,
+                         paddingTop: 8, paddingLeft: 8, paddingBottom: 8, width: 84)
         
         containerView.addSubview(textView)
-        textView.anchor(top: containerView.topAnchor, left: imageView.rightAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingLeft: 4)
+        textView.anchor(top: containerView.topAnchor,
+                        left: imageView.rightAnchor, bottom:
+            containerView.bottomAnchor, right: containerView.rightAnchor,
+                                        paddingLeft: 4)
         
         let separatorView = UIView()
         separatorView.backgroundColor = UIColor(white: 0, alpha: 0.2)
         view.addSubview(separatorView)
-        separatorView.anchor(top: containerView.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, right: view.safeAreaLayoutGuide.rightAnchor, height: 0.5)
+        separatorView.anchor(top: containerView.bottomAnchor,
+                             left: view.safeAreaLayoutGuide.leftAnchor,
+                             right: view.safeAreaLayoutGuide.rightAnchor, height: 0.5)
         
         let locationView = UIView()
         locationView.backgroundColor = .white
         view.addSubview(locationView)
         
-        locationView.anchor(top: separatorView.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, right: view.safeAreaLayoutGuide.rightAnchor, height: 70)
+        locationView.anchor(top: separatorView.bottomAnchor,
+                            left: view.safeAreaLayoutGuide.leftAnchor,
+                            right: view.safeAreaLayoutGuide.rightAnchor, height: 70)
         
         locationView.addSubview(addLocationButton)
-        addLocationButton.anchor(top: locationView.topAnchor, left: locationView.leftAnchor, paddingLeft: padding)
+        addLocationButton.anchor(top: locationView.topAnchor,
+                                 left: locationView.leftAnchor, paddingLeft: padding)
         
         view.addSubview(locationLabel)
-        locationLabel.anchor(top: addLocationButton.bottomAnchor, left: locationView.leftAnchor, paddingTop: padding, paddingLeft: padding)
+        locationLabel.anchor(top: addLocationButton.bottomAnchor,
+                             left: locationView.leftAnchor,
+                             paddingTop: padding, paddingLeft: padding)
     }
     
     @objc private func handleShare() {
@@ -111,16 +130,21 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
         
         navigationItem.rightBarButtonItem?.isEnabled = false
         textView.isUserInteractionEnabled = false
-        //create a new post when clicking "share", send image, caption, address and location information
-        Database.database().createPost(withImage: postImage, caption: caption, address: self.userAddress, location: self.coordinates) { (err) in
+        //create a new post when clicking "share",
+        //send image, caption, address and location information
+        Database.database().createPost(
+        withImage: postImage, caption: caption, address: self.userAddress,
+        location: self.coordinates) { (err) in
             if err != nil {
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
                 self.textView.isUserInteractionEnabled = true
                 return
             }
             //after post, update home page feeds and user profile page feeds
-            NotificationCenter.default.post(name: NSNotification.Name.updateHomeFeed, object: nil)
-            NotificationCenter.default.post(name: NSNotification.Name.updateUserProfileFeed, object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name.updateHomeFeed,
+                                            object: nil)
+            NotificationCenter.default.post(
+                name: NSNotification.Name.updateUserProfileFeed, object: nil)
             self.dismiss(animated: true, completion: nil)
         }
     }
@@ -137,7 +161,8 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager,
+                         didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         //print("locations = \(locValue.latitude) \(locValue.longitude)")
         //store coordinates information
@@ -148,18 +173,20 @@ class SharePhotoController: UIViewController, CLLocationManagerDelegate {
         let geocoder = CLGeocoder()
         
         //based on the coordinates information, show its address
-        geocoder.reverseGeocodeLocation(userLocation!,
-                                        completionHandler: { (placemarks, error) in
-                                            if error == nil {
-                                                let firstLocation = placemarks?[0]
-                                                let address = firstLocation?.compactAddress
-                                                self.locationLabel.text = address
-                                                self.userAddress = address ?? ""
-                                            }
-                                            else {
-                                                // An error occurred during geocoding.
-                                                self.locationLabel.text = "cannot get location information"
-                                            }
+        geocoder.reverseGeocodeLocation(
+            userLocation!, completionHandler: { (placemarks, error) in
+                if error == nil {
+                    let firstLocation = placemarks?[0]
+                    let address = firstLocation?.compactAddress
+                    self.locationLabel.text = address
+                    self.userAddress = address ?? ""
+                    
+                }
+                else {
+                    // An error occurred during geocoding.
+                    self.locationLabel.text = "cannot get location information"
+                    
+                }
         })
     }
 }

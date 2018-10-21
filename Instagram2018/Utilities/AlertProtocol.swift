@@ -19,8 +19,10 @@ extension AlertProtocol where Self: UIViewController {
     ///   - msg: the msg of the alert
     func createAlertWithMsgAndTitle(_ title: String, msg: String) {
         
-        let alertController = UIAlertController(title: title, message: msg, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Accept", style: .cancel, handler: { (alert) -> Void in
+        let alertController = UIAlertController(
+            title: title, message: msg, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(
+            title: "Accept", style: .cancel, handler: { (alert) -> Void in
             alertController.removeFromParent()
         }))
         
