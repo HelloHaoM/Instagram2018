@@ -26,8 +26,7 @@ class UserSearchHeader: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.setTitle("All", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action: #selector(handleChangeToAll),
-                         for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleChangeToAll), for: .touchUpInside)
         return button
     }()
     
@@ -36,8 +35,7 @@ class UserSearchHeader: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.setTitle("Suggested", for: .normal)
         button.setTitleColor(.gray, for: .normal)
-        button.addTarget(self, action: #selector(handleChangeToSuggested),
-                         for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleChangeToSuggested), for: .touchUpInside)
         return button
     }()
     
@@ -59,12 +57,10 @@ class UserSearchHeader: UICollectionViewCell {
     /// init the user profile header
     private func sharedInit() {
         
-        let stackView = UIStackView(arrangedSubviews: [allUserButton,
-                                                       suggestedUserButton])
+        let stackView = UIStackView(arrangedSubviews: [allUserButton, suggestedUserButton])
         stackView.distribution = .fillEqually
         addSubview(stackView)
-        stackView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor,
-                         height: 30)
+        stackView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 30)
 
     }
     

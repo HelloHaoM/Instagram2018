@@ -32,8 +32,7 @@ class LikesController: UICollectionViewController {
         collectionView?.backgroundColor = .white
         collectionView?.alwaysBounceVertical = true
         collectionView?.keyboardDismissMode = .interactive
-        collectionView?.register(LikeCell.self,
-                                 forCellWithReuseIdentifier: LikeCell.cellId)
+        collectionView?.register(LikeCell.self, forCellWithReuseIdentifier: LikeCell.cellId)
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(

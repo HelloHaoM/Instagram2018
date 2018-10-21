@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.makeKeyAndVisible()
         window?.backgroundColor = .white
+        //set root view controller as MainTabBarController
         window?.rootViewController = MainTabBarController()
         return true
     }

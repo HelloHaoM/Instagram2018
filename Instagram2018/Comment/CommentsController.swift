@@ -45,8 +45,7 @@ class CommentsController: UICollectionViewController {
                                  forCellWithReuseIdentifier: CommentCell.cellId)
         
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(fetchComments),
-                                 for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(fetchComments), for: .valueChanged)
         collectionView?.refreshControl = refreshControl
     }
     
@@ -66,8 +65,7 @@ class CommentsController: UICollectionViewController {
     @objc private func fetchComments() {
         guard let postId = post?.id else { return }
         collectionView?.refreshControl?.beginRefreshing()
-        Database.database().fetchCommentsForPost(withId: postId,
-                                                 completion: { (comments) in
+        Database.database().fetchCommentsForPost(withId: postId, completion: { (comments) in
             self.comments = comments
             self.collectionView?.reloadData()
             self.collectionView?.refreshControl?.endRefreshing()
@@ -127,8 +125,7 @@ extension CommentsController: CommentInputAccessoryViewDelegate {
     func didSubmit(comment: String) {
         guard let postId = post?.id else { return }
         //when submmiting, save comment information into the database
-        Database.database().addCommentToPost(withId: postId,
-                                             text: comment) { (err) in
+        Database.database().addCommentToPost(withId: postId, text: comment) { (err) in
             if err != nil {
                 return
             }
@@ -145,8 +142,7 @@ extension CommentsController: CommentCellDelegate {
         let userProfileController = UserProfileController(
             collectionViewLayout: UICollectionViewFlowLayout())
         userProfileController.user = user
-        navigationController?.pushViewController(
-            userProfileController, animated: true)
+        navigationController?.pushViewController(userProfileController, animated: true)
     }
 }
 

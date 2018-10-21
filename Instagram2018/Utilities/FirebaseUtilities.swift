@@ -100,8 +100,7 @@ extension Storage {
         image: UIImage, filename: String, completion: @escaping (String) -> ()) {
         guard let uploadData = image.jpegData(compressionQuality: 1) else { return }
         
-        let storageRef = Storage.storage().reference()
-            .child("post_images").child(filename)
+        let storageRef = Storage.storage().reference().child("post_images").child(filename)
         storageRef.putData(uploadData, metadata: nil, completion: { (_, err) in
             if let err = err {
                 print("Failed to upload post image:", err)
@@ -375,8 +374,7 @@ extension Database {
         location: [Double], completion: @escaping (Error?) -> ()) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        let userPostRef = Database.database().reference()
-            .child("posts").child(uid).childByAutoId()
+        let userPostRef = Database.database().reference().child("posts").child(uid).childByAutoId()
         
         guard let postId = userPostRef.key else { return }
         
@@ -405,8 +403,7 @@ extension Database {
         completion: @escaping (Post) -> (), withCancel cancel: ((Error) -> ())? = nil) {
         guard let currentLoggedInUser = Auth.auth().currentUser?.uid else { return }
         
-        let ref = Database.database().reference()
-            .child("posts").child(uid).child(postId)
+        let ref = Database.database().reference().child("posts").child(uid).child(postId)
         
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             
@@ -453,8 +450,7 @@ extension Database {
             var posts = [Post]()
             
             dictionaries.forEach({ (postId, value) in
-                Database.database().fetchPost(withUID: uid, postId: postId,
-                                              completion: { (post) in
+                Database.database().fetchPost(withUID: uid, postId: postId, completion: { (post) in
                                                 posts.append(post)
                                                 
                                                 if posts.count == dictionaries.count {
@@ -468,8 +464,7 @@ extension Database {
         }
     }
     
-    func deletePost(withUID uid: String, postId: String,
-                    completion: ((Error?) -> ())? = nil) {
+    func deletePost(withUID uid: String, postId: String, completion: ((Error?) -> ())? = nil) {
         Database.database().reference()
             .child("posts").child(uid).child(postId).removeValue { (err, _) in
                 if let err = err {
@@ -479,8 +474,7 @@ extension Database {
                 }
                 
                 Database.database().reference()
-                    .child("comments").child(postId).removeValue(completionBlock: {
-                        (err, _) in
+                    .child("comments").child(postId).removeValue(completionBlock: { (err, _) in
                         if let err = err {
                             print("Failed to delete comments on post:", err)
                             completion?(err)
@@ -532,8 +526,7 @@ extension Database {
     func fetchCommentsForPost(
         withId postId: String,
         completion: @escaping ([Comment]) -> (), withCancel cancel: ((Error) -> ())?) {
-        let commentsReference = Database.database().reference()
-            .child("comments").child(postId)
+        let commentsReference = Database.database().reference().child("comments").child(postId)
         
         commentsReference.observeSingleEvent(of: .value, with: { (snapshot) in
             guard let dictionaries = snapshot.value as? [String: Any] else {
@@ -638,8 +631,7 @@ extension Database {
     
     //MARK: Utilities
     
-    func numberOfPostsForUser(withUID uid: String,
-                              completion: @escaping (Int) -> ()) {
+    func numberOfPostsForUser(withUID uid: String, completion: @escaping (Int) -> ()) {
         Database.database().reference().child("posts")
             .child(uid).observeSingleEvent(of: .value) { (snapshot) in
                 if let dictionaries = snapshot.value as? [String: Any] {
@@ -650,8 +642,7 @@ extension Database {
         }
     }
     
-    func numberOfFollowersForUser(withUID uid: String,
-                                  completion: @escaping (Int) -> ()) {
+    func numberOfFollowersForUser(withUID uid: String, completion: @escaping (Int) -> ()) {
         Database.database().reference().child("followers")
             .child(uid).observeSingleEvent(of: .value) { (snapshot) in
                 if let dictionaries = snapshot.value as? [String: Any] {
@@ -662,8 +653,7 @@ extension Database {
         }
     }
     
-    func numberOfFollowingForUser(withUID uid: String,
-                                  completion: @escaping (Int) -> ()) {
+    func numberOfFollowingForUser(withUID uid: String, completion: @escaping (Int) -> ()) {
         Database.database().reference().child("following")
             .child(uid).observeSingleEvent(of: .value) { (snapshot) in
                 if let dictionaries = snapshot.value as? [String: Any] {
@@ -674,8 +664,7 @@ extension Database {
         }
     }
     
-    func numberOfLikesForPost(withPostId postId: String,
-                              completion: @escaping (Int) -> ()) {
+    func numberOfLikesForPost(withPostId postId: String, completion: @escaping (Int) -> ()) {
         Database.database().reference().child("likes")
             .child(postId).observeSingleEvent(of: .value) { (snapshot) in
                 if let dictionaries = snapshot.value as? [String: Any] {

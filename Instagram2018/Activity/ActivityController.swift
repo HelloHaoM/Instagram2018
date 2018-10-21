@@ -67,12 +67,15 @@ class ActivityController: UICollectionViewController {
         stackView.distribution = .fillEqually
         navigationItem.titleView = navView
         navView.addSubview(stackView)
-        stackView.anchor(top: navView.topAnchor, left: navView.leftAnchor, bottom: navView.bottomAnchor, right: navView.rightAnchor,
+        stackView.anchor(top: navView.topAnchor, left: navView.leftAnchor,
+                         bottom: navView.bottomAnchor, right: navView.rightAnchor,
                          paddingTop: 3, paddingLeft: 3, paddingBottom: 3, paddingRight: 3)
         
         collectionView?.backgroundColor = .white
-        collectionView?.register(EmptyActivityCell.self, forCellWithReuseIdentifier: EmptyActivityCell.cellId)
-        collectionView?.register(FollowFeedCell.self, forCellWithReuseIdentifier: FollowFeedCell.cellId)
+        collectionView?.register(EmptyActivityCell.self,
+                                 forCellWithReuseIdentifier: EmptyActivityCell.cellId)
+        collectionView?.register(FollowFeedCell.self,
+                                 forCellWithReuseIdentifier: FollowFeedCell.cellId)
         collectionView?.register(LikeFeedCell.self, forCellWithReuseIdentifier: LikeFeedCell.cellId)
         
         let refreshControl = UIRefreshControl()
@@ -84,7 +87,8 @@ class ActivityController: UICollectionViewController {
     private func fetchFollowingUserPosts() {
         guard let currentLoggedInUserId = Auth.auth().currentUser?.uid else { return }
         collectionView?.refreshControl?.beginRefreshing()
-        Database.database().reference().child("following").child(currentLoggedInUserId).observeSingleEvent(of: .value, with: { (snapshot) in
+        Database.database().reference().child("following")
+            .child(currentLoggedInUserId).observeSingleEvent(of: .value, with: { (snapshot) in
             guard let userIdsDictionary = snapshot.value as? [String: Any] else { return }
             userIdsDictionary.forEach({ (uid, value) in
                 Database.database().fetchAllPosts(withUID: uid, completion: { (posts) in
@@ -135,7 +139,8 @@ class ActivityController: UICollectionViewController {
         }
     }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView,
+                                 numberOfItemsInSection section: Int) -> Int {
         if isFollowingPage {
             if posts.count == 0 {
                 return 1
@@ -151,13 +156,16 @@ class ActivityController: UICollectionViewController {
     
     // using collection view as page control
     // if content is empty display the empty state cell
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView,
+                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if isFollowingPage {
             if posts.count == 0 {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmptyActivityCell.cellId, for: indexPath)
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: EmptyActivityCell.cellId, for: indexPath)
                 return cell
             }
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomePostCell.cellId, for: indexPath) as! HomePostCell
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: HomePostCell.cellId, for: indexPath) as! HomePostCell
             if indexPath.item < posts.count {
                 cell.post = posts[indexPath.item]
             }
@@ -165,18 +173,21 @@ class ActivityController: UICollectionViewController {
             return cell
         } else {
             if userFeeds.count == 0 {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmptyActivityCell.cellId, for: indexPath)
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: EmptyActivityCell.cellId, for: indexPath)
                 return cell
             }
             let feed = userFeeds[indexPath.item]
             switch(feed.type){
             case .follow:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowFeedCell.cellId, for: indexPath) as! FollowFeedCell
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: FollowFeedCell.cellId, for: indexPath) as! FollowFeedCell
                 cell.delegate = self
                 cell.layoutSubviews(feed.user,feed.creationDate)
                 return cell
             case .like(let post):
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeFeedCell.cellId, for: indexPath) as! LikeFeedCell
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: LikeFeedCell.cellId, for: indexPath) as! LikeFeedCell
                 cell.delegate = self
                 cell.layoutSubviews(feed.user,feed.creationDate,post)
                 return cell
@@ -195,7 +206,8 @@ protocol FeedCellDelegate {
 extension ActivityController : FeedCellDelegate {
     
     func didTapUser(user: User) {
-        let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
+        let userProfileController = UserProfileController(
+            collectionViewLayout: UICollectionViewFlowLayout())
         userProfileController.user = user
         navigationController?.pushViewController(userProfileController, animated: true)
     }
@@ -214,22 +226,29 @@ extension ActivityController : FeedCellDelegate {
 
 extension ActivityController : UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         if isFollowingPage {
             if posts.count == 0 {
                 let emptyStateCellHeight = (view.safeAreaLayoutGuide.layoutFrame.height - 200)
                 return CGSize(width: view.frame.width, height: emptyStateCellHeight)
             }
             // calculate the height using dummyCell
-            let dummyCell = HomePostCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 1000))
+            let dummyCell = HomePostCell(frame: CGRect(x: 0, y: 0,
+                                                       width: view.frame.width, height: 1000))
             dummyCell.post = posts[indexPath.item]
             dummyCell.layoutIfNeeded()
             var height: CGFloat = dummyCell.header.bounds.height
@@ -268,7 +287,8 @@ extension NSMutableAttributedString {
     
     // date gray
     @discardableResult func activityGray(_ text: String) -> NSMutableAttributedString {
-        let attrs: [NSAttributedString.Key: Any] = [.font: UIFont(name: "Helvetica", size: 12)!, .foregroundColor: UIColor.gray]
+        let attrs: [NSAttributedString.Key: Any] =
+            [.font: UIFont(name: "Helvetica", size: 12)!, .foregroundColor: UIColor.gray]
         let normal = NSAttributedString(string: text, attributes:attrs)
         append(normal)
         return self
@@ -297,7 +317,8 @@ extension ActivityController: HomePostCellDelegate {
     }
     
     func didTapComment(post: Post) {
-        let commentsController = CommentsController(collectionViewLayout: UICollectionViewFlowLayout())
+        let commentsController = CommentsController(
+            collectionViewLayout: UICollectionViewFlowLayout())
         commentsController.post = post
         navigationController?.pushViewController(commentsController, animated: true)
     }
@@ -334,7 +355,8 @@ extension ActivityController: HomePostCellDelegate {
         var post = posts[indexPath.item]
         
         if post.likedByCurrentUser {
-            Database.database().reference().child("likes").child(post.id).child(uid).removeValue { (err, _) in
+            Database.database().reference().child("likes")
+                .child(post.id).child(uid).removeValue { (err, _) in
                 if let err = err {
                     print("Failed to unlike post:", err)
                     return
@@ -348,7 +370,8 @@ extension ActivityController: HomePostCellDelegate {
             }
         } else {
             let values = [uid : 1]
-            Database.database().reference().child("likes").child(post.id).updateChildValues(values) { (err, _) in
+            Database.database().reference().child("likes").child(post.id)
+                .updateChildValues(values) { (err, _) in
                 if let err = err {
                     print("Failed to like post:", err)
                     return
@@ -362,7 +385,8 @@ extension ActivityController: HomePostCellDelegate {
                 
                 // record like feed
                 guard let currentLoggedInUserId = Auth.auth().currentUser?.uid else { return }
-                let feedRef = Database.database().reference().child("feed").child(post.user.uid).childByAutoId()
+                let feedRef = Database.database().reference()
+                    .child("feed").child(post.user.uid).childByAutoId()
                 let feedValue = ["type": Feed.likeType,
                                  "user": currentLoggedInUserId,
                                  "post": post.id,

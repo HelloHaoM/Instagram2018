@@ -62,7 +62,8 @@ class LikeFeedCell: UICollectionViewCell {
         if let profileUrl = user.profileImageUrl {
             profilePicture.loadImage(urlString: profileUrl)
         }
-        profilePicture.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleUserTap)))
+        profilePicture.addGestureRecognizer(UITapGestureRecognizer(
+            target: self, action: #selector(handleUserTap)))
         
         let formattedString = NSMutableAttributedString()
         formattedString.activityBold(user.username)
@@ -72,16 +73,17 @@ class LikeFeedCell: UICollectionViewCell {
         smallPostPicture.loadImage(urlString: post.imageUrl)
         
         // Set up constraints
-        profilePicture.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: message.leftAnchor,
-                              paddingTop: padding, paddingLeft: padding, paddingBottom: padding, paddingRight: padding,
-                              width: 40, height: 40)
+        profilePicture.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor,
+                              right: message.leftAnchor, paddingTop: padding, paddingLeft: padding,
+                              paddingBottom: padding, paddingRight: padding, width: 40, height: 40)
         
-        message.anchor(top: topAnchor, left: profilePicture.rightAnchor, bottom: bottomAnchor, right: smallPostPicture.leftAnchor,
-                       paddingTop: padding, paddingLeft: padding, paddingBottom: padding, paddingRight: padding)
+        message.anchor(top: topAnchor, left: profilePicture.rightAnchor, bottom: bottomAnchor,
+                       right: smallPostPicture.leftAnchor, paddingTop: padding, paddingLeft: padding,
+                       paddingBottom: padding, paddingRight: padding)
         
-        smallPostPicture.anchor(top: topAnchor, left: message.rightAnchor, bottom: bottomAnchor, right: rightAnchor,
-                                paddingTop: padding, paddingLeft: padding, paddingBottom: padding, paddingRight: padding,
-                                width: 40, height: 40)
+        smallPostPicture.anchor(top: topAnchor, left: message.rightAnchor, bottom: bottomAnchor,
+                                right: rightAnchor, paddingTop: padding, paddingLeft: padding,
+                                paddingBottom: padding, paddingRight: padding, width: 40, height: 40)
         
     }
     

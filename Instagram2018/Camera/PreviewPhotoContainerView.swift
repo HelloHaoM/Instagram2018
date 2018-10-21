@@ -128,32 +128,3 @@ class PreviewPhotoContainerView: UIView {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -42,7 +42,8 @@ extension Database {
                 case Feed.likeType:
                     let postId = feedDictionary["post"] as! String
                     self.fetchUser(withUID: userId, completion: { (user) in
-                        self.fetchPost(withUID: currentLoggedInUserId, postId: postId, completion: { (post) in
+                        self.fetchPost(withUID: currentLoggedInUserId,
+                                       postId: postId, completion: { (post) in
                             let feed = Feed(user: user,
                                             creationDate: Date(timeIntervalSince1970: creationDate),
                                             type: .like(post))

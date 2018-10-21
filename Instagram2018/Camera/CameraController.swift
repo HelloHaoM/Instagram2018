@@ -140,22 +140,3 @@ extension CameraController: UIViewControllerTransitioningDelegate {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

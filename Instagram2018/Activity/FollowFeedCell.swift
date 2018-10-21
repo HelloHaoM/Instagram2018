@@ -50,7 +50,8 @@ class FollowFeedCell: UICollectionViewCell {
         addSubview(message)
         
         // load data on view
-        profilePicture.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleUserTap)))
+        profilePicture.addGestureRecognizer(UITapGestureRecognizer(
+            target: self, action: #selector(handleUserTap)))
         if let profileUrl = user.profileImageUrl {
             profilePicture.loadImage(urlString: profileUrl)
         }
@@ -62,12 +63,13 @@ class FollowFeedCell: UICollectionViewCell {
         message.attributedText = formattedString
         
         // Set up constraints
-        profilePicture.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: message.leftAnchor,
-                              paddingTop: padding, paddingLeft: padding, paddingBottom: padding, paddingRight: padding,
-                              width: 40, height: 40)
+        profilePicture.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor,
+                              right: message.leftAnchor, paddingTop: padding, paddingLeft: padding,
+                              paddingBottom: padding, paddingRight: padding, width: 40, height: 40)
         
-        message.anchor(top: topAnchor, left: profilePicture.rightAnchor, bottom: bottomAnchor, right: rightAnchor,
-                       paddingTop: padding, paddingLeft: padding, paddingBottom: padding, paddingRight: padding)
+        message.anchor(top: topAnchor, left: profilePicture.rightAnchor,
+                       bottom: bottomAnchor, right: rightAnchor, paddingTop: padding,
+                       paddingLeft: padding, paddingBottom: padding, paddingRight: padding)
     }
     
     @objc func handleUserTap(){

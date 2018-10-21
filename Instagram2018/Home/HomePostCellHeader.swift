@@ -108,7 +108,3 @@ class HomePostCellHeader: UIView {
     }
 }
 
-
-
-
-
