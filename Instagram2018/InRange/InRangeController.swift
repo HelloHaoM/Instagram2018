@@ -49,7 +49,8 @@ class InRangeController: UICollectionViewController {
     ///   - collectionView: the collection view
     ///   - section: the index of the items
     /// - Returns: the count of image
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView,
+                                 numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return senderImages.count
     }
@@ -60,8 +61,10 @@ class InRangeController: UICollectionViewController {
     ///   - collectionView: the collection view
     ///   - indexPath: the index of the items
     /// - Returns: each cell
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InRangeCell.cellId, for: indexPath) as! InRangeCell
+    override func collectionView(_ collectionView: UICollectionView,
+                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InRangeCell.cellId,
+                                                      for: indexPath) as! InRangeCell
         cell.username = senderNames[indexPath.item]
         cell.sentImage = senderImages[indexPath.item]
         return cell
@@ -79,7 +82,9 @@ extension InRangeController: UICollectionViewDelegateFlowLayout {
     ///   - collectionViewLayout: the layout of the collection view
     ///   - indexPath: the index of the itmes
     /// - Returns: the CGSize
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 150)
     }
 }

@@ -104,18 +104,24 @@ class UserProfileHeader: UICollectionViewCell {
     /// init the user profile header
     private func sharedInit() {
         addSubview(profileImageView)
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, paddingTop: padding, paddingLeft: padding, width: 80, height: 80)
+        profileImageView.anchor(top: topAnchor, left: leftAnchor,
+                                paddingTop: padding, paddingLeft: padding,
+                                width: 80, height: 80)
         profileImageView.layer.cornerRadius = 80 / 2
         
         layoutBottomToolbar()
         
         addSubview(usernameLabel)
-        usernameLabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: gridButton.topAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: padding, paddingRight: padding)
+        usernameLabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor,
+                             bottom: gridButton.topAnchor, right: rightAnchor,
+                             paddingTop: 4, paddingLeft: padding, paddingRight: padding)
         
         layoutUserStatsView()
         
         addSubview(followButton)
-        followButton.anchor(top: postsLabel.bottomAnchor, left: postsLabel.leftAnchor, right: followingLabel.rightAnchor, paddingTop: 2, height: 34)
+        followButton.anchor(top: postsLabel.bottomAnchor, left: postsLabel.leftAnchor,
+                            right: followingLabel.rightAnchor,
+                            paddingTop: 2, height: 34)
     }
     
     /// set the layout of the state
@@ -123,7 +129,9 @@ class UserProfileHeader: UICollectionViewCell {
         let stackView = UIStackView(arrangedSubviews: [postsLabel, followersLabel, followingLabel])
         stackView.distribution = .fillEqually
         addSubview(stackView)
-        stackView.anchor(top: topAnchor, left: profileImageView.rightAnchor, right: rightAnchor, paddingTop: padding, paddingLeft: padding, paddingRight: padding, height: 50)
+        stackView.anchor(top: topAnchor, left: profileImageView.rightAnchor, right: rightAnchor,
+                         paddingTop: padding, paddingLeft: padding,
+                         paddingRight: padding, height: 50)
     }
     
     /// set the layout of the tool bar
@@ -141,8 +149,10 @@ class UserProfileHeader: UICollectionViewCell {
         addSubview(topDividerView)
         addSubview(bottomDividerView)
         
-        topDividerView.anchor(top: stackView.topAnchor, left: leftAnchor, right: rightAnchor, height: 0.5)
-        bottomDividerView.anchor(top: stackView.bottomAnchor, left: leftAnchor, right: rightAnchor, height: 0.5)
+        topDividerView.anchor(top: stackView.topAnchor, left: leftAnchor, right: rightAnchor,
+                              height: 0.5)
+        bottomDividerView.anchor(top: stackView.bottomAnchor, left: leftAnchor, right: rightAnchor,
+                                 height: 0.5)
         stackView.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, height: 44)
     }
     
@@ -294,8 +304,11 @@ private class UserProfileStatsLabel: UILabel {
     
     /// set the attributedtext
     private func setAttributedText() {
-        let attributedText = NSMutableAttributedString(string: "\(value)\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+        let attributedText = NSMutableAttributedString(string: "\(value)\n",
+            attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
+        attributedText.append(NSAttributedString(string: title,
+                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray,
+                                                              NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
         self.attributedText = attributedText
     }
 }
