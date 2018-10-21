@@ -16,6 +16,7 @@ class PreviewPhotoContainerView: UIView {
         return iv
     }()
     
+    // Canbel button
     private let cancelButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "cancel_shadow2").withRenderingMode(.alwaysOriginal), for: .normal)
@@ -24,6 +25,7 @@ class PreviewPhotoContainerView: UIView {
         return button
     }()
     
+    // Save button
     private let saveButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "save_shadow").withRenderingMode(.alwaysOriginal), for: .normal)
@@ -33,6 +35,7 @@ class PreviewPhotoContainerView: UIView {
         return button
     }()
     
+    // Save label
     private let savedLabel: UILabel = {
         let label = UILabel()
         label.text = "Saved Successfully"
