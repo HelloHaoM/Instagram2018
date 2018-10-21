@@ -48,6 +48,7 @@ class HomePostCell: UICollectionViewCell {
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.backgroundColor = UIColor(white: 0.95, alpha: 1)
+        iv.isUserInteractionEnabled  = true
         return iv
     }()
     
