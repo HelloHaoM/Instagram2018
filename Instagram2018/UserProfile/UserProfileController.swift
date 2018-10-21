@@ -32,17 +32,26 @@ class UserProfileController: HomePostCellViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil,
+                                                           action: nil)
         navigationItem.backBarButtonItem?.tintColor = .black
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleRefresh), name: NSNotification.Name.updateUserProfileFeed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRefresh),
+                                               name: NSNotification.Name.updateUserProfileFeed,
+                                               object: nil)
         
         collectionView?.backgroundColor = .white
-        collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: UserProfileHeader.headerId)
-        collectionView?.register(UserProfilePhotoGridCell.self, forCellWithReuseIdentifier: UserProfilePhotoGridCell.cellId)
-        collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: HomePostCell.cellId)
-        collectionView?.register(UserProfileEmptyStateCell.self, forCellWithReuseIdentifier: UserProfileEmptyStateCell.cellId)
-        collectionView?.register(UserProfileBookMarkCell.self, forCellWithReuseIdentifier: UserProfileBookMarkCell.cellId)
+        collectionView?.register(UserProfileHeader.self,
+                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                 withReuseIdentifier: UserProfileHeader.headerId)
+        collectionView?.register(UserProfilePhotoGridCell.self,
+                                 forCellWithReuseIdentifier: UserProfilePhotoGridCell.cellId)
+        collectionView?.register(HomePostCell.self,
+                                 forCellWithReuseIdentifier: HomePostCell.cellId)
+        collectionView?.register(UserProfileEmptyStateCell.self,
+                                 forCellWithReuseIdentifier: UserProfileEmptyStateCell.cellId)
+        collectionView?.register(UserProfileBookMarkCell.self,
+                                 forCellWithReuseIdentifier: UserProfileBookMarkCell.cellId)
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
@@ -70,7 +79,8 @@ class UserProfileController: HomePostCellViewController {
         alertController.addAction(logOutAction)
         
         // add delete account option
-        let deleteAccountAction = UIAlertAction(title: "Delete Account", style: .destructive, handler: nil)
+        let deleteAccountAction = UIAlertAction(title: "Delete Account", style: .destructive,
+                                                handler: nil)
         alertController.addAction(deleteAccountAction)
     }
     
@@ -80,10 +90,14 @@ class UserProfileController: HomePostCellViewController {
         
         if user.uid == Auth.auth().currentUser?.uid {
             // in the self profile page
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "gear").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleSettings))
+            navigationItem.rightBarButtonItem =
+                UIBarButtonItem(image: #imageLiteral(resourceName: "gear").withRenderingMode(.alwaysOriginal),
+                                                                style: .plain, target: self,
+                                                                action: #selector(handleSettings))
         } else {
             // in the other user profile page
-            let optionsButton = UIBarButtonItem(title: "•••", style: .plain, target: nil, action: nil)
+            let optionsButton = UIBarButtonItem(title: "•••", style: .plain, target: nil,
+                                                action: nil)
             optionsButton.tintColor = .black
             navigationItem.rightBarButtonItem = optionsButton
         }
@@ -124,7 +138,8 @@ class UserProfileController: HomePostCellViewController {
     ///   - collectionView: the collection view
     ///   - section: the index of the items
     /// - Returns: the count of post
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView,
+                                 numberOfItemsInSection section: Int) -> Int {
         if posts.count == 0 {
             return 1
         }
@@ -137,10 +152,13 @@ class UserProfileController: HomePostCellViewController {
     ///   - collectionView: the collection view
     ///   - indexPath: the index of the items
     /// - Returns: each post cell
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView,
+                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if posts.count == 0 && !isBookMark {
             // load the empty state cell
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfileEmptyStateCell.cellId, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: UserProfileEmptyStateCell.cellId,
+                for: indexPath)
             return cell
         }
         
@@ -150,19 +168,25 @@ class UserProfileController: HomePostCellViewController {
         
         if isGridView {
             // load the grid view cell
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfilePhotoGridCell.cellId, for: indexPath) as! UserProfilePhotoGridCell
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: UserProfilePhotoGridCell.cellId,
+                for: indexPath) as! UserProfilePhotoGridCell
             cell.post = posts[indexPath.item]
             return cell
         }
         
         if isBookMark {
             // load the bookmark cell
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfileBookMarkCell.cellId, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: UserProfileBookMarkCell.cellId,
+                for: indexPath)
             return cell
         }
         
         // load the home post cell
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomePostCell.cellId, for: indexPath) as! HomePostCell
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: HomePostCell.cellId,
+            for: indexPath) as! HomePostCell
         cell.post = posts[indexPath.item]
         cell.delegate = self
         return cell
@@ -175,9 +199,14 @@ class UserProfileController: HomePostCellViewController {
     ///   - kind: the kind
     ///   - indexPath: the index of the items
     /// - Returns: the header
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    override func collectionView(_ collectionView: UICollectionView,
+                                 viewForSupplementaryElementOfKind kind: String,
+                                 at indexPath: IndexPath) -> UICollectionReusableView {
         if header == nil {
-            header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: UserProfileHeader.headerId, for: indexPath) as? UserProfileHeader
+            header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: UserProfileHeader.headerId, for: indexPath)
+                as? UserProfileHeader
             header?.delegate = self
             header?.user = user
         }
@@ -189,11 +218,15 @@ class UserProfileController: HomePostCellViewController {
 
 extension UserProfileController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
     
@@ -204,7 +237,9 @@ extension UserProfileController: UICollectionViewDelegateFlowLayout {
     ///   - collectionViewLayout: the layout of the collection view
     ///   - indexPath: the index of items
     /// - Returns: the CGSize
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         if posts.count == 0 && !isBookMark {
             let emptyStateCellHeight = (view.safeAreaLayoutGuide.layoutFrame.height - 200)
             return CGSize(width: view.frame.width, height: emptyStateCellHeight)
@@ -219,7 +254,8 @@ extension UserProfileController: UICollectionViewDelegateFlowLayout {
             let width = (view.frame.width - 2) / 3
             return CGSize(width: width, height: width)
         } else {
-            let dummyCell = HomePostCell(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 1000))
+            let dummyCell = HomePostCell(frame: CGRect(x: 0, y: 0, width: view.frame.width,
+                                                       height: 1000))
             dummyCell.post = posts[indexPath.item]
             dummyCell.layoutIfNeeded()
             
@@ -242,7 +278,9 @@ extension UserProfileController: UICollectionViewDelegateFlowLayout {
     ///   - collectionViewLayout: the layout of the collection view
     ///   - section: the section
     /// - Returns: the CGSize
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 200)
     }
 }

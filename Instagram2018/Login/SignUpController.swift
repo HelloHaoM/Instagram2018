@@ -102,8 +102,10 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
     /// go to login button
     private let alreadyHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
-        let attributedTitle = NSMutableAttributedString(string: "Already have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        attributedTitle.append(NSAttributedString(string: "Sign In", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.mainBlue
+        let attributedTitle = NSMutableAttributedString(string: "Already have an account?  ",
+                                                        attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        attributedTitle.append(NSAttributedString(string: "Sign In",
+                                                  attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.mainBlue
             ]))
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(handleAlreadyHaveAccount), for: .touchUpInside)
@@ -117,13 +119,19 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapOnView)))
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                         action: #selector(handleTapOnView)))
         
         view.addSubview(alreadyHaveAccountButton)
-        alreadyHaveAccountButton.anchor(left: view.safeAreaLayoutGuide.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.safeAreaLayoutGuide.rightAnchor, height: 50)
+        alreadyHaveAccountButton.anchor(left: view.safeAreaLayoutGuide.leftAnchor,
+                                        bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                        right: view.safeAreaLayoutGuide.rightAnchor,
+                                        height: 50)
         
         view.addSubview(plusPhotoButton)
-        plusPhotoButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 40, width: 140, height: 140)
+        plusPhotoButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                               paddingTop: 40,
+                               width: 140, height: 140)
         plusPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         plusPhotoButton.layer.cornerRadius = 140 / 2
         
@@ -143,13 +151,16 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         radioView.axis = .horizontal
         radioView.spacing = 5
         
-        let stackView = UIStackView(arrangedSubviews: [emailTextField, usernameTextField, passwordTextField, radioView, signUpButton])
+        let stackView = UIStackView(arrangedSubviews: [emailTextField, usernameTextField,
+                                                       passwordTextField, radioView, signUpButton])
         stackView.distribution = .fillEqually
         stackView.axis = .vertical
         stackView.spacing = 10
         
         view.addSubview(stackView)
-        stackView.anchor(top: plusPhotoButton.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, right: view.safeAreaLayoutGuide.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingRight: 40, height: 200)
+        stackView.anchor(top: plusPhotoButton.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor,
+                         right: view.safeAreaLayoutGuide.rightAnchor,
+                         paddingTop: 20, paddingLeft: 40, paddingRight: 40, height: 200)
     }
     
     /// reset the input text field
@@ -169,7 +180,10 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
     /// identify sign up is vaild
     private func isVaildSignUp(){
         // each field should be not empty
-        let isFormValid = emailTextField.text?.isEmpty == false && usernameTextField.text?.isEmpty == false && passwordTextField.text?.isEmpty == false && (maleRadioButton.isSelected || femaleRadioButton.isSelected)
+        let isFormValid = emailTextField.text?.isEmpty == false
+            && usernameTextField.text?.isEmpty == false
+            && passwordTextField.text?.isEmpty == false
+            && (maleRadioButton.isSelected || femaleRadioButton.isSelected)
         if isFormValid {
             signUpButton.isEnabled = true
             signUpButton.backgroundColor = UIColor.mainBlue
@@ -230,13 +244,15 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
         signUpButton.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
         
         // use Auth to create a user in the Firebase
-        Auth.auth().createUser(withEmail: email, username: username, password: password, image: profileImage, sex: sex) { (err) in
+        Auth.auth().createUser(withEmail: email, username: username,
+                               password: password, image: profileImage, sex: sex) { (err) in
             if err != nil {
                 self.resetInputFields()
                 return
             }
             
-            guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else { return }
+            guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController
+                as? MainTabBarController else { return }
             mainTabBarController.setupViewControllers()
             mainTabBarController.selectedIndex = 0
             self.dismiss(animated: true, completion: nil)
@@ -248,7 +264,8 @@ class SignUpController: UIViewController, UINavigationControllerDelegate {
 
 extension SignUpController: UIImagePickerControllerDelegate {
     /// the imgae picker
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // Local variable inserted by Swift 4.2 migrator.
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         
@@ -277,7 +294,8 @@ extension SignUpController: UITextFieldDelegate {
 
 
 // Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any])
+    -> [String: Any] {
     return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }
 

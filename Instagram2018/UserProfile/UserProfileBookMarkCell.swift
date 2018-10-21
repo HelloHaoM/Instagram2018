@@ -46,7 +46,8 @@ class UserProfileBookMarkCell: UICollectionViewCell {
     /// init the bookmark view
     private func sharedInit() {
         addSubview(noBookMarksLabel)
-        noBookMarksLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
+        noBookMarksLabel.anchor(top: topAnchor, left: leftAnchor,
+                                bottom: bottomAnchor, right: rightAnchor)
     }
 }
 

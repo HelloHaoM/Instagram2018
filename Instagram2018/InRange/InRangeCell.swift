@@ -58,10 +58,13 @@ class InRangeCell: UICollectionViewCell {
     /// init the in range cell
     private func sharedInit() {
         addSubview(usernameLabel)
-        usernameLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, paddingLeft: 8, width: 70)
+        usernameLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor,
+                             paddingLeft: 8, width: 70)
         
         addSubview(sentImageView)
-        sentImageView.anchor(top: topAnchor, left: usernameLabel.rightAnchor, bottom: bottomAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 10, width: 150, height: 150)
+        sentImageView.anchor(top: topAnchor, left: usernameLabel.rightAnchor, bottom: bottomAnchor,
+                             paddingTop: 10, paddingLeft: 20, paddingBottom: 10,
+                             width: 150, height: 150)
         sentImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
         
@@ -70,7 +73,9 @@ class InRangeCell: UICollectionViewCell {
         let separatorView = UIView()
         separatorView.backgroundColor = UIColor(white: 0, alpha: 0.2)
         addSubview(separatorView)
-        separatorView.anchor(left: usernameLabel.leftAnchor, bottom: bottomAnchor, right: rightAnchor, height: 0.5)
+        separatorView.anchor(left: usernameLabel.leftAnchor, bottom: bottomAnchor,
+                             right: rightAnchor,
+                             height: 0.5)
     }
 }
 
