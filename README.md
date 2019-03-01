@@ -16,7 +16,7 @@ The link to presentation: https://youtu.be/U3oIa3gGFKk
 
 * Swift 4.0+
 
-## Installing
+## Running
 
 * Clone or Download the project
 
